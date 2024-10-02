@@ -1,0 +1,42 @@
+#podman run --rm \
+#--privileged \
+#-p 9090:9090 \
+#-v ./config/reader:/etc/prometheus \
+#prom/prometheus \
+#--config.file=/etc/prometheus/prometheus.yml \
+#--web.enable-remote-write-receiver
+
+services:
+  read:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./config/read:/etc/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-remote-write-receiver
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true #Enabled the Anonymous user no user/pass needed
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin #Activate the ROLE VIEWER as Default
+      - GF_AUTH_BASIC_ENABLED=false #Disable the AUTH Method
+      - GF_AUTH_DISABLE_LOGIN_FORM=true #Disable the login on show
+      - GF_AUTH_DISABLE_SIGNOUT_MENU=true #Diabled the menu
+      - GF_SECURITY_ALLOW_EMBEDDING=true #Allow IFRAME Calls
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+      - GF_SERVE_FROM_SUB_PATH=true
+    volumes:
+      - ./config/grafana/provisioning/data_sources:/etc/grafana/provisioning/datasources/
+      - ./config/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards/
+      - ./config/grafana/dashboards_data:/var/lib/grafana/dashboards/
+  write:
+    build:
+      context: batch-send
+    environment:
+      - PROMETHEUS_SERVER=http://read:9090/api/v1/write
+    depends_on:
+      - read
