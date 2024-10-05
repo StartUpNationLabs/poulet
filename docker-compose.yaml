@@ -40,3 +40,7 @@ services:
       - PROMETHEUS_SERVER=http://read:9090/api/v1/write
     depends_on:
       - read
+  mongodb:
+    image: mongodb/mongodb-community-server:7.0.2-ubi8
+    ports:
+      - 27017:27017
