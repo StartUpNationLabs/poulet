@@ -12,7 +12,7 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - ./config/read:/etc/prometheus
+      - ./server/config/read:/etc/prometheus
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-remote-write-receiver
@@ -30,12 +30,12 @@ services:
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
       - GF_SERVE_FROM_SUB_PATH=true
     volumes:
-      - ./config/grafana/provisioning/data_sources:/etc/grafana/provisioning/datasources/
-      - ./config/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards/
-      - ./config/grafana/dashboards_data:/var/lib/grafana/dashboards/
+      - ./server/config/grafana/provisioning/data_sources:/etc/grafana/provisioning/datasources/
+      - ./server/config/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards/
+      - ./server/config/grafana/dashboards_data:/var/lib/grafana/dashboards/
   write:
     build:
-      context: batch-send
+      context: ./client/batch-send
     environment:
       - PROMETHEUS_SERVER=http://read:9090/api/v1/write
     depends_on:
