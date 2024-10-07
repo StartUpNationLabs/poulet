@@ -45,3 +45,6 @@ nb-configuration.xml
 /.quarkus/cli/plugins/
 # TLS Certificates
 .certs/
+
+# Keycloak realm config
+realm-export.json
