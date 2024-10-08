@@ -5,8 +5,7 @@ package main
 func main() {
     client := &RabbitMQClient{}
     client.init()
-    StartServer(client)
-
+	client.consume("sensor.raw.#")
     client.close()
 }
 
