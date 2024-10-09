@@ -1,4 +1,4 @@
-package main
+package main 
 
 import (
 	"context"
@@ -14,7 +14,6 @@ func main() {
 	}
 
 	// read is the hostname of the Prometheus server from environment variable
-
 	client := NewClient(os.Getenv("PROMETHEUS_SERVER"))
 
 	// Create a ticker that ticks every 200ms (5 requests per second)
@@ -22,23 +21,30 @@ func main() {
 	// Create a ticker that ticks every 30 seconds
 	batchTicker := time.NewTicker(10 * time.Second)
 
-	// Create a batch to hold the samples
-	var batch []Sample
+	var heartRateBatch []Sample
+	var fallDetectedBatch []Sample
 
 	rand.Seed(time.Now().UnixNano()) // Seed the random number generator
 
 	for {
 		select {
 		case <-reqTicker.C:
-			// On each tick, create a new sample with a random heartbeat value and add it to the batch
 			sample := Sample{
 				Time:  time.Now(),
-				Value: float64(rand.Intn(41) + 60), // Generate a random heartbeat value between 60 and 100
+				Value: float64(rand.Intn(41) + 60), 
 			}
-			batch = append(batch, sample)
-			log.Println("Sample added to batch: ", sample) // Log the sample added
+			heartRateBatch = append(heartRateBatch, sample)
+			log.Println("Heart rate sample added to batch: ", sample) 
+
+			fallSample := Sample{
+				Time:  time.Now(),
+				Value: float64(isFallDetected()), 
+			}
+			fallDetectedBatch = append(fallDetectedBatch, fallSample)
+			log.Println("Fall detection sample added to batch: ", fallSample)
+
 		case <-batchTicker.C:
-			// On each tick of the 30-second ticker, send the batch of samples
+			// On each tick of the 30-second ticker, send the batches of samples
 			resp, err := client.Write(context.Background(), &WriteRequest{
 				TimeSeries: []TimeSeries{
 					{
@@ -52,7 +58,20 @@ func main() {
 								Value: "1",
 							},
 						},
-						Sample: batch,
+						Sample: heartRateBatch,
+					},
+					{
+						Labels: []Label{
+							{
+								Name:  "__name__",
+								Value: "fall_detected",
+							},
+							{
+								Name:  "patient_id",
+								Value: "1",
+							},
+						},
+						Sample: fallDetectedBatch,
 					},
 				},
 			})
@@ -62,8 +81,23 @@ func main() {
 
 			log.Println("Batch sent: ", resp) // Log the response after sending the batch
 
-			// Clear the batch for the next round of samples
-			batch = []Sample{}
+			heartRateBatch = []Sample{}
+			fallDetectedBatch = []Sample{}
 		}
 	}
 }
+
+func isFallDetected() int {
+	return rand.Intn(2)
+	/*accelerationX := rand.Float64() * 10  
+	accelerationY := rand.Float64() * 10  
+	accelerationZ := rand.Float64() * 10  
+
+	const fallThreshold = 5.0  
+
+	if accelerationX > fallThreshold || accelerationY > fallThreshold || accelerationZ > fallThreshold {
+		return 1 
+	}
+	return 0 */
+}
+
