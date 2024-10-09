@@ -38,7 +38,7 @@ services:
       - ./server/config/grafana/grafana.ini:/etc/grafana/grafana.ini
   write:
     build:
-      context: ./client/batch-send
+      context: ./gateway/batch-send
     environment:
       - PROMETHEUS_SERVER=http://read:9090/api/v1/write
     depends_on:
