@@ -1,4 +1,4 @@
-package fr.etu.polytech.controller.rest;
+package fr.etu.polytech.controller;
 
 import fr.etu.polytech.dto.PatientDTO;
 import fr.etu.polytech.entity.Patient;

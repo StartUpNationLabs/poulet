@@ -39,7 +39,7 @@ nb-configuration.xml
 *.rej
 
 # Local environment
-.env
+patient-management/.env
 
 # Plugin directory
 /.quarkus/cli/plugins/
