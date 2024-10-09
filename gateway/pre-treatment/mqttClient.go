@@ -109,7 +109,11 @@ func (client *RabbitMQClient) consume(topic string){
     go func() {
         for d := range msgs {
             log.Printf(" [x] %s in %s", d.Body, d.RoutingKey)
-			newKey := "sensor.clean." + strings.Split(d.RoutingKey, ".")[2]
+            var metricName string = strings.Split(d.RoutingKey, ".")[2]    
+
+            //isValid = analyser.isValid(metricName, d.Body)
+
+			newKey := "sensor.clean." + metricName
 			client.publish(newKey, string(d.Body))
         }
     }()
