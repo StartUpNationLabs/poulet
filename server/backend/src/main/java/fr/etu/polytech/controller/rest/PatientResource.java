@@ -51,7 +51,29 @@ public class PatientResource {
         repository.persist(patient); // Insertion in the db and creation of the id
         return Response.status(Response.Status.CREATED)
                 .entity(patient)
-                .build();
+                .build();   
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deletePatientById(@PathParam("id") String id) throws ResourceNotFoundException, IncorrectRequestException {
+        if (id == null || id.isEmpty()) {
+            throw new IncorrectRequestException("ID must be provided");
+        }
+
+        // Validate that id is a valid ObjectId
+        if (!ObjectId.isValid(id)) {
+            throw new IncorrectRequestException("Invalid ID format. ID must be a 24-character hexadecimal string.");
+        }
+
+        boolean isDeleted = repository.deleteById(new ObjectId(id));
+
+        if (isDeleted) {
+            return Response.ok().build();
+        }
+
+        throw new ResourceNotFoundException("Patient with ID " + id + " not found.");
     }
 }
 
