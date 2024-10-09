@@ -4,6 +4,10 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
 
+## Before running
+
+Create a .env file, at the root of the backend, similar to .env.example or delete the properties related to keycloak. (but don't push the deletion)
+
 ## Warning: If you develop from intelliJ
 
 IntelliJ don't recognize files generated with proto (gRPC) so you need to do the following step to fix the issues :
