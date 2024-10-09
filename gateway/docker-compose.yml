@@ -1,0 +1,11 @@
+services:
+  broker:
+    image: rabbitmq:management
+    ports: 
+      - 127.0.0.1:5672:5672
+      - 127.0.0.1:8080:15672
+    networks: 
+      - internal
+
+networks:
+  internal:
