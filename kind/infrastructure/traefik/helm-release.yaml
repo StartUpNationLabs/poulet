@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik
+  labels:
+    toolkit.fluxcd.io/tenant: sre-team
+spec:
+  interval: 60m
+  chart:
+    spec:
+      chart: traefik
+      version: "25.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: traefik
+      interval: 12h
+  values:
+    image:
+      name: traefik
+      pullPolicy: IfNotPresent
+    service:
+      type: NodePort
+    ports:
+      web:
+        nodePort: 30000
+      websecure:
+        nodePort: 30001
+    nodeSelector:
+      ingress-ready: 'true'
+    tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Equal
+        effect: NoSchedule
