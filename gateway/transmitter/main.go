@@ -1,11 +1,18 @@
 // main.go
 package main
 
-
 func main() {
-    client := &RabbitMQClient{}
-    client.init()
-	client.consume("sensor.clean.#")
-    client.close()
+    rabbitMQClient := &RabbitMQClient{}
+    prometheusClient := &PrometheusClient{}
+    compacter := &Compacter{}
+
+    rabbitMQClient.init()
+    prometheusClient.init()
+    compacter.init(prometheusClient)
+
+	rabbitMQClient.consume("sensor.clean.#", compacter)
+
+   // prometheusClient.close()
+    rabbitMQClient.close()
 }
 

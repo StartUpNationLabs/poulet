@@ -4,6 +4,8 @@ import (
   "context"
   "log"
   "time"
+  "strings"
+  "strconv"
 
   amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -17,15 +19,15 @@ func failOnError(err error, msg string) {
 	}
 }
 
-func (client *RabbitMQClient) init() {
+func (rabbitMQClient *RabbitMQClient) init() {
 	var err error
-	client.conn, err = amqp.Dial("amqp://guest:guest@localhost:5672/")
+	rabbitMQClient.conn, err = amqp.Dial("amqp://guest:guest@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 }
 
-func (client *RabbitMQClient) publish(topic string, message string) {
+func (rabbitMQClient *RabbitMQClient) publish(topic string, message string) {
 	var err error
-	ch, err := client.conn.Channel()
+	ch, err := rabbitMQClient.conn.Channel()
     failOnError(err, "Failed to open a channel")
     defer ch.Close()
 
@@ -57,8 +59,8 @@ func (client *RabbitMQClient) publish(topic string, message string) {
 }
 
 
-func (client *RabbitMQClient) consume(topic string){
-	ch, err := client.conn.Channel()
+func (rabbitMQClient *RabbitMQClient) consume(topic string, compacter *Compacter){
+	ch, err := rabbitMQClient.conn.Channel()
     failOnError(err, "Failed to open a channel")
     defer ch.Close()
 
@@ -108,6 +110,9 @@ func (client *RabbitMQClient) consume(topic string){
     go func() {
         for d := range msgs {
             log.Printf(" [x] %s in %s", d.Body, d.RoutingKey)
+            metric := strings.Split(d.RoutingKey, ".")[2]
+            value, _ := strconv.ParseFloat(string(d.Body), 64)
+            compacter.addSample(metric, value)
         }
     }()
 
@@ -115,12 +120,12 @@ func (client *RabbitMQClient) consume(topic string){
     <-forever
 }
 
-func (client *RabbitMQClient) close(){
-	defer client.conn.Close()
+func (rabbitMQClient *RabbitMQClient) close(){
+	defer rabbitMQClient.conn.Close()
 }
 
 //func main(){
-//	client := &RabbitMQClient{}
-//	client.init()
-//	client.publish("/data/test", 4)
+//	rabbitMQClient := &RabbitMQClient{}
+//	rabbitMQClient.init()
+//	rabbitMQClient.publish("/data/test", 4)
 //}
