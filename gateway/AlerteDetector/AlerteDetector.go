@@ -4,13 +4,10 @@ import (
 	"fmt"
 )
 
-// MockSendSMS simulates sending an SMS when a bad health indicator is detected
 func SendSMS(phoneNumber, message string) {
 	fmt.Printf("Sending SMS to %s: %s\n", phoneNumber, message)
 }
 
-// CheckHealthParameter checks if the provided parameter value is abnormal
-// If the value is abnormal, it triggers an SMS notification
 func CheckHealthParameter(param string, value float64, phoneNumbers []string) bool {
 	var isAbnormal bool
 	var message string
