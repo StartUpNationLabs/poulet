@@ -14,16 +14,16 @@ func CheckHealthParameter(param string, value float64, phoneNumbers []string) bo
 
 	switch param {
 	case "temperature":
-		isAbnormal = value < 36.0 || value > 37.5 // Normal body temperature range
+		isAbnormal = value < 36.0 || value > 37.5 
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f°C", param, value)
 	case "acceleration":
-		isAbnormal = value > 9.8 // Abnormal if acceleration exceeds 9.8 m/s²
+		isAbnormal = value > 100
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f m/s²", param, value)
 	case "glucose":
-		isAbnormal = value < 70 || value > 140 // Normal fasting glucose level
+		isAbnormal = value < 70 || value > 140
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f mg/dL", param, value)
 	case "heart beat":
-		isAbnormal = value < 60 || value > 100 // Normal resting heart rate
+		isAbnormal = value < 60 || value > 100
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f BPM", param, value)
 	default:
 		fmt.Println("Unknown parameter:", param)
@@ -32,7 +32,7 @@ func CheckHealthParameter(param string, value float64, phoneNumbers []string) bo
 
 	if isAbnormal {
         for _, phoneNumber := range phoneNumbers {
-            MockSendSMS(phoneNumber, message)
+            SendSMS(phoneNumber, message)
         }
     }
 
