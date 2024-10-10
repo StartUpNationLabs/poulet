@@ -3,13 +3,14 @@ package main
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"github.com/gogo/protobuf/proto"
 	"github.com/golang/snappy"
 	"github.com/prometheus/prometheus/prompb"
 	"io"
 	"net/http"
 	"time"
+	"os"
+	"log"
 )
 
 type TimeSeries struct {
@@ -41,22 +42,22 @@ type clientOptions struct {
 	httpClient *http.Client
 }
 
-func NewClient(endpoint string, options ...ClientOption) *Client {
-	opts := clientOptions{
+func (prometheusClient *PrometheusClient) init(options ...ClientOption) {
+	if os.Getenv("PROMETHEUS_SERVER") == "" {
+		log.Fatal("PROMETHEUS_SERVER environment variable is not set")
+		return
+	}
+	
+
+	endpoint := os.Getenv("PROMETHEUS_SERVER")
+	prometheusClient.opts = &clientOptions{
 		httpClient: &http.Client{Timeout: 30 * time.Second},
 	}
-	for _, opt := range options {
-		opt(&opts)
-	}
-	p := &Client{
-		endpoint: endpoint,
-		opts:     &opts,
-	}
-	return p
+	prometheusClient.endpoint = endpoint 
 }
 
 // Client is Prometheus Remote Write client.
-type Client struct {
+type PrometheusClient struct {
 	endpoint string
 	opts     *clientOptions
 }
@@ -81,8 +82,27 @@ type WriteRequest struct {
 type WriteResponse struct {
 }
 
-// Write sends HTTP requests to Prometheus Remote Write compatible API endpoint including Prometheus, Cortex and VictoriaMetrics.
-func (p *Client) Write(ctx context.Context, req *WriteRequest, options ...WriteOption) (*WriteResponse, error) {
+func (prometheusClient *PrometheusClient) Write(metric string, batch []Sample) (bool) {
+	return prometheusClient.originWrite(&WriteRequest{
+        TimeSeries: []TimeSeries{
+            {
+                Labels: []Label{
+                    {
+                        Name:  "__name__",
+                        Value: metric,
+                    },
+                    {
+                        Name:  "patient_id",
+                        Value: "1",
+                    },
+                },
+                Sample: batch,
+            },
+        },
+    })
+}
+
+func (prometheusClient *PrometheusClient) originWrite(req *WriteRequest, options ...WriteOption) (bool) {
 	opts := writeOptions{}
 	for _, opt := range options {
 		opt(&opts)
@@ -92,15 +112,17 @@ func (p *Client) Write(ctx context.Context, req *WriteRequest, options ...WriteO
 		Timeseries: toProtoTimeSeries(req.TimeSeries),
 	})
 	if err != nil {
-		return nil, fmt.Errorf("promwrite: marshaling remote write request proto: %w", err)
+		log.Println("Error:","promwrite: marshaling remote write request proto: %w", err)
+		return false
 	}
 
 	compressedBytes := snappy.Encode(nil, pbBytes)
-
+	ctx := context.Background()
 	// Prepare http request.
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, p.endpoint, bytes.NewBuffer(compressedBytes))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, prometheusClient.endpoint, bytes.NewBuffer(compressedBytes))
 	if err != nil {
-		return nil, err
+		log.Println("Error:","promwrite error : %w", err)
+		return false
 	}
 	httpReq.Header.Add("X-Prometheus-Remote-Write-Version", "0.1.0")
 	httpReq.Header.Add("Content-Encoding", "snappy")
@@ -110,20 +132,19 @@ func (p *Client) Write(ctx context.Context, req *WriteRequest, options ...WriteO
 	}
 
 	// Send http request.
-	httpResp, err := p.opts.httpClient.Do(httpReq)
+	httpResp, err := prometheusClient.opts.httpClient.Do(httpReq)
 	if err != nil {
-		return nil, fmt.Errorf("promwrite: sending remote write request: %w", err)
+		log.Println("Error:","promwrite error : %w", err)
+		return false
 	}
 	defer httpResp.Body.Close()
 
 	if st := httpResp.StatusCode; st/100 != 2 {
 		msg, _ := io.ReadAll(httpResp.Body)
-		return nil, &WriteError{
-			err:  fmt.Errorf("promwrite: expected status %d, got %d: %s", http.StatusOK, st, string(msg)),
-			code: st,
-		}
+		log.Println("Error:","promwrite error : %w", msg)
+		return false
 	}
-	return &WriteResponse{}, nil
+	return true
 }
 
 func toProtoTimeSeries(timeSeries []TimeSeries) []prompb.TimeSeries {

@@ -11,6 +11,7 @@ import (
 )
 type RabbitMQClient struct {
     conn *amqp.Connection
+    alerter *Alerter
 }
 
 func failOnError(err error, msg string) {
@@ -19,10 +20,11 @@ func failOnError(err error, msg string) {
 	}
 }
 
-func (rabbitMQClient *RabbitMQClient) init() {
+func (rabbitMQClient *RabbitMQClient) init(alerter *Alerter) {
 	var err error
 	rabbitMQClient.conn, err = amqp.Dial("amqp://guest:guest@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
+    rabbitMQClient.alerter = alerter
 }
 
 func (rabbitMQClient *RabbitMQClient) publish(topic string, message string) {
@@ -59,7 +61,7 @@ func (rabbitMQClient *RabbitMQClient) publish(topic string, message string) {
 }
 
 
-func (rabbitMQClient *RabbitMQClient) consume(topic string, compacter *Compacter){
+func (rabbitMQClient *RabbitMQClient) consume(topic string){
 	ch, err := rabbitMQClient.conn.Channel()
     failOnError(err, "Failed to open a channel")
     defer ch.Close()
@@ -110,9 +112,13 @@ func (rabbitMQClient *RabbitMQClient) consume(topic string, compacter *Compacter
     go func() {
         for d := range msgs {
             log.Printf(" [x] %s in %s", d.Body, d.RoutingKey)
+
             metric := strings.Split(d.RoutingKey, ".")[2]
             value, _ := strconv.ParseFloat(string(d.Body), 64)
-            compacter.addSample(metric, value)
+
+            sample := Sample{Time: time.Now(), Value: value}
+
+            rabbitMQClient.alerter.sendSample(metric, sample)
         }
     }()
 

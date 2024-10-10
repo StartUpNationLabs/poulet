@@ -19,6 +19,7 @@
 
     <modules>
         <module>patient-management</module>
+        <module>alert-management</module>
     </modules>
 
     <packaging>pom</packaging>
