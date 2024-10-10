@@ -1,14 +1,17 @@
 package AlerteDetector
 
 import (
+	"bytes"
+    "encoding/json"
 	"fmt"
+	"net/http"
 )
 
 func SendSMS(phoneNumber, message string) {
 	fmt.Printf("Sending SMS to %s: %s\n", phoneNumber, message)
 }
 
-func CheckHealthParameter(param string, value float64, phoneNumbers []string) bool {
+func CheckHealthParameter(param string, value float64, phoneNumbers []string, serverURL string) bool {
 	var isAbnormal bool
 	var message string
 
@@ -34,7 +37,44 @@ func CheckHealthParameter(param string, value float64, phoneNumbers []string) bo
         for _, phoneNumber := range phoneNumbers {
             SendSMS(phoneNumber, message)
         }
+
+		alert := Alert{
+            Parameter: param,
+            Value:     value,
+            Message:   message,
+        }
+
+        if err := SendAlertToServer(alert, serverURL); err != nil {
+            fmt.Println("Error sending alert to server:", err)
+        }
     }
 
+	
 	return isAbnormal
+}
+
+
+type Alert struct {
+    Parameter string  `json:"parameter"`
+    Value     float64 `json:"value"`
+    Message   string  `json:"message"`
+}
+
+
+func SendAlerts(alert Alert, serverURL string) error{
+	alertData, err := json.Marshal(alert)
+    if err != nil {
+        return fmt.Errorf("error marshaling alert data: %v", err)
+    }
+
+	resp, err := http.Post(serverURL, "application/json", bytes.NewBuffer(alertData))
+	if err != nil {
+        return fmt.Errorf("error sending alert to server: %v", err)
+    }
+	defer resp.Body.Close()
+
+    if resp.StatusCode != http.StatusOK {
+        return fmt.Errorf(" server returned status code %s", resp.StatusCode)
+    }
+    return nil
 }
