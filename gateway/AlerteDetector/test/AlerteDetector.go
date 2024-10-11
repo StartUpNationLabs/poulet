@@ -11,7 +11,7 @@ func SendSMS(phoneNumber, message string) {
 	fmt.Printf("Sending SMS to %s: %s\n", phoneNumber, message)
 }
 
-func CheckHealthParameter(param string, value float64, phoneNumbers []string, serverURL string) bool {
+func CheckHealthParameter(param string, value float64, phoneNumbers []string,patientID string ) bool {
 	var isAbnormal bool
 	var message string
 
@@ -42,9 +42,10 @@ func CheckHealthParameter(param string, value float64, phoneNumbers []string, se
             Parameter: param,
             Value:     value,
             Message:   message,
+			PatientID: patientID,
         }
 
-        if err := SendAlertToServer(alert, serverURL); err != nil {
+        if err := SendAlerts(alert); err != nil {
             fmt.Println("Error sending alert to server:", err)
         }
     }
@@ -55,19 +56,20 @@ func CheckHealthParameter(param string, value float64, phoneNumbers []string, se
 
 
 type Alert struct {
-    Parameter string  `json:"parameter"`
+    Parameter string  `json:"type"`
     Value     float64 `json:"value"`
     Message   string  `json:"message"`
+	PatientID string  `json:"patientId"`
 }
 
 
-func SendAlerts(alert Alert, serverURL string) error{
+func SendAlerts(alert Alert) error{
 	alertData, err := json.Marshal(alert)
     if err != nil {
         return fmt.Errorf("error marshaling alert data: %v", err)
     }
 
-	resp, err := http.Post(serverURL, "application/json", bytes.NewBuffer(alertData))
+	resp, err := http.Post("http://localhost:8080/alert", "application/json", bytes.NewBuffer(alertData))
 	if err != nil {
         return fmt.Errorf("error sending alert to server: %v", err)
     }

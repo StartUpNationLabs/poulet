@@ -14,15 +14,18 @@ public class Alert extends PanacheMongoEntity {
     public String message;
     public String patientId;
     public LocalDateTime timestamp;
+    @Setter
     public boolean treated;
+    private int value;
 
     public Alert() {}
 
-    public Alert(String type, String message, String patientId) {
+    public Alert(String type, String message, String patientId, int value) {
         this.type = type;
         this.message = message;
         this.patientId = patientId;
         this.timestamp = LocalDateTime.now();
         this.treated = false;
+        this.value = value;
     }
 }
