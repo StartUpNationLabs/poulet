@@ -35,6 +35,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           context: cloud/backend
-          dockerfile: cloud/backend/patient-management/src/main/docker/Dockerfile.multistage
+          file: cloud/backend/patient-management/src/main/docker/Dockerfile.multistage
           tags: ghcr.io/${{ steps.downcase.outputs.downcase }}/alert-management:${{ github.sha }}, ghcr.io/${{ steps.downcase.outputs.downcase }}/alert-management:${{ github.ref_name }}
 
