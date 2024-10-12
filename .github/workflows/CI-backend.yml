@@ -38,10 +38,4 @@ jobs:
       - name: Build and Push Docker Images
         run: |
           cd cloud/backend
-          # Find each module's target directory and build the image
-          for module in $(find . -name "target" -type d -exec dirname {} \;); do
-            if [ -f "$module/*-runner" ]; then
-              image_name=$(basename $module) # Use the module name as the image name
-              docker buildx build --push --tag ghcr.io/${{ github.repository }}/$image_name -f "$module/Dockerfile" "$module"
-            fi
-          done
+          mvn clean package -Pci

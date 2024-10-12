@@ -21,7 +21,7 @@ services:
     ports:
       - 9093:9093
     volumes:
-      - ./server/config/alertmanager:/etc/alertmanager
+      - ./cloud/config/alertmanager:/etc/alertmanager
     command:
       - --config.file=/etc/alertmanager/alertmanager.yml
   grafana:
