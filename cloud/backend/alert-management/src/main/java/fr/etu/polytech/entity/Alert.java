@@ -12,18 +12,17 @@ import java.time.LocalDateTime;
 public class Alert extends PanacheMongoEntity {
     public String type;
     public String message;
-    public String patientId;
+    public String gatewayId;
     public LocalDateTime timestamp;
-    @Setter
     public boolean treated;
     private int value;
 
     public Alert() {}
 
-    public Alert(String type, String message, String patientId, int value) {
+    public Alert(String type, String message, String gatewayId, int value) {
         this.type = type;
         this.message = message;
-        this.patientId = patientId;
+        this.gatewayId = gatewayId;
         this.timestamp = LocalDateTime.now();
         this.treated = false;
         this.value = value;
