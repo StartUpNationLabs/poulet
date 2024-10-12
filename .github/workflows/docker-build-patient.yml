@@ -36,5 +36,5 @@ jobs:
           push: true
           context: cloud/backend
           file: cloud/backend/patient-management/src/main/docker/Dockerfile.multistage
-          tags: ghcr.io/${{ steps.downcase.outputs.downcase }}/alert-management:${{ github.sha }}, ghcr.io/${{ steps.downcase.outputs.downcase }}/alert-management:${{ github.ref_name }}
+          tags: ghcr.io/${{ steps.downcase.outputs.downcase }}/patient-management:${{ github.sha }}, ghcr.io/${{ steps.downcase.outputs.downcase }}/patient-management:${{ github.ref_name }}
 
