@@ -17,6 +17,7 @@ import org.bson.types.ObjectId;
 @Path("/patient")
 public class PatientResource {
     private static final String patientIdErrorMessage = "Missing or invalid patient ID format. ID must be a 24-character hexadecimal string.";
+    private static final String gatewayIdErrorMessage = "Missing or invalid gateway ID format. ID must be a 24-character hexadecimal string.";
 
     @Inject
     PatientRepository repository;
@@ -28,6 +29,13 @@ public class PatientResource {
         return repository.findByIdOptional(new ObjectId(patientId)).map(patient -> Response.ok(patient).build()).orElseThrow(() -> new ResourceNotFoundException("Patient with ID " + patientId + " not found."));
     }
 
+    @GET
+    @Path("/gateway/{gatewayId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPatientByGatewayId(@PathParam("gatewayId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = gatewayIdErrorMessage) String gatewayId) throws ResourceNotFoundException, ConstraintViolationException {
+        return repository.find("gatewayId",new ObjectId(gatewayId)).firstResultOptional().map(patient -> Response.ok(patient).build()).orElseThrow(() -> new ResourceNotFoundException("Patient with gateway ID " + gatewayId + " not found."));
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -36,7 +44,6 @@ public class PatientResource {
         repository.persist(patient);
         return Response.status(Response.Status.CREATED).entity(patient).build();
     }
-
 
     @DELETE
     @Path("/{patientId}")
