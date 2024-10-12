@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
-
-@Getter
-@Setter
 public class Alert extends PanacheMongoEntity {
     public String type;
     public String message;
@@ -25,6 +22,54 @@ public class Alert extends PanacheMongoEntity {
         this.gatewayId = gatewayId;
         this.timestamp = LocalDateTime.now();
         this.treated = false;
+        this.value = value;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getGatewayId() {
+        return gatewayId;
+    }
+
+    public void setGatewayId(String gatewayId) {
+        this.gatewayId = gatewayId;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public boolean isTreated() {
+        return treated;
+    }
+
+    public void setTreated(boolean treated) {
+        this.treated = treated;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
         this.value = value;
     }
 }

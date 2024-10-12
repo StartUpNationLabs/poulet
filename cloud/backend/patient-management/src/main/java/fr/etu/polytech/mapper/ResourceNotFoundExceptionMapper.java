@@ -12,7 +12,7 @@ public class ResourceNotFoundExceptionMapper implements ExceptionMapper<Resource
     @Override
     public Response toResponse(ResourceNotFoundException exception) {
         return Response.status(Response.Status.NOT_FOUND)
-                .entity(new ErrorDTO(Response.Status.NOT_FOUND.getStatusCode(),exception.getMessage()))
+                .entity(new ErrorDTO(Response.Status.NOT_FOUND.getStatusCode(), exception.getMessage()))
                 .build();
     }
 }
