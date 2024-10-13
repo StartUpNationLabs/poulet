@@ -14,6 +14,7 @@ func SendSMS(phoneNumber, message string) {
 func CheckHealthParameter(param string, value float64, phoneNumbers []string,patientID string ) bool {
 	var isAbnormal bool
 	var message string
+	//var phoneNumbers []string = getPhoneNumbers(patientID);
 
 	switch param {
 	case "temperature":
@@ -79,4 +80,26 @@ func SendAlerts(alert Alert) error{
         return fmt.Errorf(" server returned status code %s", resp.StatusCode)
     }
     return nil
+}
+
+
+func getPhoneNumbers(patientID string) ([]string, error) {
+	resp, err := http.Get("http://localhost:8080/patient/getPhoneNumbers/" + patientID)
+	if err != nil {
+		return nil, fmt.Errorf("error getting patient data: %v", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("server returned status code %d", resp.StatusCode)
+	}
+
+	var patient struct {
+		PhoneNumbers []string `json:"phoneNumbers"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&patient); err != nil {
+		return nil, fmt.Errorf("error decoding patient data: %v", err)
+	}
+
+	return patient.PhoneNumbers, nil
 }

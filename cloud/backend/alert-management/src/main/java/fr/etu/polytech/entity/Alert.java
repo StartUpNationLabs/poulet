@@ -14,19 +14,67 @@ import java.time.LocalDateTime;
 public class Alert extends PanacheMongoEntity {
     public String type;
     public String message;
-    public String patientId;
+    public String gatewayId;
     public LocalDateTime timestamp;
     public boolean treated;
     private int value;
 
     public Alert() {}
 
-    public Alert(String type, String message, String patientId, int value) {
+    public Alert(String type, String message, String gatewayId, int value) {
         this.type = type;
         this.message = message;
-        this.patientId = patientId;
+        this.gatewayId = gatewayId;
         this.timestamp = LocalDateTime.now();
         this.treated = false;
+        this.value = value;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getGatewayId() {
+        return gatewayId;
+    }
+
+    public void setGatewayId(String gatewayId) {
+        this.gatewayId = gatewayId;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public boolean isTreated() {
+        return treated;
+    }
+
+    public void setTreated(boolean treated) {
+        this.treated = treated;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
         this.value = value;
     }
 }
