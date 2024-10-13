@@ -31,11 +31,16 @@ jobs:
         id: downcase
         run: |
           echo "::set-output name=downcase::$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')"
+
+      - name: downcase APPLICATION name as output
+        id: downcase-application
+        run: |
+          echo "::set-output name=downcase::$(echo ${{ matrix.application }} | tr '[:upper:]' '[:lower:]')"
       - name: Build and push api image
         uses: docker/build-push-action@v5
         with:
           platforms: linux/amd64,linux/arm64
           push: true
           context: gateway/${{ matrix.application }}
-          tags: ghcr.io/${{ steps.downcase.outputs.downcase }}/gateway-${{ matrix.application }}:${{ github.sha }}, ghcr.io/${{ steps.downcase.outputs.downcase }}/gateway-${{ matrix.application }}:${{ github.ref_name }}
+          tags: ghcr.io/${{ steps.downcase.outputs.downcase }}/gateway-${{ steps.downcase-application.outputs.downcase }}:${{ github.sha }}, ghcr.io/${{ steps.downcase.outputs.downcase }}/gateway-${{  steps.downcase-application.outputs.downcase }}:${{ github.ref_name }}
 
