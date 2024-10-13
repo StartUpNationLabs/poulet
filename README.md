@@ -2,7 +2,7 @@
 
 ### Create Kind cluster
 ```bash
-kind create cluster --config kind-config.yaml
+kind create cluster --config kind-cluster.yaml
 ```
 
 ### Install Manifests 
@@ -14,5 +14,5 @@ NB: The command will fail on the first run because the crds are not yet created.
 
 ### Add the following entries to /etc/hosts
 ```bash
-127.0.0.1 keycloak.al.apoorva64.com prometheus.al.apoorva64.com grafana.al.apoorva64.com
+127.0.0.1 keycloak.al.apoorva64.com prometheus.al.apoorva64.com grafana.al.apoorva64.com patient-management.al.apoorva64.com alert-management.al.apoorva64.com
 ```
