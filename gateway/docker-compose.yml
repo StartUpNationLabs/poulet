@@ -3,8 +3,10 @@ services:
   adapter:
     build:
       context: ./adapter
+    environment:
+      - RABBITMQ_SERVER=rabbitmq:5672
     depends_on:
-      - broker
+      - rabbitmq
     networks: 
       - internal
 
@@ -13,12 +15,13 @@ services:
       context: ./dataManager
     environment:
       - PROMETHEUS_SERVER=http://read:9090/api/v1/write
+      - RABBITMQ_SERVER=rabbitmq:5672
     depends_on:
-      - broker
+      - rabbitmq
     networks: 
       - internal
   
-  broker:
+  rabbitmq:
     image: rabbitmq:management
     ports: 
       - 127.0.0.1:5672:5672
