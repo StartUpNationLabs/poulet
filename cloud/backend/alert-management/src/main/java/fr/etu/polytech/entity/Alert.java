@@ -2,10 +2,15 @@ package fr.etu.polytech.entity;
 
 
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
+
+@RegisterForReflection
+@Getter
+@Setter
 public class Alert extends PanacheMongoEntity {
     public String type;
     public String message;

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: patient-management
+  name: patient-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: patient-management
+  template:
+    metadata:
+      labels:
+        io.kompose.service: patient-management
+    spec:
+      containers:
+        - image: ghcr.io/startupnationlabs/poulet/patient-management:e3911b5eaa38b49c29022ad6c7e83d45884a7f32
+          name: patient-management
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+      restartPolicy: Always

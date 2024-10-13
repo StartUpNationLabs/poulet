@@ -100,6 +100,13 @@
                 <version>${compiler-plugin.version}</version>
                 <configuration>
                     <parameters>true</parameters>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.34</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
@@ -146,9 +153,46 @@
             <properties>
                 <skipITs>false</skipITs>
                 <quarkus.native.enabled>true</quarkus.native.enabled>
+            </properties>
+        </profile>
+        <profile>
+            <id>local</id>
+            <activation>
+                <property>
+                    <name>local</name>
+                </property>
+            </activation>
+            <properties>
+                <quarkus.container-image.build>true</quarkus.container-image.build>
+                <quarkus.container-image.builder>docker</quarkus.container-image.builder>
+                <!--
+                <quarkus.docker.buildx.output>docker</quarkus.docker.buildx.output>
+-->
+                <quarkus.container-image.name>poulet/${project.artifactId}</quarkus.container-image.name>
+                <quarkus.container-image.tag>${project.version}</quarkus.container-image.tag>
+
+                <quarkus.docker.buildx.progress>plain</quarkus.docker.buildx.progress>
+            </properties>
+        </profile>
+        <profile>
+            <id>ci</id>
+            <activation>
+                <property>
+                    <name>ci</name>
+                </property>
+            </activation>
+            <properties>
+                <skipITs>false</skipITs>
+                <quarkus.native.enabled>true</quarkus.native.enabled>
                 <quarkus.native.container-build>true</quarkus.native.container-build>
                 <quarkus.container-image.build>true</quarkus.container-image.build>
+                <quarkus.container-image.push>true</quarkus.container-image.push>
                 <quarkus.docker.buildx.platform>linux/amd64,linux/arm64</quarkus.docker.buildx.platform>
+
+                <quarkus.container-image.registry>ghcr.io</quarkus.container-image.registry>
+                <quarkus.container-image.group>StartUpNationLabs/poulet</quarkus.container-image.group>
+                <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
+                <quarkus.container-image.tag>${project.version}</quarkus.container-image.tag>
             </properties>
         </profile>
     </profiles>

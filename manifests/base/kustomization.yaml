@@ -1,4 +1,8 @@
 resources:
+  - bitnami-helm-repository.yaml
+  - mongodb
   - prometheus
   - grafana
   - keycloak
+  - ../../cloud/backend/alert-management/manifests/base
+  - ../../cloud/backend/patient-management/manifests/base
