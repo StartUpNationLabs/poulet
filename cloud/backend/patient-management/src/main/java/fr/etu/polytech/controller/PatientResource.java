@@ -8,11 +8,14 @@ import fr.etu.polytech.repository.PatientRepository;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.bson.types.ObjectId;
+
+import java.util.List;
 
 @Path("/patient")
 public class PatientResource {
@@ -34,6 +37,20 @@ public class PatientResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPatientByGatewayId(@PathParam("gatewayId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = gatewayIdErrorMessage) String gatewayId) throws ResourceNotFoundException, ConstraintViolationException {
         return repository.find("gatewayId",new ObjectId(gatewayId)).firstResultOptional().map(patient -> Response.ok(patient).build()).orElseThrow(() -> new ResourceNotFoundException("Patient with gateway ID " + gatewayId + " not found."));
+    }
+
+    @GET
+    @Path("/findByName")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPatientByFirstnameAndLastname(
+            @QueryParam("firstname") @NotBlank(message = "Firstname cannot be blank") String firstname,
+            @QueryParam("lastname") @NotBlank(message = "Lastname cannot be blank") String lastname
+    ) throws ResourceNotFoundException, ConstraintViolationException {
+        List<Patient> patients = repository.findByFirstnameAndLastname(firstname, lastname);
+        if (patients.isEmpty()) {
+            throw new ResourceNotFoundException("No patients found with the given first name and last name.");
+        }
+        return Response.ok(patients).build();
     }
 
     @POST
