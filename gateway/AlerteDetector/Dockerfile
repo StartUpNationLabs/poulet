@@ -1,6 +1,6 @@
 # Stage 1: Build Stage
 # Use a specific version of the official Golang image as the base image
-FROM golang:1.22-bullseye AS build
+FROM golang:1.23-bullseye AS build
 
 # Create a non-root user for running the application
 RUN useradd -u 1001 nonroot
