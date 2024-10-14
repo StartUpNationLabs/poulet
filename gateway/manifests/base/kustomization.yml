@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - adapter.yaml
   - dataManager.yaml
+  - rabbitMQ.yaml

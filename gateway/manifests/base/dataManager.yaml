@@ -15,10 +15,17 @@ spec:
     spec:
       containers:
         - name: data-manager
-          image: "ghcr.io/startupnationlabs/poulet/gateway-datamanager:2bf9fb5096163fd8b7332cb0e9d07253e03ff39f"
+          image: "ghcr.io/startupnationlabs/poulet/gateway-datamanager:helm-charts"
           env:
             - name: RABBITMQ_SERVER
               value: "rabbitmq:5672"
+            - name: RABBITMQ_USERNAME
+              value: user
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq
+                  key: rabbitmq-password
           resources:
             requests:
               cpu: "100m"
