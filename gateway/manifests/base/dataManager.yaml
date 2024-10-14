@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: data-manager
-          image: "ghcr.io/startupnationlabs/poulet/adpater:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "ghcr.io/startupnationlabs/poulet/gateway-datamanager:2bf9fb5096163fd8b7332cb0e9d07253e03ff39f"
           env:
             - name: RABBITMQ_SERVER
               value: "rabbitmq:5672"
