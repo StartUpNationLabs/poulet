@@ -1,0 +1,147 @@
+---
+openapi: 3.0.3
+info:
+  title: patient-management API
+  version: 1.0-SNAPSHOT
+servers:
+  - url: http://localhost:8080
+    description: Auto generated value
+  - url: http://0.0.0.0:8080
+    description: Auto generated value
+paths:
+  /patient:
+    post:
+      tags:
+        - Patient Resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatientDTO"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+  /patient/findByName:
+    get:
+      tags:
+        - Patient Resource
+      parameters:
+        - name: firstname
+          in: query
+          required: true
+          schema:
+            pattern: \S
+            type: string
+        - name: lastname
+          in: query
+          required: true
+          schema:
+            pattern: \S
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: "#/components/schemas/Patient"
+  /patient/gateway/{gatewayId}:
+    get:
+      tags:
+        - Patient Resource
+      parameters:
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            pattern: "^[0-9a-fA-F]{24}$"
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+  /patient/{patientId}:
+    get:
+      tags:
+        - Patient Resource
+      parameters:
+        - name: patientId
+          in: path
+          required: true
+          schema:
+            pattern: "^[0-9a-fA-F]{24}$"
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+    delete:
+      tags:
+        - Patient Resource
+      parameters:
+        - name: patientId
+          in: path
+          required: true
+          schema:
+            pattern: "^[0-9a-fA-F]{24}$"
+            type: string
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    Gender:
+      enum:
+        - MALE
+        - FEMALE
+        - UNSPECIFIED
+      type: string
+    Patient:
+      type: object
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        gender:
+          $ref: "#/components/schemas/Gender"
+        gatewayId:
+          description: Gateway ID as a 24-character hexadecimal string
+          type: string
+        id:
+          description: Patient ID as a 24-character hexadecimal string
+          type: string
+    PatientDTO:
+      required:
+        - firstname
+        - lastname
+        - gender
+      type: object
+      properties:
+        firstname:
+          pattern: \S
+          type: string
+        lastname:
+          pattern: \S
+          type: string
+        gender:
+          pattern: "^[MFU]$"
+          type: string
+  securitySchemes:
+    SecurityScheme:
+      type: openIdConnect
+      description: Authentication
+      openIdConnectUrl: http://localhost:8081/realms/poulet-realm/.well-known/openid-configuration

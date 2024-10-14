@@ -1,0 +1,14 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+api.ts
+api/patient-resource-api.ts
+base.ts
+common.ts
+configuration.ts
+git_push.sh
+index.ts
+models/gender.ts
+models/index.ts
+models/patient-dto.ts
+models/patient.ts

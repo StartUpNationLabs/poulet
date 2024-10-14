@@ -17,8 +17,11 @@ import org.bson.types.ObjectId;
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.jboss.resteasy.reactive.RestResponse;
+import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
 import java.util.List;
+import java.util.Set;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -41,38 +44,41 @@ public class PatientResource {
     @GET
     @Path("/{patientId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPatientById(@PathParam("patientId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = patientIdErrorMessage) String patientId) throws ResourceNotFoundException, ConstraintViolationException {
-        return repository.findByIdOptional(new ObjectId(patientId)).map(patient -> Response.ok(patient).build()).orElseThrow(() -> new ResourceNotFoundException("Patient with ID " + patientId + " not found."));
+    public Patient getPatientById(@PathParam("patientId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = patientIdErrorMessage) String patientId) throws ResourceNotFoundException, ConstraintViolationException {
+        return repository.findByIdOptional(new ObjectId(patientId))
+                .orElseThrow(() -> new ResourceNotFoundException("Patient with ID " + patientId + " not found."));
     }
 
     @GET
     @Path("/gateway/{gatewayId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPatientByGatewayId(@PathParam("gatewayId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = gatewayIdErrorMessage) String gatewayId) throws ResourceNotFoundException, ConstraintViolationException {
-        return repository.find("gatewayId", new ObjectId(gatewayId)).firstResultOptional().map(patient -> Response.ok(patient).build()).orElseThrow(() -> new ResourceNotFoundException("Patient with gateway ID " + gatewayId + " not found."));
+    public Patient getPatientByGatewayId(@PathParam("gatewayId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = gatewayIdErrorMessage) String gatewayId) throws ResourceNotFoundException, ConstraintViolationException {
+        return repository.find("gatewayId", new ObjectId(gatewayId))
+                .firstResultOptional()
+                .orElseThrow(() -> new ResourceNotFoundException("Patient with gateway ID " + gatewayId + " not found."));
     }
 
     @GET
     @Path("/findByName")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPatientByFirstnameAndLastname(
+    public Set<Patient> getPatientByFirstnameAndLastname(
             @QueryParam("firstname") @NotBlank(message = "Firstname cannot be blank") String firstname,
             @QueryParam("lastname") @NotBlank(message = "Lastname cannot be blank") String lastname
     ) throws ResourceNotFoundException, ConstraintViolationException {
-        List<Patient> patients = repository.findByFirstnameAndLastname(firstname, lastname);
+        Set<Patient> patients = repository.findByFirstnameAndLastname(firstname, lastname);
         if (patients.isEmpty()) {
             throw new ResourceNotFoundException("No patients found with the given first name and last name.");
         }
-        return Response.ok(patients).build();
+        return patients;
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createPatient(@Valid PatientDTO dto) throws ConstraintViolationException {
+    public Patient createPatient(@Valid PatientDTO dto) throws ConstraintViolationException {
         Patient patient = new Patient(dto.firstname(), dto.lastname(), Gender.fromAbbreviation(dto.gender()));
         repository.persist(patient);
-        return Response.status(Response.Status.CREATED).entity(patient).build();
+        return patient;
     }
 
     @DELETE

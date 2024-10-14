@@ -1,11 +1,23 @@
-import {useState} from 'react';
 import {Box, Button, Container, TextField, Typography} from '@mui/material';
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 export default function Search() {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const isFormValid = firstname && lastname;
+
+    const handleSearch = () => {
+        if (!firstname.trim() || !lastname.trim()) {
+            setError('Both firstname and lastname are required.');
+            return;
+        }
+        setError('');
+        navigate(`/search-results?firstname=${firstname}&lastname=${lastname}`);
+    };
 
     return (
         <Container sx={{pt: 4}}>
@@ -26,10 +38,12 @@ export default function Search() {
                     onChange={(e) => setLastname(e.target.value)}
                     required
                 />
+                {error && <Typography color="error">{error}</Typography>}
                 <Button
                     variant="contained"
                     color="primary"
                     disabled={!isFormValid}
+                    onClick={handleSearch}
                 >
                     Search
                 </Button>
