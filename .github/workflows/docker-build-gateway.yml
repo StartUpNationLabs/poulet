@@ -4,7 +4,7 @@ on:
     branches:
       - main
       - fix-ci
-      - helm-chart
+      - helm-charts
 
 permissions: write-all
 
