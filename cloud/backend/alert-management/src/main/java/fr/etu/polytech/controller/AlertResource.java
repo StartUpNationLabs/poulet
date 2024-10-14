@@ -2,6 +2,7 @@ package fr.etu.polytech.controller;
 
 import fr.etu.polytech.dto.AlertDTO;
 import fr.etu.polytech.entity.Alert;
+import fr.etu.polytech.entity.Severity;
 import fr.etu.polytech.exception.IncorrectRequestException;
 import fr.etu.polytech.exception.ResourceNotFoundException;
 import fr.etu.polytech.repository.AlertRepository;
@@ -81,11 +82,23 @@ public class AlertResource {
         return alertRepository.listAll();
     }
 
+    @GET
+    @Path("/severity/{severity}")
+    public List<Alert> getAlertsBySeverity(@PathParam("severity") String severity) {
+        try {
+            Severity sev = Severity.valueOf(severity.toUpperCase());
+            return alertRepository.findBySeverity(sev);
+        } catch (IllegalArgumentException e) {
+            throw new WebApplicationException("Invalid severity level", 400);
+        }
+    }
+
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAlert(@Valid AlertDTO alertDTO) throws IncorrectRequestException {
-        Alert alert = new Alert(alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value());
+        Alert alert = new Alert(alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value(),alertDTO.severity());
         alertRepository.persist(alert);
         return Response.status(Response.Status.CREATED).entity(alert).build();
     }
@@ -170,5 +183,7 @@ public class AlertResource {
             throw new IncorrectRequestException("Gateway ID must be provided");
         }
     }
+
+
 
 }

@@ -18,16 +18,18 @@ public class Alert extends PanacheMongoEntity {
     public LocalDateTime timestamp;
     public boolean treated;
     private int value;
+    private Severity severity;
 
     public Alert() {}
 
-    public Alert(String type, String message, String gatewayId, int value) {
+    public Alert(String type, String message, String gatewayId, int value,Severity severity) {
         this.type = type;
         this.message = message;
         this.gatewayId = gatewayId;
         this.timestamp = LocalDateTime.now();
         this.treated = false;
         this.value = value;
+        this.severity = severity;
     }
 
     public String getType() {
@@ -76,5 +78,12 @@ public class Alert extends PanacheMongoEntity {
 
     public void setValue(int value) {
         this.value = value;
+    }
+    public Severity getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
     }
 }

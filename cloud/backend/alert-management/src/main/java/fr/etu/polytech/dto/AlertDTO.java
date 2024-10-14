@@ -1,4 +1,5 @@
 package fr.etu.polytech.dto;
+import fr.etu.polytech.entity.Severity;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -15,6 +16,8 @@ public record AlertDTO(
         @NotNull(message = "Gateway ID must not be null")
         @NotEmpty(message = "Gateway ID must not be empty")
         String gatewayId,
-        int value
+        int value,
+        @NotNull(message = "Severity must not be null")
+        Severity severity
 ) {}
 
