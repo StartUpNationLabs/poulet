@@ -1,30 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adapter
+  name: data-manager
   labels:
-    app: adapter
+    app: data-manager
 spec:
   selector:
     matchLabels:
-      app: adapter
+      app: data-manager
   template:
     metadata:
       labels:
-        app: adapter
+        app: data-manager
     spec:
       containers:
-        - name: adapter
-          image: "{{ .Values.image.repository }}/adpater:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: data-manager
+          image: "ghcr.io/startupnationlabs/poulet/adpater:{{ .Values.image.tag | default .Chart.AppVersion }}"
           env:
-            - name: SERVER_PORT
-              value: 8080
             - name: RABBITMQ_SERVER
-              value: rabbitmq:5672
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
+              value: "rabbitmq:5672"
           resources:
             requests:
               cpu: "100m"
@@ -32,20 +26,21 @@ spec:
             limits:
               memory: "256Mi"
 
+
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: adapter
+  name: data-manager
   labels:
-    app: adapter
+    app: data-manager
 spec:
-  type: clusterIP
+  type: ClusterIP
   ports:
     - port: 8080
       targetPort: http
       protocol: TCP
       name: http
   selector:
-    app: adapter
+    app: data-manager
