@@ -38,7 +38,7 @@ func (rabbitMQClient *RabbitMQClient) init(alerter *Alerter) {
 	}
 	password := os.Getenv("RABBITMQ_PASSWORD")
 	var err error
-	client.conn, err = amqp.Dial("amqp://"+username+":"+password+"@"+endpoint)
+	rabbitMQClient.conn, err = amqp.Dial("amqp://"+username+":"+password+"@"+endpoint)
 	failOnError(err, "Failed to connect to RabbitMQ")
     rabbitMQClient.alerter = alerter
 }
