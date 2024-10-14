@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "poulet.fullname" . }}
+  name: {{ include "alert-management.fullname" . }}
   labels:
-    {{- include "poulet.labels" . | nindent 4 }}
+    {{- include "alert-management.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "poulet.selectorLabels" . | nindent 4 }}
+    {{- include "alert-management.selectorLabels" . | nindent 4 }}

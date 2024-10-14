@@ -11,4 +11,5 @@ resource "keycloak_openid_client" "poulet" {
     "*"
   ]
   implicit_flow_enabled = true
+  client_secret = var.client_secret
 }

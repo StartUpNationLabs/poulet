@@ -11,3 +11,9 @@ variable "keycloak_password" {
   type        = string
   description = "Keycloak password"
 }
+
+variable "client_secret" {
+  type        = string
+  description = "Client secret"
+  default = "J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd"
+}

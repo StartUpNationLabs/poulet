@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "poulet.fullname" . }}
+  name: {{ include "patient-management.fullname" . }}
   labels:
-    {{- include "poulet.labels" . | nindent 4 }}
+    {{- include "patient-management.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -35,7 +35,7 @@ spec:
             {{- end }}
             backend:
               service:
-                name: {{ include "poulet.fullname" $ }}
+                name: {{ include "patient-management.fullname" $ }}
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}
