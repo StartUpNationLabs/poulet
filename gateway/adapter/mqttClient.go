@@ -23,10 +23,19 @@ func (client *RabbitMQClient) init() {
 		log.Fatal("RABBITMQ_SERVER environment variable is not set")
 		return
 	}
-	
-	endpoint := os.Getenv("RABBITMQ_SERVER")
+	endpoint := os.Getenv("RABBITMQ_USERNAME")
+  if os.Getenv("RABBITMQ_USERNAME") == "" {
+		log.Fatal("RABBITMQ_USERNAME environment variable is not set")
+		return
+	}
+	username := os.Getenv("RABBITMQ_USERNAME")
+  if os.Getenv("RABBITMQ_PASSWORD") == "" {
+		log.Fatal("RABBITMQ_PASSWORD environment variable is not set")
+		return
+	}
+	password := os.Getenv("RABBITMQ_PASSWORD")
 	var err error
-	client.conn, err = amqp.Dial("amqp://guest:guest@"+endpoint)
+	client.conn, err = amqp.Dial("amqp://"+username+":"+password+"@"+endpoint)
 	failOnError(err, "Failed to connect to RabbitMQ")
 }
 

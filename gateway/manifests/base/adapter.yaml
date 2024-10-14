@@ -21,6 +21,13 @@ spec:
               value: "8080"
             - name: RABBITMQ_SERVER
               value: "rabbitmq:5672"
+            - name: RABBITMQ_USERNAME
+              value: user
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq
+                  key: rabbitmq-password
           ports:
             - name: http
               containerPort: 8080

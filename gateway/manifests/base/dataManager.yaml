@@ -19,6 +19,13 @@ spec:
           env:
             - name: RABBITMQ_SERVER
               value: "rabbitmq:5672"
+            - name: RABBITMQ_USERNAME
+              value: user
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq
+                  key: rabbitmq-password
           resources:
             requests:
               cpu: "100m"
