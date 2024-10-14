@@ -53,7 +53,7 @@ spec:
 
           env:
             - name: DB_URL
-              value: {{ .Values.env.DB_URL | quote }}
+              value: {{ default (printf "mongodb://root:%s@%s-mongodb" .Values.env.DB_PASSWORD .Release.Name) .Values.env.DB_URL | quote }}
             - name: DB_NAME
               value: {{ .Values.env.DB_NAME | quote }}
             - name: AUTH_SERVER_URL
