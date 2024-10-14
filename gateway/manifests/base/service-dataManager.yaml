@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dataManager
+  labels:
+    app: dataManager
+spec:
+  selector:
+    matchLabels:
+      app: dataManager
+  template:
+    metadata:
+      labels:
+        app: dataManager
+    spec:
+      containers:
+        - name: dataManager
+          image: "{{ .Values.image.repository }}/adpater:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          env:
+            - name: RABBITMQ_SERVER
+              value: rabbitmq:5672
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              memory: "256Mi"
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: dataManager
+  labels:
+    app: dataManager
+spec:
+  type: clusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: dataManager
