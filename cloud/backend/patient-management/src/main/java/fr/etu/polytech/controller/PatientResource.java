@@ -14,9 +14,22 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.bson.types.ObjectId;
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.List;
 
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Patient Management API",
+                version = "1.0.0",
+                description = "API to manage patients in a hospital."
+        ),
+        tags = {
+                @Tag(name = "patient", description = "Operations related to patients")
+        }
+)
 @Path("/patient")
 public class PatientResource {
     private static final String patientIdErrorMessage = "Missing or invalid patient ID format. ID must be a 24-character hexadecimal string.";
@@ -36,7 +49,7 @@ public class PatientResource {
     @Path("/gateway/{gatewayId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPatientByGatewayId(@PathParam("gatewayId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = gatewayIdErrorMessage) String gatewayId) throws ResourceNotFoundException, ConstraintViolationException {
-        return repository.find("gatewayId",new ObjectId(gatewayId)).firstResultOptional().map(patient -> Response.ok(patient).build()).orElseThrow(() -> new ResourceNotFoundException("Patient with gateway ID " + gatewayId + " not found."));
+        return repository.find("gatewayId", new ObjectId(gatewayId)).firstResultOptional().map(patient -> Response.ok(patient).build()).orElseThrow(() -> new ResourceNotFoundException("Patient with gateway ID " + gatewayId + " not found."));
     }
 
     @GET
