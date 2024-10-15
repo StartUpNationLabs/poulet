@@ -1,12 +1,36 @@
 import {useState} from 'react';
 import {Box, Button, Container, MenuItem, TextField, Typography} from '@mui/material';
+import {useMutation} from "@tanstack/react-query";
+import {PatientDTO, PatientResourceApi} from "../clients/patient-management/src";
+import {useNavigate} from "react-router-dom";
 
 export default function Register() {
+    const navigate = useNavigate();
+
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [gender, setGender] = useState('');
 
     const isFormValid = firstname && lastname && gender;
+
+    const mutation = useMutation({
+        mutationFn: (patient: PatientDTO) => {
+            console.log(patient);
+            return new PatientResourceApi().patientPost({patientDTO: patient});
+        },
+        onSuccess: () => {
+            navigate('/');
+        },
+        onError: (error) => {
+            console.log(error);
+        }
+    });
+
+    const submitRegistration = () => {
+        const patient : PatientDTO= { firstname, lastname, gender };
+
+        mutation.mutate(patient);
+    }
 
     return (
         <Container sx={{pt: 4}}>
@@ -34,14 +58,15 @@ export default function Register() {
                     onChange={(e) => setGender(e.target.value)}
                     required
                 >
-                    <MenuItem value="Male">Male</MenuItem>
-                    <MenuItem value="Female">Female</MenuItem>
-                    <MenuItem value="Undefined">Undefined / Other</MenuItem>
+                    <MenuItem value="M">Male</MenuItem>
+                    <MenuItem value="F">Female</MenuItem>
+                    <MenuItem value="U">Undefined / Other</MenuItem>
                 </TextField>
                 <Button
                     variant="contained"
                     color="primary"
                     disabled={!isFormValid}
+                    onClick={submitRegistration}
                 >
                     Register
                 </Button>
