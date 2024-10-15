@@ -1,6 +1,12 @@
-
+grafana:
+  enabled: true
+prometheus:
+  enabled: true
+keycloak:
+  enabled: true
 
 mongodb:
+  enabled: true
   auth:
     enabled: true
     rootPassword: root
