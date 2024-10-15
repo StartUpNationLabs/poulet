@@ -18,21 +18,30 @@ func failOnError(err error, msg string) {
 	}
 }
 
-func (client *RabbitMQClient) init() {
+func (rabbitMQClient *RabbitMQClient) init() {
   if os.Getenv("RABBITMQ_SERVER") == "" {
 		log.Fatal("RABBITMQ_SERVER environment variable is not set")
 		return
 	}
-	
-	endpoint := os.Getenv("RABBITMQ_SERVER")
+	endpoint := os.Getenv("RABBITMQ_USERNAME")
+  if os.Getenv("RABBITMQ_USERNAME") == "" {
+		log.Fatal("RABBITMQ_USERNAME environment variable is not set")
+		return
+	}
+	username := os.Getenv("RABBITMQ_USERNAME")
+  if os.Getenv("RABBITMQ_PASSWORD") == "" {
+		log.Fatal("RABBITMQ_PASSWORD environment variable is not set")
+		return
+	}
+	password := os.Getenv("RABBITMQ_PASSWORD")
 	var err error
-	client.conn, err = amqp.Dial("amqp://guest:guest@"+endpoint)
+	rabbitMQClient.conn, err = amqp.Dial("amqp://"+username+":"+password+"@"+endpoint)
 	failOnError(err, "Failed to connect to RabbitMQ")
 }
 
-func (client *RabbitMQClient) publish(topic string, message string) {
+func (rabbitMQClient *RabbitMQClient) publish(topic string, message string) {
 	var err error
-	ch, err := client.conn.Channel()
+	ch, err := rabbitMQClient.conn.Channel()
     failOnError(err, "Failed to open a channel")
     defer ch.Close()
 
@@ -61,12 +70,12 @@ func (client *RabbitMQClient) publish(topic string, message string) {
     failOnError(err, "Failed to publish a message")
 }
 
-func (client *RabbitMQClient) close(){
-	defer client.conn.Close()
+func (rabbitMQClient *RabbitMQClient) close(){
+	defer rabbitMQClient.conn.Close()
 }
 
 //func main(){
-//	client := &RabbitMQClient{}
-//	client.init()
-//	client.publish("/data/test", 4)
+//	rabbitMQClient := &RabbitMQClient{}
+//	rabbitMQClient.init()
+//	rabbitMQClient.publish("/data/test", 4)
 //}

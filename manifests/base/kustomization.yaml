@@ -6,3 +6,4 @@ resources:
   - keycloak
   - ../../cloud/backend/alert-management/manifests/base
   - ../../cloud/backend/patient-management/manifests/base
+  - ../../gateway/manifests/base

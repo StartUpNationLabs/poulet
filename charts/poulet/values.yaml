@@ -1,0 +1,25 @@
+grafana:
+  enabled: true
+prometheus:
+  enabled: true
+keycloak:
+  enabled: true
+
+mongodb:
+  enabled: true
+  auth:
+    enabled: true
+    rootPassword: root
+alert-management:
+  env:
+    DB_PASSWORD: root
+    DB_NAME: alert
+    CLIENT_ID: backend-service
+    CLIENT_SECRET: J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd
+
+patient-management:
+  env:
+    DB_PASSWORD: root
+    DB_NAME: patient
+    CLIENT_ID: backend-service
+    CLIENT_SECRET: J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd

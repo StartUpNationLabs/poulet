@@ -7,6 +7,7 @@ import (
     "io/ioutil"
     "log"
     "net/http"
+    "os"
 )
 
 type RequestData struct {
@@ -58,7 +59,12 @@ func StartServer(client *RabbitMQClient) {
 		http.HandleFunc("/api/data/"+value, handleData(value, client))
 	}
 
-    fmt.Println("Server is running on port 8081...")
-    log.Fatal(http.ListenAndServe(":8081", nil))
+   
+    serverPort := "8081"
+    if os.Getenv("SERVER_PORT") != "" {
+        serverPort = os.Getenv("SERVER_PORT") 
+	}
+    fmt.Println("Server is running on port "+serverPort+"...")
+    log.Fatal(http.ListenAndServe(":"+serverPort, nil))
 }
 

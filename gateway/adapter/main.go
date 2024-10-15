@@ -3,10 +3,10 @@ package main
 
 
 func main() {
-    client := &RabbitMQClient{}
-    client.init()
-    StartServer(client)
+    rabbitMQClient := &RabbitMQClient{}
+    rabbitMQClient.init()
+    StartServer(rabbitMQClient)
 
-    client.close()
+    rabbitMQClient.close()
 }
 

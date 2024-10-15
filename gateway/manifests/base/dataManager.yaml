@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-manager
+  labels:
+    app: data-manager
+spec:
+  selector:
+    matchLabels:
+      app: data-manager
+  template:
+    metadata:
+      labels:
+        app: data-manager
+    spec:
+      containers:
+        - name: data-manager
+          image: "ghcr.io/startupnationlabs/poulet/gateway-datamanager:helm-charts"
+          env:
+            - name: RABBITMQ_SERVER
+              value: "rabbitmq:5672"
+            - name: RABBITMQ_USERNAME
+              value: user
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq
+                  key: rabbitmq-password
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              memory: "256Mi"
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-manager
+  labels:
+    app: data-manager
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: data-manager
