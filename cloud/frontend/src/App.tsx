@@ -5,6 +5,7 @@ import Register from "./components/Register.tsx";
 import Search from "./components/Search.tsx";
 import SearchResult from "./components/Search-results.tsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import Profil from "./components/Profil.tsx";
 
 function App() {
     const queryClient = new QueryClient();
@@ -17,7 +18,9 @@ function App() {
                     <Route path="/" element={<DoctorDashboard/>}/>
                     <Route path="/register" element={<Register/>}/>
                     <Route path="/search" element={<Search/>}/>
-                    <Route path="/search-results" element={<SearchResult/>}/> {/* Add the SearchResult route */}
+                    <Route path="/search-results" element={<SearchResult/>}/>
+                    <Route path="/patient/:patientId" element={<Profil/>}/>
+                    <Route path="/patient/" element={<Profil/>}/>
                 </Routes>
             </Router>
         </QueryClientProvider>

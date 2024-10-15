@@ -1,7 +1,17 @@
-import {Container, Typography} from "@mui/material";
+import {
+    Container,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography
+} from "@mui/material";
 import {PatientResourceApi} from '../clients/patient-management/src';
 import {useQuery} from "@tanstack/react-query";
-import {useLocation, useNavigate} from "react-router-dom"; // Adjust the import path as necessary
+import {useLocation, useNavigate} from "react-router-dom";
 
 export default function SearchResult() {
     const location = useLocation();
@@ -22,7 +32,10 @@ export default function SearchResult() {
         queryKey: ['searchPatientByName', firstname, lastname],
         queryFn: async () => {
             const patientManagementService: PatientResourceApi = new PatientResourceApi();
-            return patientManagementService.patientFindByNameGet({firstname: firstname ?? "", lastname: lastname ?? ""});
+            return patientManagementService.patientFindByNameGet({
+                firstname: firstname ?? "",
+                lastname: lastname ?? ""
+            });
         },
         enabled: firstname !== undefined && lastname !== undefined,
         refetchOnWindowFocus: 'always',
@@ -33,17 +46,39 @@ export default function SearchResult() {
         return <Typography>Loading...</Typography>;
     }
 
+    const handleRowClick = (id: string) => {
+        navigate(`/patient/${id}`);
+    };
+
     return (
         <Container sx={{pt: 4}}>
             <Typography variant={"h4"} gutterBottom>
                 Search results
             </Typography>
-            { patients !== undefined && Array.from(patients.data).length > 0 ? (
-                Array.from(patients.data).map(patient => (
-                    <Typography key={patient.id}>
-                        {patient.firstname} {patient.lastname} {patient.gender} {patient.id}
-                    </Typography>
-                ))
+            {patients !== undefined && Array.from(patients.data).length > 0 ? (
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>ID</TableCell>
+                                <TableCell>First Name</TableCell>
+                                <TableCell>Last Name</TableCell>
+                                <TableCell>Gender</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {Array.from(patients.data).map((patient) => (
+                                <TableRow key={patient.id} hover onClick={() => handleRowClick(patient.id ?? "")}
+                                          style={{cursor: 'pointer'}}>
+                                    <TableCell>{patient.id}</TableCell>
+                                    <TableCell>{patient.firstname}</TableCell>
+                                    <TableCell>{patient.lastname}</TableCell>
+                                    <TableCell>{patient.gender}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             ) : (
                 <Typography>No patients found</Typography>
             )}
