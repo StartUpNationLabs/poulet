@@ -1,13 +1,13 @@
 package main
 
 type Alerter struct {
-	compacter *Compacter
+	downSampler *DownSampler
 }
 
-func (alerter *Alerter) init(compacter *Compacter) {
-	alerter.compacter = compacter
+func (alerter *Alerter) init(downSampler *DownSampler) {
+	alerter.downSampler = downSampler
 }
 
 func (alerter *Alerter) sendSample(metric string, sample Sample) {
-	alerter.compacter.addSample(metric, sample)
+	alerter.downSampler.addSample(metric, sample)
 }
