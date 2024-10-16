@@ -34,11 +34,7 @@ keycloak:
     annotations: { }
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-    hosts:
-      - host: keycloak.al.apoorva64.com
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
+    hostname: keycloak.al.local
     tls: [ ]
     #  - secretName: chart-example-tls
     #    hosts:

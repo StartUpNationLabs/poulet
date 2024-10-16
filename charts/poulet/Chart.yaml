@@ -28,6 +28,10 @@ dependencies:
     version: "8.5.1"
     repository: https://grafana.github.io/helm-charts
     condition: grafana.enabled
+  - name: keycloak
+    version: "24.0.0"
+    repository: https://charts.bitnami.com/bitnami
+    condition: keycloak.enabled
   - name: mongodb
     version: 16.0.3
     repository: https://charts.bitnami.com/bitnami
@@ -36,6 +40,3 @@ dependencies:
     version: 25.27.0
     repository: https://prometheus-community.github.io/helm-charts
     condition: prometheus.enabled
-  - name: keycloak
-    version: 0.1.0
-    condition: keycloak.enabled
