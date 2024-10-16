@@ -5,6 +5,9 @@ import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.types.ObjectId;
+
 import java.time.LocalDateTime;
 
 
@@ -20,17 +23,19 @@ public class Alert extends PanacheMongoEntity {
     private int value;
     private Severity severity;
 
-    public Alert() {}
-
+    public Alert() {
+        this.timestamp = LocalDateTime.now();
+        this.treated = false;
+    }
     public Alert(String type, String message, String gatewayId, int value,Severity severity) {
+        this();
         this.type = type;
         this.message = message;
         this.gatewayId = gatewayId;
-        this.timestamp = LocalDateTime.now();
-        this.treated = false;
         this.value = value;
         this.severity = severity;
     }
+
 
     public String getType() {
         return type;
