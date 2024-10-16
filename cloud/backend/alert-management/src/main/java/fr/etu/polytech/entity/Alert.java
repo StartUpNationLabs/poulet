@@ -26,6 +26,7 @@ public class Alert extends PanacheMongoEntity {
     private Severity severity;
 
     public Alert() {
+        //date enregistrement de l alerte
         this.timestamp = LocalDateTime.now();
         this.treated = false;
     }

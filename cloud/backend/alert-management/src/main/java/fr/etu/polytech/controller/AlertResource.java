@@ -23,8 +23,21 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import jakarta.validation.Valid;
 
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Alert Management API",
+                version = "1.0.0",
+                description = "API to manage alerts."
+        ),
+        tags = {
+                @Tag(name = "alert", description = "Operations related to alerts")
+        }
+)
 
 
 
