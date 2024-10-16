@@ -23,6 +23,7 @@ services:
       - rabbitmq
     networks: 
       - internal
+      - poulet_internal
   
   rabbitmq:
     image: rabbitmq:management
@@ -34,3 +35,5 @@ services:
   
 networks:
   internal:
+  poulet_internal:
+    external: true

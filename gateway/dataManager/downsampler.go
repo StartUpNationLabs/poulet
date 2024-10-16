@@ -1,8 +1,5 @@
 package main
 
-import(
-	"log"
-)
 
 type DownSampler struct {
     data             map[string][]Sample
@@ -36,7 +33,6 @@ func (downSampler *DownSampler) addSample(metric string, sample Sample) bool {
 		isSent := downSampler.compacter.addSample(metric, sample)
 		if isSent {
 			downSampler.data[metric] = []Sample{}
-			log.Print("Sent to prometheus")
 		}
 		return isSent
 	}

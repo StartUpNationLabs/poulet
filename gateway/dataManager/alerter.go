@@ -9,5 +9,13 @@ func (alerter *Alerter) init(downSampler *DownSampler) {
 }
 
 func (alerter *Alerter) sendSample(metric string, sample Sample) {
+
+
+
+
+
+
+	
+
 	alerter.downSampler.addSample(metric, sample)
 }

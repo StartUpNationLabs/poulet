@@ -37,7 +37,7 @@ func handleData(metric string, client *RabbitMQClient) http.HandlerFunc {
             w.WriteHeader(http.StatusOK)
             w.Write([]byte("Data received"))
 
-            var queueName string = "sensor.raw." + metric
+            var queueName string = "sensor." + metric
             client.publish(queueName, data.Value)
 
         } else {

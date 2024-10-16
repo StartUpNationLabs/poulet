@@ -120,7 +120,7 @@ func (rabbitMQClient *RabbitMQClient) consume(topic string){
         for d := range msgs {
             log.Printf(" [x] %s in %s", d.Body, d.RoutingKey)
 
-            metric := strings.Split(d.RoutingKey, ".")[2]
+            metric := strings.Split(d.RoutingKey, ".")[1]
             value, _ := strconv.ParseFloat(string(d.Body), 64)
 
             sample := Sample{Time: time.Now(), Value: value}

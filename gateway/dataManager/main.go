@@ -14,7 +14,7 @@ func main() {
     alerter.init(downSampler)
     rabbitMQClient.init(alerter)
 
-	rabbitMQClient.consume("sensor.clean.#")
+	rabbitMQClient.consume("sensor.#")
 
    // prometheusClient.close()
     rabbitMQClient.close()

@@ -1,9 +1,5 @@
 package main
 
-import(
-	"log"
-)
-
 type Compacter struct {
     data             map[string][]Sample
     prometheusClient *PrometheusClient
@@ -21,7 +17,6 @@ func (compacter *Compacter) addSample(metric string, sample Sample) bool {
 		isSent := compacter.prometheusClient.Write(metric, compacter.data[metric])
 		if isSent {
 			compacter.data[metric] = []Sample{}
-			log.Print("Sent to prometheus")
 		}
 		return isSent
 	}
