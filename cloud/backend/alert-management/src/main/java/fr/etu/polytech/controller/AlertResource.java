@@ -8,6 +8,7 @@ import fr.etu.polytech.exception.ResourceNotFoundException;
 import fr.etu.polytech.repository.AlertRepository;
 import io.quarkus.scheduler.Scheduled;
 import jakarta.inject.Inject;
+import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -28,7 +29,7 @@ import jakarta.validation.Valid;
 
 
 @Path("/alert")
-//@ValidateOnExecution
+@ValidateOnExecution
 public class AlertResource {
     private static final Logger LOGGER = Logger.getLogger(AlertResource.class.getName());
 
