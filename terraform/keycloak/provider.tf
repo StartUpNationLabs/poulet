@@ -4,11 +4,11 @@ terraform {
       source  = "mrparkers/keycloak"
       version = "4.4.0"
     }
-#    infisical = {
-#      # version = <latest version>
-#      source  = "infisical/infisical"
-#      version = "0.9.0"
-#    }
+    #    infisical = {
+    #      # version = <latest version>
+    #      source  = "infisical/infisical"
+    #      version = "0.9.0"
+    #    }
   }
 }
 
