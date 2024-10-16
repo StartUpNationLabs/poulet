@@ -15,6 +15,7 @@ public class Patient extends PanacheMongoEntity {
     public String firstname;
     public String lastname;
     public Gender gender;
+    public String emergencyContactPhoneNumber;
 
     @Schema(type = SchemaType.STRING, description = "Gateway ID as a 24-character hexadecimal string", implementation = String.class)
     public ObjectId gatewayId;
@@ -26,10 +27,11 @@ public class Patient extends PanacheMongoEntity {
     }
 
     // Constructor with all fields
-    public Patient(String firstname, String lastname, Gender gender) {
+    public Patient(String firstname, String lastname, Gender gender, String emergencyContactPhoneNumber) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.gatewayId = new ObjectId();
         this.gender = gender;
+        this.emergencyContactPhoneNumber = emergencyContactPhoneNumber;
     }
 }

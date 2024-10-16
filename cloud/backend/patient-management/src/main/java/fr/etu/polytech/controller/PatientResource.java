@@ -17,8 +17,6 @@ import org.bson.types.ObjectId;
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.jboss.resteasy.reactive.RestResponse;
-import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
 import java.util.List;
 import java.util.Set;
@@ -76,7 +74,7 @@ public class PatientResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Patient createPatient(@Valid PatientDTO dto) throws ConstraintViolationException {
-        Patient patient = new Patient(dto.firstname(), dto.lastname(), Gender.fromAbbreviation(dto.gender()));
+        Patient patient = new Patient(dto.firstname(), dto.lastname(), Gender.fromAbbreviation(dto.gender()), dto.emergencyContactPhoneNumber());
         repository.persist(patient);
         return patient;
     }
