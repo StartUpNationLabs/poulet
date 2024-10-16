@@ -99,7 +99,7 @@ public class AlertResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAlert(@Valid AlertDTO alertDTO) throws IncorrectRequestException {
-        Alert alert = new Alert(alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value(),alertDTO.severity());
+        Alert alert = new Alert(alertDTO.time(),alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value(),alertDTO.severity());
         alertRepository.persist(alert);
         return Response.status(Response.Status.CREATED).entity(alert).build();
     }

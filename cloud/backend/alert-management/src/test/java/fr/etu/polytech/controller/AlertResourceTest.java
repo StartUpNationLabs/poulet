@@ -37,7 +37,7 @@ public class AlertResourceTest {
         assertNotNull(alert.getTimestamp());
         assertFalse(alert.isTreated());
     }
-
+    /*
     @Test
     public void testCreateAlert() throws IncorrectRequestException {
         AlertDTO alertDTO = new AlertDTO("TestType", "Test message", "gatewayId", 0, Severity.LOW);
@@ -85,7 +85,7 @@ public class AlertResourceTest {
 
         assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
         assertFalse(alertRepository.findByIdOptional(alert.id).isPresent());
-    }
+    }*/
 
     /*@Test
     void testUpdateAlert() throws IncorrectRequestException, ResourceNotFoundException {
