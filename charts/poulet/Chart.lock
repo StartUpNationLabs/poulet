@@ -2,14 +2,11 @@ dependencies:
 - name: grafana
   repository: https://grafana.github.io/helm-charts
   version: 8.5.1
-- name: keycloak
-  repository: https://charts.bitnami.com/bitnami
-  version: 24.0.0
 - name: mongodb
   repository: https://charts.bitnami.com/bitnami
   version: 16.0.3
 - name: prometheus
   repository: https://prometheus-community.github.io/helm-charts
   version: 25.27.0
-digest: sha256:40932f1578f32c4a6a41fe05f588b50c82a662bead07b741189a8eb4eca01b2e
-generated: "2024-10-14T10:35:32.617402171+02:00"
+digest: sha256:ec0e1e61a3e2289c325eb7670d518043a2fb82e7b3082b9e0c6765c0573cb2bb
+generated: "2024-10-16T08:50:39.530384+02:00"

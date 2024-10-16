@@ -1,9 +1,48 @@
 grafana:
   enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.al.apoorva64.com
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
 prometheus:
   enabled: true
+  ingress:
+    enabled: true
+    className: ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: prometheus.al.apoorva64.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+
 keycloak:
   enabled: true
+  ingress:
+    enabled: true
+    className: ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: keycloak.al.apoorva64.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
 
 mongodb:
   enabled: true
@@ -16,6 +55,18 @@ alert-management:
     DB_NAME: alert
     CLIENT_ID: backend-service
     CLIENT_SECRET: J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd
+  ingress:
+    enabled: true
+    className: ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: alert-management.al.apoorva64.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
 
 patient-management:
   env:
@@ -23,3 +74,15 @@ patient-management:
     DB_NAME: patient
     CLIENT_ID: backend-service
     CLIENT_SECRET: J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd
+  ingress:
+    enabled: true
+    className: ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: patient-management.al.apoorva64.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
