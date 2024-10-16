@@ -22,6 +22,8 @@ services:
     image: prom/alertmanager
     ports:
       - 9093:9093
+    networks:
+      - poulet_internal
     volumes:
       - ./cloud/config/alertmanager:/etc/alertmanager
     command:
@@ -50,20 +52,17 @@ services:
       - ./cloud/config/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards/
       - ./cloud/config/grafana/dashboards_data:/var/lib/grafana/dashboards/
       - ./cloud/config/grafana/grafana.ini:/etc/grafana/grafana.ini
-  write:
-    build:
-      context: ./gateway/batch-send
-    environment:
-      - PROMETHEUS_SERVER=http://read:9090/api/v1/write
-    depends_on:
-      - read
   mongodb:
     image: mongodb/mongodb-community-server:7.0.2-ubi8
     ports:
       - 27017:27017
+    networks:
+      - poulet_internal
   keycloak:
     ports:
       - 8081:8080
+    networks:
+      - poulet_internal
     environment:
       - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
