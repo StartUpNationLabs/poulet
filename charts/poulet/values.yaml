@@ -46,6 +46,7 @@ mongodb:
     enabled: true
     rootPassword: root
 alert-management:
+  enabled: true
   env:
     DB_PASSWORD: root
     DB_NAME: alert
@@ -65,6 +66,7 @@ alert-management:
     tls: [ ]
 
 patient-management:
+  enabled: true
   env:
     DB_PASSWORD: root
     DB_NAME: patient
