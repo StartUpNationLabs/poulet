@@ -25,7 +25,7 @@ services:
     command:
       - --config.file=/etc/alertmanager/alertmanager.yml
     env_file:
-      - ./cloud/config/altermanager/.env
+      - ./cloud/config/alertmanager/.env
   grafana:
     image: grafana/grafana
     ports:
