@@ -23,8 +23,21 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import jakarta.validation.Valid;
 
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Alert Management API",
+                version = "1.0.0",
+                description = "API to manage alerts."
+        ),
+        tags = {
+                @Tag(name = "alert", description = "Operations related to alerts")
+        }
+)
 
 
 
@@ -35,8 +48,6 @@ public class AlertResource {
 
     @Inject
     AlertRepository alertRepository;
-    @Inject
-    org.jboss.logging.Logger logger;
 
     @GET
     @Path("/gateway/{gatewayId}")
@@ -101,13 +112,7 @@ public class AlertResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAlert(@Valid AlertDTO alertDTO) throws IncorrectRequestException {
-        logger.info("type: " + alertDTO.type());
-        logger.info("message: " + alertDTO.message());
-        logger.info("gatewayId: " + alertDTO.gatewayId());
-        logger.info("value: " + alertDTO.value());
-        logger.info("severity: " + alertDTO.severity());
-        //Alert alert = new Alert(alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value(),alertDTO.severity());
-        Alert alert = new Alert(alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value());
+        Alert alert = new Alert(alertDTO.time(),alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value(),alertDTO.severity());
         alertRepository.persist(alert);
         return Response.status(Response.Status.CREATED).entity(alert).build();
     }

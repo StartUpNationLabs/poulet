@@ -7,8 +7,8 @@ type DownSampler struct {
 }
 
 var downSamplingConf = map[string]int{
-	"acceleration": 50,
-	"heartrate": 4,
+	"acceleration": 5,
+	"heartrate": 1,
 	"temperature": 1,
 	"glucose": 1,
 }

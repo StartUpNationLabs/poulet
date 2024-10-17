@@ -9,12 +9,14 @@ import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @RegisterForReflection
 @Getter
 @Setter
 public class Alert extends PanacheMongoEntity {
+    public Date time;
     public String type;
     public String message;
     public String gatewayId;
@@ -24,11 +26,13 @@ public class Alert extends PanacheMongoEntity {
     private Severity severity;
 
     public Alert() {
+        //date enregistrement de l alerte
         this.timestamp = LocalDateTime.now();
         this.treated = false;
     }
-    public Alert(String type, String message, String gatewayId, int value,Severity severity) {
+    public Alert(Date time, String type, String message, String gatewayId, int value, Severity severity) {
         this();
+        this.time = time;
         this.type = type;
         this.message = message;
         this.gatewayId = gatewayId;
