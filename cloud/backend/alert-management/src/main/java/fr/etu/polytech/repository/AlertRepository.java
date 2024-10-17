@@ -34,5 +34,5 @@ public class AlertRepository implements PanacheMongoRepository<Alert> {
 
 
 
-    
+
 }

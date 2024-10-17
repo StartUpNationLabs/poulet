@@ -12,13 +12,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -81,11 +78,9 @@ public class AlertResource {
     @Path("/{alertId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Alert getAlertById(@PathParam("alertId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = alertIdErrorMessage) String alertId) throws ResourceNotFoundException {
-        Alert alert = alertRepository.findByAlertId(new ObjectId(alertId));
-        if (alert == null) {
-            throw new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
-        }
-        return alert;
+
+        return findAlertByAlertId(alertId);
+
     }
 
     @GET
@@ -121,10 +116,8 @@ public class AlertResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Alert updateAlert(@PathParam("alertId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = alertIdErrorMessage) String alertId,
                              @Valid AlertDTO alertDTO) throws IncorrectRequestException, ResourceNotFoundException {
-        Alert alert = alertRepository.findByAlertId(new ObjectId(alertId));
-        if (alert == null) {
-            throw new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
-        }
+        Alert alert = findAlertByAlertId(alertId);
+
         updateAlertFields(alert, alertDTO);
         alertRepository.update(alert);
         return alert;
@@ -196,13 +189,20 @@ public class AlertResource {
         }
     }
 
-
-
-    public Alert updateAlertFields(Alert alert, @Valid AlertDTO alertDTO) {
+    public void updateAlertFields(Alert alert, @Valid AlertDTO alertDTO) {
+        if (alert.isTreated()) {
+            alert.setTreated(false);
+        }
         alert.setType(alertDTO.type());
         alert.setMessage(alertDTO.message());
-        return alert;
+        alert.setSeverity(alertDTO.severity());
+        alert.setValue(alertDTO.value());
+        alert.setModified(true);
+
     }
+
+
+
     public void validateGatewayId(String gatewayId) throws IncorrectRequestException {
         if (gatewayId == null || gatewayId.isEmpty()) {
             throw new IncorrectRequestException("Gateway ID must be provided");
