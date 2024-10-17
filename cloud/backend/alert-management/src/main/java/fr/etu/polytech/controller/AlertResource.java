@@ -62,16 +62,7 @@ public class AlertResource {
         LOGGER.info("Received request to get gateway by id: " + gatewayId);
         List<Alert> alerts = alertRepository.findByGatewayId(gatewayId);
 
-        if(limit != null && alerts.size() > limit ){
-            int effectiveOffset = offset == null ? 0 : offset;
-            alerts = alerts.stream()
-                    .skip(effectiveOffset)
-                    .limit(limit)
-                    .collect(Collectors.toList());
-        }
-
-
-        return alerts;
+        return applyPagination(alerts, limit, offset);
     }
 
     @GET
@@ -90,31 +81,9 @@ public class AlertResource {
                                     @QueryParam("limit") Integer limit,
                                     @QueryParam("offset") Integer offset) {
         List<Alert> alerts = alertRepository.listAll();
-        if (type != null && !type.isEmpty()) {
-            alerts = alerts.stream()
-                    .filter(alert -> alert.getType().equalsIgnoreCase(type))
-                    .collect(Collectors.toList());
-        }
-
-        if (severity != null && !severity.isEmpty()) {
-            try {
-                Severity sev = Severity.valueOf(severity.toUpperCase());
-                alerts = alerts.stream()
-                        .filter(alert -> alert.getSeverity() == sev)
-                        .collect(Collectors.toList());
-            } catch (IllegalArgumentException e) {
-                throw new WebApplicationException("Invalid severity level", 400);
-            }
-        }
-        if(limit != null && alerts.size() > limit ){
-            int effectiveOffset = offset == null ? 0 : offset;
-            alerts = alerts.stream()
-                    .skip(effectiveOffset)
-                    .limit(limit)
-                    .collect(Collectors.toList());
-        }
-
-        return alerts;
+        alerts = filterByType(alerts, type);
+        alerts = filterBySeverity(alerts, severity);
+        return applyPagination(alerts, limit, offset);
     }
 
     @GET
@@ -244,7 +213,43 @@ public class AlertResource {
         }
         return alert;
     }
+    private List<Alert> applyPagination(List<Alert> alerts, Integer limit, Integer offset) {
+        if (limit != null && alerts.size() > limit) {
+            int effectiveOffset = (offset == null) ? 0 : offset;
+            alerts = alerts.stream()
+                    .skip(effectiveOffset)
+                    .limit(limit)
+                    .collect(Collectors.toList());
+        }
+        return alerts;
+    }
 
+    private List<Alert> filterByType(List<Alert> alerts, String type) {
+        if (type != null && !type.isEmpty()) {
+            alerts = alerts.stream()
+                    .filter(alert -> alert.getType().equalsIgnoreCase(type))
+                    .collect(Collectors.toList());
+        }
+        return alerts;
+    }
+
+    private List<Alert> filterBySeverity(List<Alert> alerts, String severity) {
+        if (severity != null && !severity.isEmpty()) {
+            Severity sev = validateSeverity(severity);
+            alerts = alerts.stream()
+                    .filter(alert -> alert.getSeverity() == sev)
+                    .collect(Collectors.toList());
+        }
+        return alerts;
+    }
+
+    private Severity validateSeverity(String severity) {
+        try {
+            return Severity.valueOf(severity.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new WebApplicationException("Invalid severity level", 400);
+        }
+    }
 
 
 }
