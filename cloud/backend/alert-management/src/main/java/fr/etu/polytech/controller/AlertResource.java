@@ -35,6 +35,8 @@ public class AlertResource {
 
     @Inject
     AlertRepository alertRepository;
+    @Inject
+    org.jboss.logging.Logger logger;
 
     @GET
     @Path("/gateway/{gatewayId}")
@@ -99,7 +101,13 @@ public class AlertResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAlert(@Valid AlertDTO alertDTO) throws IncorrectRequestException {
-        Alert alert = new Alert(alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value(),alertDTO.severity());
+        logger.info("type: " + alertDTO.type());
+        logger.info("message: " + alertDTO.message());
+        logger.info("gatewayId: " + alertDTO.gatewayId());
+        logger.info("value: " + alertDTO.value());
+        logger.info("severity: " + alertDTO.severity());
+        //Alert alert = new Alert(alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value(),alertDTO.severity());
+        Alert alert = new Alert(alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value());
         alertRepository.persist(alert);
         return Response.status(Response.Status.CREATED).entity(alert).build();
     }

@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>analyse</groupId>
-    <artifactId>Service-analyse-haut-niveau</artifactId>
+    <artifactId>analyse-haut-niveau-management</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>

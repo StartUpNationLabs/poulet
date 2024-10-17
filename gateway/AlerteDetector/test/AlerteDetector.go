@@ -15,7 +15,10 @@ func CheckHealthParameter(param string, value float64, phoneNumbers []string,pat
 	var isAbnormal bool
 	var message string
 	//var phoneNumbers []string = getPhoneNumbers(patientID);
-
+"acceleration",
+        "heartrate",
+        "temperature",
+        "glucose",
 	switch param {
 	case "temperature":
 		isAbnormal = value < 36.0 || value > 37.5 
@@ -26,7 +29,7 @@ func CheckHealthParameter(param string, value float64, phoneNumbers []string,pat
 	case "glucose":
 		isAbnormal = value < 70 || value > 140
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f mg/dL", param, value)
-	case "heart beat":
+	case "heartrate":
 		isAbnormal = value < 60 || value > 100
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f BPM", param, value)
 	default:

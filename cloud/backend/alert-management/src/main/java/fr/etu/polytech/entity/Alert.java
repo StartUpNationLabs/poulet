@@ -36,6 +36,14 @@ public class Alert extends PanacheMongoEntity {
         this.severity = severity;
     }
 
+    public Alert(String type, String message, String gatewayId, int value) {
+        this();
+        this.type = type;
+        this.message = message;
+        this.gatewayId = gatewayId;
+        this.value = value;
+    }
+
 
     public String getType() {
         return type;

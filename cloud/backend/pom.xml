@@ -20,7 +20,7 @@
     <modules>
         <module>patient-management</module>
         <module>alert-management</module>
-        <module>Service-analyse-haut-niveau</module>
+        <module>analyse-haut-niveau-management</module>
     </modules>
     <packaging>pom</packaging>
 
