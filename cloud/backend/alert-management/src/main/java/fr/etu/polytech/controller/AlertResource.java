@@ -85,8 +85,36 @@ public class AlertResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Alert> getAllAlerts() {
-        return alertRepository.listAll();
+    public List<Alert> getAllAlerts(@QueryParam("type") String type,
+                                    @QueryParam("severity") String severity,
+                                    @QueryParam("limit") Integer limit,
+                                    @QueryParam("offset") Integer offset) {
+        List<Alert> alerts = alertRepository.listAll();
+        if (type != null && !type.isEmpty()) {
+            alerts = alerts.stream()
+                    .filter(alert -> alert.getType().equalsIgnoreCase(type))
+                    .collect(Collectors.toList());
+        }
+
+        if (severity != null && !severity.isEmpty()) {
+            try {
+                Severity sev = Severity.valueOf(severity.toUpperCase());
+                alerts = alerts.stream()
+                        .filter(alert -> alert.getSeverity() == sev)
+                        .collect(Collectors.toList());
+            } catch (IllegalArgumentException e) {
+                throw new WebApplicationException("Invalid severity level", 400);
+            }
+        }
+        if(limit != null && alerts.size() > limit ){
+            int effectiveOffset = offset == null ? 0 : offset;
+            alerts = alerts.stream()
+                    .skip(effectiveOffset)
+                    .limit(limit)
+                    .collect(Collectors.toList());
+        }
+
+        return alerts;
     }
 
     @GET
