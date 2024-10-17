@@ -133,12 +133,9 @@ public class AlertResource {
     @DELETE
     @Path("/{alertId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteAlert(@PathParam("alertId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = alertIdErrorMessage) String alertId) throws ResourceNotFoundException, IncorrectRequestException {
-        validateId(alertId);
-        boolean isDeleted = alertRepository.deleteByIdR(new ObjectId(alertId));
-        if (!isDeleted) {
-            throw new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
-        }
+    public void deleteAlert(@PathParam("alertId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = alertIdErrorMessage) String alertId) throws ResourceNotFoundException {
+        Alert alert = findAlertByAlertId(alertId);
+        alertRepository.delete(alert);
     }
     @DELETE
     @Path("/deleteAll")
@@ -150,10 +147,7 @@ public class AlertResource {
     @Path("/{alertId}/mark-treated")
     @Produces(MediaType.APPLICATION_JSON)
     public Alert markAlertAsTreated(@PathParam("alertId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = alertIdErrorMessage) String alertId) throws IncorrectRequestException, ResourceNotFoundException {
-        Alert alert = alertRepository.findByAlertId(new ObjectId(alertId));
-        if (alert == null) {
-            throw new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
-        }
+        Alert alert = findAlertByAlertId(alertId);
         alert.setTreated(true);
         alertRepository.update(alert);
         return alert;
@@ -213,6 +207,14 @@ public class AlertResource {
         if (gatewayId == null || gatewayId.isEmpty()) {
             throw new IncorrectRequestException("Gateway ID must be provided");
         }
+    }
+
+    public Alert findAlertByAlertId(String alertId) throws ResourceNotFoundException {
+        Alert alert = alertRepository.findByAlertId(new ObjectId(alertId));
+        if (alert == null) {
+            throw new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
+        }
+        return alert;
     }
 
 

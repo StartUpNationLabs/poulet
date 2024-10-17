@@ -30,12 +30,9 @@ public class AlertRepository implements PanacheMongoRepository<Alert> {
     public Alert findByAlertId(ObjectId alertId) {
         return find("alertId", alertId).firstResult();
     }
-    public boolean deleteByIdR(ObjectId id) {
-        Alert alert = findById(id);
-        if (alert != null) {
-            delete(alert);
-            return true;
-        }
-        return false;
-    }
+
+
+
+
+    
 }
