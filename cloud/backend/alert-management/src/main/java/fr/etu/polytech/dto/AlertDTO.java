@@ -9,7 +9,6 @@ import java.util.Date;
 
 public record AlertDTO(
         @NotNull(message = "Time must not be null")
-        @NotEmpty(message = "Time must not be empty")
         Date time,
 
         @NotNull(message = "Alert type must not be null")

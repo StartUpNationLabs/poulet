@@ -15,6 +15,10 @@ public class AlertRepository implements PanacheMongoRepository<Alert> {
         return list("treated = false");
     }
 
+    public List<Alert> findByTreatedStatus(boolean treated) {
+        return list("treated", treated);
+    }
+
     public List<Alert> findByGatewayId(String gatewayId) {
         return find("gatewayId", gatewayId).list();
     }

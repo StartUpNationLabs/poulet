@@ -156,6 +156,20 @@ public class AlertResource {
                 .orElseThrow(() -> new ResourceNotFoundException("Alert with ID " + alertId + " not found."));
     }
 
+    @GET
+    @Path("/treated")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Alert> getTreatedAlerts() {
+        return alertRepository.findByTreatedStatus(true);
+    }
+
+    @GET
+    @Path("/untreated")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Alert> getUntreatedAlerts() {
+        return alertRepository.findByTreatedStatus(false);
+    }
+
    @Scheduled(every = "10m")
    void checkUnresolvedAlerts() {
         List<Alert> unresolvedAlerts = alertRepository.findUnresolvedAlerts();
