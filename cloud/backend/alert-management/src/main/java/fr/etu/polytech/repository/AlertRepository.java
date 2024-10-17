@@ -4,6 +4,7 @@ import fr.etu.polytech.entity.Alert;
 import fr.etu.polytech.entity.Severity;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
@@ -25,5 +26,16 @@ public class AlertRepository implements PanacheMongoRepository<Alert> {
 
     public List<Alert> findBySeverity(Severity severity) {
         return find("severity", severity).list();
+    }
+    public Alert findByAlertId(ObjectId alertId) {
+        return find("alertId", alertId).firstResult();
+    }
+    public boolean deleteByIdR(ObjectId id) {
+        Alert alert = findById(id);
+        if (alert != null) {
+            delete(alert);
+            return true;
+        }
+        return false;
     }
 }

@@ -8,6 +8,7 @@ import fr.etu.polytech.exception.ResourceNotFoundException;
 import fr.etu.polytech.repository.AlertRepository;
 import io.quarkus.scheduler.Scheduled;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -48,11 +49,13 @@ public class AlertResource {
 
     @Inject
     AlertRepository alertRepository;
+    private static final String alertIdErrorMessage = "Missing or invalid alert ID format. ID must be a 24-character hexadecimal string.";
+
 
     @GET
     @Path("/gateway/{gatewayId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getByGatewayId(
+    public List<Alert>  getByGatewayId(
             @PathParam("gatewayId") String gatewayId,
             @QueryParam("limit") Integer limit,
             @QueryParam("offset") Integer offset) throws IncorrectRequestException, ResourceNotFoundException{
@@ -71,23 +74,18 @@ public class AlertResource {
         }
 
 
-        return Response.ok(alerts).build();
+        return alerts;
     }
 
     @GET
     @Path("/{alertId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAlertById(@PathParam("alertId") String alertId) throws IncorrectRequestException, ResourceNotFoundException {
-        LOGGER.info("Received request to get alert with ID: " + alertId);
-        return findAlertById(alertId)
-                .map(alert -> {
-                    LOGGER.info("Alert found with ID: " + alertId);
-                    return Response.ok(alert).build();
-                })
-                .orElseThrow(() -> {
-                    LOGGER.warning("Alert not found with ID: " + alertId);
-                    return new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
-                });
+    public Alert getAlertById(@PathParam("alertId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = alertIdErrorMessage) String alertId) throws ResourceNotFoundException {
+        Alert alert = alertRepository.findByAlertId(new ObjectId(alertId));
+        if (alert == null) {
+            throw new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
+        }
+        return alert;
     }
 
     @GET
@@ -111,49 +109,54 @@ public class AlertResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createAlert(@Valid AlertDTO alertDTO) throws IncorrectRequestException {
+    public Alert  createAlert(@Valid AlertDTO alertDTO) throws IncorrectRequestException {
         Alert alert = new Alert(alertDTO.time(),alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value(),alertDTO.severity());
         alertRepository.persist(alert);
-        return Response.status(Response.Status.CREATED).entity(alert).build();
+        return alert;
     }
 
     @PUT
     @Path("/{alertId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAlert(@PathParam("alertId") String alertId, @Valid AlertDTO alertDTO) throws IncorrectRequestException, ResourceNotFoundException {
-        return findAlertById(alertId)
-                .map(alert -> updateAlertFields(alert, alertDTO))
-                .map(alert -> {
-                    alertRepository.update(alert);
-                    return Response.ok(alert).build();
-                })
-                .orElseThrow(() -> new ResourceNotFoundException("Alert with ID " + alertId + " not found."));
+    public Alert updateAlert(@PathParam("alertId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = alertIdErrorMessage) String alertId,
+                             @Valid AlertDTO alertDTO) throws IncorrectRequestException, ResourceNotFoundException {
+        Alert alert = alertRepository.findByAlertId(new ObjectId(alertId));
+        if (alert == null) {
+            throw new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
+        }
+        updateAlertFields(alert, alertDTO);
+        alertRepository.update(alert);
+        return alert;
     }
 
     @DELETE
     @Path("/{alertId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteAlert(@PathParam("alertId") String alertId) throws ResourceNotFoundException, IncorrectRequestException {
+    public void deleteAlert(@PathParam("alertId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = alertIdErrorMessage) String alertId) throws ResourceNotFoundException, IncorrectRequestException {
         validateId(alertId);
-        boolean isDeleted = alertRepository.deleteById(new ObjectId(alertId));
-        if (isDeleted) {
-            return Response.noContent().build();
+        boolean isDeleted = alertRepository.deleteByIdR(new ObjectId(alertId));
+        if (!isDeleted) {
+            throw new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
         }
-        throw new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
+    }
+    @DELETE
+    @Path("/deleteAll")
+    public void deleteAllAlerts() {
+        alertRepository.deleteAll();
     }
 
     @PATCH
     @Path("/{alertId}/mark-treated")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response markAlertAsTreated(@PathParam("alertId") String alertId) throws IncorrectRequestException, ResourceNotFoundException {
-        return findAlertById(alertId)
-                .map(alert -> {
-                    alert.setTreated(true);
-                    alertRepository.update(alert);
-                    return Response.ok(alert).build();
-                })
-                .orElseThrow(() -> new ResourceNotFoundException("Alert with ID " + alertId + " not found."));
+    public Alert markAlertAsTreated(@PathParam("alertId") @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = alertIdErrorMessage) String alertId) throws IncorrectRequestException, ResourceNotFoundException {
+        Alert alert = alertRepository.findByAlertId(new ObjectId(alertId));
+        if (alert == null) {
+            throw new ResourceNotFoundException("Alert with ID " + alertId + " not found.");
+        }
+        alert.setTreated(true);
+        alertRepository.update(alert);
+        return alert;
     }
 
     @GET
