@@ -9,9 +9,10 @@ export default function Register() {
 
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
+    const [emergencyContactPhoneNumber, setEmergencyContactPhoneNumber] = useState('');
     const [gender, setGender] = useState('');
 
-    const isFormValid = firstname && lastname && gender;
+    const isFormValid = firstname && lastname && gender && /^\d{10}$/.test(emergencyContactPhoneNumber);
 
     const mutation = useMutation({
         mutationFn: (patient: PatientDTO) => {
@@ -27,7 +28,7 @@ export default function Register() {
     });
 
     const submitRegistration = () => {
-        const patient : PatientDTO= { firstname, lastname, gender };
+        const patient : PatientDTO= { firstname, lastname, emergencyContactPhoneNumber, gender };
 
         mutation.mutate(patient);
     }
@@ -50,6 +51,15 @@ export default function Register() {
                     value={lastname}
                     onChange={(e) => setLastname(e.target.value)}
                     required
+                />
+                <TextField
+                    label="Phone Number"
+                    value={emergencyContactPhoneNumber}
+                    onChange={(e) => setEmergencyContactPhoneNumber(e.target.value)}
+                    required
+                    inputProps={{ maxLength: 10, pattern: "\\d{10}", inputMode: "numeric" }}
+                    error={emergencyContactPhoneNumber.length !== 10 || /\D/.test(emergencyContactPhoneNumber)}
+                    helperText={emergencyContactPhoneNumber.length !== 10 ? "Phone number must be exactly 10 digits" : /\D/.test(emergencyContactPhoneNumber) ? "Phone number must contain only digits" : ""}
                 />
                 <TextField
                     select

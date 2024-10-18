@@ -1,8 +1,7 @@
 package fr.etu.polytech.dto;
-import fr.etu.polytech.entity.Severity;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.Date;
 
@@ -26,6 +25,7 @@ public record AlertDTO(
         int value,
 
         @NotNull(message = "Severity must not be null")
-        Severity severity
+        @Pattern(regexp = "LOW|MEDIUM|INFO|WARNING|CRITICAL", message = "Invalid severity value")
+        String severity
 ) {}
 

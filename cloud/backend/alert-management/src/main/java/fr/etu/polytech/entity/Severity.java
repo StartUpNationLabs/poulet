@@ -5,5 +5,14 @@ public enum Severity {
     MEDIUM,
     INFO,
     WARNING,
-    CRITICAL
+    CRITICAL;
+
+    public static Severity fromString(String value) {
+        for (Severity severity : Severity.values()) {
+            if (severity.name().equalsIgnoreCase(value)) {
+                return severity;
+            }
+        }
+        return null;
+    }
 }

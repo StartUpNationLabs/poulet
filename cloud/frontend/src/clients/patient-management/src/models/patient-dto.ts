@@ -38,5 +38,11 @@ export interface PatientDTO {
      * @memberof PatientDTO
      */
     'gender': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PatientDTO
+     */
+    'emergencyContactPhoneNumber': string;
 }
 

@@ -50,6 +50,11 @@ export default function SearchResult() {
         navigate(`/patient/${id}`);
     };
 
+    function formatName(name: string): string {
+        if (!name) return '';
+        return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    }
+
     return (
         <Container sx={{pt: 4}}>
             <Typography variant={"h4"} gutterBottom>
@@ -60,20 +65,22 @@ export default function SearchResult() {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>First Name</TableCell>
-                                <TableCell>Last Name</TableCell>
-                                <TableCell>Gender</TableCell>
+                                <TableCell align="center">ID</TableCell>
+                                <TableCell align="center">First Name</TableCell>
+                                <TableCell align="center">Last Name</TableCell>
+                                <TableCell align="center">Emergency contact</TableCell>
+                                <TableCell align="center">Gender</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {Array.from(patients.data).map((patient) => (
                                 <TableRow key={patient.id} hover onClick={() => handleRowClick(patient.id ?? "")}
                                           style={{cursor: 'pointer'}}>
-                                    <TableCell>{patient.id}</TableCell>
-                                    <TableCell>{patient.firstname}</TableCell>
-                                    <TableCell>{patient.lastname}</TableCell>
-                                    <TableCell>{patient.gender}</TableCell>
+                                    <TableCell align="center">{patient.id}</TableCell>
+                                    <TableCell align="center">{formatName(patient.firstname ?? "")}</TableCell>
+                                    <TableCell align="center">{formatName(patient.lastname ?? "")}</TableCell>
+                                    <TableCell align="center">{patient.emergencyContactPhoneNumber}</TableCell>
+                                    <TableCell align="center">{patient.gender}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

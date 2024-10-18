@@ -36,9 +36,6 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
                 @Tag(name = "alert", description = "Operations related to alerts")
         }
 )
-
-
-
 @Path("/alert")
 @ValidateOnExecution
 public class AlertResource {
@@ -102,7 +99,7 @@ public class AlertResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Alert  createAlert(@Valid AlertDTO alertDTO) throws IncorrectRequestException {
-        Alert alert = new Alert(alertDTO.time(),alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value(),alertDTO.severity());
+        Alert alert = new Alert(alertDTO.time(),alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(),alertDTO.value(),Severity.fromString(alertDTO.severity()));
         alertRepository.persist(alert);
         return alert;
     }
@@ -192,7 +189,7 @@ public class AlertResource {
         }
         alert.setType(alertDTO.type());
         alert.setMessage(alertDTO.message());
-        alert.setSeverity(alertDTO.severity());
+        alert.setSeverity(Severity.fromString(alertDTO.severity()));
         alert.setValue(alertDTO.value());
         alert.setModified(true);
 

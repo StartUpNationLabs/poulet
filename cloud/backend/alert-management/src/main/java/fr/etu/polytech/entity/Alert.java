@@ -19,7 +19,7 @@ import java.util.Date;
 @Setter
 public class Alert extends PanacheMongoEntity {
     @Schema(type = SchemaType.STRING, description = "Alert ID as a 24-character hexadecimal string", implementation = String.class)
-    public ObjectId alertId;
+    public ObjectId id;
     public Date time;
     public String type;
     public String message;
@@ -31,8 +31,6 @@ public class Alert extends PanacheMongoEntity {
     private Severity severity;
 
     public Alert() {
-        this.alertId = new ObjectId();
-
         //date enregistrement de l alerte
         this.timestamp = LocalDateTime.now();
         this.treated = false;

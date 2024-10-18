@@ -4,15 +4,15 @@ info:
   title: patient-management API
   version: 1.0-SNAPSHOT
 servers:
-  - url: http://localhost:8080
-    description: Auto generated value
-  - url: http://0.0.0.0:8080
-    description: Auto generated value
+- url: http://localhost:8083
+  description: Auto generated value
+- url: http://0.0.0.0:8083
+  description: Auto generated value
 paths:
   /patient:
     post:
       tags:
-        - Patient Resource
+      - Patient Resource
       requestBody:
         content:
           application/json:
@@ -28,20 +28,20 @@ paths:
   /patient/findByName:
     get:
       tags:
-        - Patient Resource
+      - Patient Resource
       parameters:
-        - name: firstname
-          in: query
-          required: true
-          schema:
-            pattern: \S
-            type: string
-        - name: lastname
-          in: query
-          required: true
-          schema:
-            pattern: \S
-            type: string
+      - name: firstname
+        in: query
+        required: true
+        schema:
+          pattern: \S
+          type: string
+      - name: lastname
+        in: query
+        required: true
+        schema:
+          pattern: \S
+          type: string
       responses:
         "200":
           description: OK
@@ -55,14 +55,14 @@ paths:
   /patient/gateway/{gatewayId}:
     get:
       tags:
-        - Patient Resource
+      - Patient Resource
       parameters:
-        - name: gatewayId
-          in: path
-          required: true
-          schema:
-            pattern: "^[0-9a-fA-F]{24}$"
-            type: string
+      - name: gatewayId
+        in: path
+        required: true
+        schema:
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
       responses:
         "200":
           description: OK
@@ -73,14 +73,14 @@ paths:
   /patient/{patientId}:
     get:
       tags:
-        - Patient Resource
+      - Patient Resource
       parameters:
-        - name: patientId
-          in: path
-          required: true
-          schema:
-            pattern: "^[0-9a-fA-F]{24}$"
-            type: string
+      - name: patientId
+        in: path
+        required: true
+        schema:
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
       responses:
         "200":
           description: OK
@@ -90,14 +90,14 @@ paths:
                 $ref: "#/components/schemas/Patient"
     delete:
       tags:
-        - Patient Resource
+      - Patient Resource
       parameters:
-        - name: patientId
-          in: path
-          required: true
-          schema:
-            pattern: "^[0-9a-fA-F]{24}$"
-            type: string
+      - name: patientId
+        in: path
+        required: true
+        schema:
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
       responses:
         "200":
           description: OK
@@ -105,9 +105,9 @@ components:
   schemas:
     Gender:
       enum:
-        - MALE
-        - FEMALE
-        - UNSPECIFIED
+      - MALE
+      - FEMALE
+      - UNSPECIFIED
       type: string
     Patient:
       type: object
@@ -118,6 +118,8 @@ components:
           type: string
         gender:
           $ref: "#/components/schemas/Gender"
+        emergencyContactPhoneNumber:
+          type: string
         gatewayId:
           description: Gateway ID as a 24-character hexadecimal string
           type: string
@@ -126,9 +128,10 @@ components:
           type: string
     PatientDTO:
       required:
-        - firstname
-        - lastname
-        - gender
+      - firstname
+      - lastname
+      - gender
+      - emergencyContactPhoneNumber
       type: object
       properties:
         firstname:
@@ -139,6 +142,9 @@ components:
           type: string
         gender:
           pattern: "^[MFU]$"
+          type: string
+        emergencyContactPhoneNumber:
+          pattern: "^[0-9]{10}$"
           type: string
   securitySchemes:
     SecurityScheme:
