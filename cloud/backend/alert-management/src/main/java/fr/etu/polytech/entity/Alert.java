@@ -1,11 +1,11 @@
 package fr.etu.polytech.entity;
 
 
+import fr.etu.polytech.enumerations.Severity;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Getter;
 import lombok.Setter;
-import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import org.bson.types.ObjectId;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;

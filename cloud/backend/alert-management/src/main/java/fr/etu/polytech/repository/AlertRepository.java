@@ -1,7 +1,7 @@
 package fr.etu.polytech.repository;
 import fr.etu.polytech.entity.Alert;
 
-import fr.etu.polytech.entity.Severity;
+import fr.etu.polytech.enumerations.Severity;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.bson.types.ObjectId;

@@ -1,8 +1,7 @@
 package fr.etu.polytech.dto;
-import fr.etu.polytech.entity.Severity;
+import fr.etu.polytech.enumerations.Severity;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 
 import java.util.Date;
 

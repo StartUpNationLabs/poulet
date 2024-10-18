@@ -2,7 +2,7 @@ package fr.etu.polytech.controller;
 
 import fr.etu.polytech.dto.AlertDTO;
 import fr.etu.polytech.entity.Alert;
-import fr.etu.polytech.entity.Severity;
+import fr.etu.polytech.enumerations.Severity;
 import fr.etu.polytech.exception.IncorrectRequestException;
 import fr.etu.polytech.exception.ResourceNotFoundException;
 import fr.etu.polytech.repository.AlertRepository;
