@@ -1,0 +1,20 @@
+groups:
+- name: heartrate-alerts
+  rules:
+  - alert: HighHeartRate
+    expr: heartrate > 100
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High Heart Rate Alert"
+      description: "Heart rate is above 100 bpm."
+      
+  - alert: LowHeartRate
+    expr: heartrate < 50
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Low Heart Rate Alert"
+      description: "Heart rate is below 50 bpm."

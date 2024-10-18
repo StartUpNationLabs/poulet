@@ -1,0 +1,20 @@
+groups:
+- name: temperature-alerts
+  rules:
+  - alert: HighTemperature
+    expr: temperature > 40
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High Temperature Alert"
+      description: "Temperature is above 40°C."
+      
+  - alert: LowTemperature
+    expr: temperature < 35
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Low Temperature Alert"
+      description: "Temperature is below 35°C."
