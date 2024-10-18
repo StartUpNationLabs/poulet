@@ -21,11 +21,66 @@ prometheus:
           - path: /
             pathType: ImplementationSpecific
     tls: [ ]
+  alertmanager:
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
+  kube-state-metrics:
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
+  prometheus-node-exporter:
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
+  prometheus-pushgateway:
+    enabled: false
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
+  server:
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
+    persistentVolume:
+      size: 1Gi
+
+    extraArgs:
+      web.enable-remote-write-receiver: null
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
 
 
+  configmapReload:
+    prometheus:
+      resources:
+        requests:
+          memory: "100Mi"
+          cpu: "200m"
+        limits:
+          memory: "400Mi"
+          cpu: "400m"
 keycloak:
   enabled: true
   ingress:
