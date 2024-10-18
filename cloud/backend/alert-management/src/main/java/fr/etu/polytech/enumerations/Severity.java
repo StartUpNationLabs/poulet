@@ -1,4 +1,4 @@
-package fr.etu.polytech.entity;
+package fr.etu.polytech.enumerations;
 
 public enum Severity {
     LOW,

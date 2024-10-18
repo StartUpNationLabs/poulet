@@ -13,7 +13,7 @@ alerting:
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
-- "health_alert.yml"
+- "rules/health_alert.yml"
 # - "first_rules.yml"
 # - "second_rules.yml"
 
@@ -26,5 +26,5 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
-    # static_configs:
-    #   - targets: ["localhost:9090"]
+    static_configs:
+       - targets: ["adapter:8081"]

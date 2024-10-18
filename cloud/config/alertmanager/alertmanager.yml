@@ -1,20 +1,7 @@
-global:
-  resolve_timeout: 5m
-
 route:
-  group_by: ['alertname']
-  group_wait: 10s
-  group_interval: 1m
-  repeat_interval: 3s
-  receiver: 'email_notifications'
+  receiver: 'webhook_receiver'
 
 receivers:
-- name: 'email_notifications'
-  email_configs:
-  - to: '{{ env "SMTP_USERNAME_TO" }}'
-    from: '{{ env "SMTP_USERNAME_FROM" }}'
-    smarthost: 'smtp.gmail.com:587'
-    auth_username: '{{ env "SMTP_USERNAME" }}'
-    auth_password: '{{ env "SMTP_PASSWORD" }}'
-    require_tls: true
-service alertmanager restart
+  - name: 'webhook_receiver'
+    webhook_configs:
+      - url: 'http://adapter:8082/alert'

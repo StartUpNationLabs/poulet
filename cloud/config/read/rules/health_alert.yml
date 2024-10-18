@@ -1,0 +1,20 @@
+groups:
+  - name: sensor_alerts
+    rules:
+      - alert: HighTemperature
+        expr: temperature_metric > 40
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High temperature detected"
+          description: "The temperature has been above 40°C for more than 1 minute."
+
+      - alert: LowHeartrate
+        expr: heartrate_metric < 60
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low heart rate detected"
+          description: "The heart rate has been below 60 for more than 1 minute."
