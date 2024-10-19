@@ -1,11 +1,16 @@
-groups:
+groups: 
 - name: acceleration-alerts
   rules:
   - alert: HighAcceleration
-    expr: acceleration > 80
-    for: 5m
+    expr: acceleration > 1
+    for: 30s
     labels:
-      severity: warning
+      severity: "WARNING"
+      type: "ACCELERATION"
+      gatewayId: "example-gateway-id"
+      value: "{{ $value | int }}" 
     annotations:
       summary: "High Acceleration Alert"
       description: "Acceleration exceeds 80 units."
+      message: "Current acceleration value: {{ $value }}"
+      time: "{{ .StartsAt }}"

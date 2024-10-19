@@ -3,18 +3,30 @@ groups:
   rules:
   - alert: HighTemperature
     expr: temperature > 40
-    for: 5m
+    for: 30s
     labels:
-      severity: warning
+      severity: "WARNING"  
+      type: "TEMPERATURE"   
+      gatewayId: "example-gateway-id" 
+      value: "{{ $value | int }}"  
+
     annotations:
       summary: "High Temperature Alert"
       description: "Temperature is above 40°C."
-      
+      message: "Current temperature value: {{ $value }}" 
+      time: "{{ .StartsAt }}"  
+
   - alert: LowTemperature
     expr: temperature < 35
     for: 5m
     labels:
-      severity: warning
+      severity: "WARNING" 
+      type: "TEMPERATURE"  
+      gatewayId: "example-gateway-id"  
+      value: "{{ $value | int }}"  
+
     annotations:
       summary: "Low Temperature Alert"
       description: "Temperature is below 35°C."
+      message: "Current temperature value: {{ $value }}" 
+      time: "{{ .StartsAt }}" 
