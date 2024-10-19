@@ -5,6 +5,7 @@ import fr.etu.polytech.entity.Alert;
 import fr.etu.polytech.enumerations.Severity;
 import fr.etu.polytech.exception.IncorrectRequestException;
 import fr.etu.polytech.exception.ResourceNotFoundException;
+import fr.etu.polytech.mapper.AlertMapper;
 import fr.etu.polytech.repository.AlertRepository;
 import io.quarkus.scheduler.Scheduled;
 import jakarta.inject.Inject;
@@ -15,7 +16,9 @@ import jakarta.ws.rs.core.MediaType;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -103,6 +106,29 @@ public class AlertResource {
         alertRepository.persist(alert);
         return alert;
     }
+    @POST
+    @Path("/receiveAlert")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<Alert> createAlertFromManager(Map<String, Object> alertData) throws IncorrectRequestException {
+        LOGGER.info("hello post receive ");
+
+        // On suppose que alertData contient une clé "alerts" avec une liste d'alertes
+        List<Map<String, Object>> alerts = (List<Map<String, Object>>) alertData.get("alerts");
+
+        List<Alert> createdAlerts = new ArrayList<>();
+
+        for (Map<String, Object> alert : alerts) {
+            AlertDTO alertDTO = AlertMapper.toAlertDTO(alert);
+            LOGGER.info("Processing alert: " + alertDTO);
+
+            Alert alertEntity = new Alert(alertDTO.time(), alertDTO.type(), alertDTO.message(), alertDTO.gatewayId(), alertDTO.value(), Severity.fromString(alertDTO.severity()));
+            alertRepository.persist(alertEntity);
+            createdAlerts.add(alertEntity);
+        }
+
+        return createdAlerts; // Retourner la liste des alertes créées
+    }
+
 
     @PUT
     @Path("/{alertId}")

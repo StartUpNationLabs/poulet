@@ -6,26 +6,24 @@ groups:
     for: 30s
     labels:
       severity: "WARNING" 
-      type: "GLUCOSE"      
+      type: "glucose"      
       gatewayId: "example-gateway-id" 
-      value: "{{ $value | int }}" 
+      value: "{{ $value  }}" 
 
     annotations:
       summary: "High Glucose Alert"
       description: "Glucose level is above 180 mg/dL."
       message: "Current glucose value: {{ $value }}"  
-      time: "{{ .StartsAt }}" 
 
   - alert: LowGlucose
     expr: glucose < 70
     for: 30s
     labels:
       severity: "WARNING" 
-      type: "GLUCOSE"     
+      type: "glucose"     
       gatewayId: "example-gateway-id"  
-      value: "{{ $value | int }}"
+      value: "{{ $value }}"
     annotations:
       summary: "Low Glucose Alert"
       description: "Glucose level is below 70 mg/dL."
       message: "Current glucose value: {{ $value }}"  
-      time: "{{ .StartsAt }}" 

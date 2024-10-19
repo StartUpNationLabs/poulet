@@ -13,10 +13,10 @@ alerting:
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
-- "rules/temperature_alerts.yml"
-- "rules/acceleration_alerts.yml"
-- "rules/glucose_alerts.yml"
-- "rules/heartrate_alerts.yml"
+  - "rules/temperature_alerts.yml"
+  - "rules/acceleration_alerts.yml"
+  - "rules/glucose_alerts.yml"
+  - "rules/heartrate_alerts.yml"
 
 # - "first_rules.yml"
 # - "second_rules.yml"

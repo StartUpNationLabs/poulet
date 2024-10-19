@@ -27,7 +27,7 @@ public class Alert extends PanacheMongoEntity {
     public LocalDateTime timestamp;
     public boolean treated;
     public boolean modified;
-    private int value;
+    private float value;
     private Severity severity;
 
     public Alert() {
@@ -36,7 +36,7 @@ public class Alert extends PanacheMongoEntity {
         this.treated = false;
         this.modified = false;
     }
-    public Alert(Date time, String type, String message, String gatewayId, int value, Severity severity) {
+    public Alert(Date time, String type, String message, String gatewayId, float value, Severity severity) {
         this();
         this.time = time;
         this.type = type;

@@ -22,7 +22,7 @@ public record AlertDTO(
         @NotEmpty(message = "Gateway ID must not be empty")
         String gatewayId,
 
-        int value,
+        float value,
 
         @NotNull(message = "Severity must not be null")
         @Pattern(regexp = "LOW|MEDIUM|INFO|WARNING|CRITICAL", message = "Invalid severity value")

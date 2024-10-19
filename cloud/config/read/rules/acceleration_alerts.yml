@@ -6,11 +6,10 @@ groups:
     for: 30s
     labels:
       severity: "WARNING"
-      type: "ACCELERATION"
+      type: "acceleration"
       gatewayId: "example-gateway-id"
-      value: "{{ $value | int }}" 
+      value: "{{ $value }}" 
     annotations:
       summary: "High Acceleration Alert"
       description: "Acceleration exceeds 80 units."
       message: "Current acceleration value: {{ $value }}"
-      time: "{{ .StartsAt }}"
