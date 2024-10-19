@@ -112,7 +112,6 @@ public class AlertResource {
     public List<Alert> createAlertFromManager(Map<String, Object> alertData) throws IncorrectRequestException {
         LOGGER.info("hello post receive ");
 
-        // On suppose que alertData contient une clé "alerts" avec une liste d'alertes
         List<Map<String, Object>> alerts = (List<Map<String, Object>>) alertData.get("alerts");
 
         List<Alert> createdAlerts = new ArrayList<>();
