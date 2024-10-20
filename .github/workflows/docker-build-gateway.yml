@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        application: [adapter, dataManager, AlerteDetector]
+        application: [adapter, dataManager]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
