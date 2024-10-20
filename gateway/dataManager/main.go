@@ -5,17 +5,16 @@ func main() {
     rabbitMQClient := &RabbitMQClient{}
     prometheusClient := &PrometheusClient{}
     compacter := &Compacter{}
+    downSampler := &DownSampler{}
     alerter := &Alerter{}
 
-
-    
     prometheusClient.init()
     compacter.init(prometheusClient)
-    alerter.init(compacter)
+    downSampler.init(compacter)
+    alerter.init(downSampler)
     rabbitMQClient.init(alerter)
 
-
-	rabbitMQClient.consume("sensor.clean.#")
+	rabbitMQClient.consume("sensor.#")
 
    // prometheusClient.close()
     rabbitMQClient.close()

@@ -5,6 +5,9 @@ services:
       context: ./adapter
     environment:
       - RABBITMQ_SERVER=rabbitmq:5672
+      - SERVER_PORT=8080
+    ports: 
+      - 0.0.0.0:8081:8080
     depends_on:
       - rabbitmq
     networks: 
@@ -20,6 +23,7 @@ services:
       - rabbitmq
     networks: 
       - internal
+      - poulet_internal
   
   rabbitmq:
     image: rabbitmq:management
@@ -31,3 +35,5 @@ services:
   
 networks:
   internal:
+  poulet_internal:
+    external: true

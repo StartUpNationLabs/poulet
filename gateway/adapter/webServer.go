@@ -37,7 +37,7 @@ func handleData(metric string, client *RabbitMQClient) http.HandlerFunc {
             w.WriteHeader(http.StatusOK)
             w.Write([]byte("Data received"))
 
-            var queueName string = "sensor.raw." + metric
+            var queueName string = "sensor." + metric
             client.publish(queueName, data.Value)
 
         } else {
@@ -58,8 +58,6 @@ func StartServer(client *RabbitMQClient) {
     for _, value := range metrics {
 		http.HandleFunc("/api/data/"+value, handleData(value, client))
 	}
-
-   
     serverPort := "8081"
     if os.Getenv("SERVER_PORT") != "" {
         serverPort = os.Getenv("SERVER_PORT") 

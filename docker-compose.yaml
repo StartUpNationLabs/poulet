@@ -11,6 +11,8 @@ services:
     image: prom/prometheus
     ports:
       - 9090:9090
+    networks:
+      - poulet_internal
     volumes:
       - ./cloud/config/read:/etc/prometheus
     command:
@@ -20,14 +22,20 @@ services:
     image: prom/alertmanager
     ports:
       - 9093:9093
+    networks:
+      - poulet_internal
     volumes:
       - ./cloud/config/alertmanager:/etc/alertmanager
     command:
       - --config.file=/etc/alertmanager/alertmanager.yml
+  #  env_file:
+  #    - ./cloud/config/alertmanager/.env
   grafana:
     image: grafana/grafana
     ports:
       - 3000:3000
+    networks:
+      - poulet_internal
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true #Enabled the Anonymous user no user/pass needed
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin #Activate the ROLE VIEWER as Default
@@ -37,29 +45,30 @@ services:
       - GF_SECURITY_ALLOW_EMBEDDING=true #Allow IFRAME Calls
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
       - GF_SERVE_FROM_SUB_PATH=true
-    env_file:
-      - ./cloud/config/grafana/.env
+    #env_file:
+    #  - ./cloud/config/grafana/.env
     volumes:
       - ./cloud/config/grafana/provisioning/data_sources:/etc/grafana/provisioning/datasources/
       - ./cloud/config/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards/
       - ./cloud/config/grafana/dashboards_data:/var/lib/grafana/dashboards/
       - ./cloud/config/grafana/grafana.ini:/etc/grafana/grafana.ini
-  write:
-    build:
-      context: ./gateway/batch-send
-    environment:
-      - PROMETHEUS_SERVER=http://read:9090/api/v1/write
-    depends_on:
-      - read
   mongodb:
     image: mongodb/mongodb-community-server:7.0.2-ubi8
     ports:
       - 27017:27017
+    networks:
+      - poulet_internal
   keycloak:
     ports:
       - 8081:8080
+    networks:
+      - poulet_internal
     environment:
       - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
     image: quay.io/keycloak/keycloak:26.0.0
     command: start-dev
+
+networks:
+  poulet_internal:
+    name: poulet_internal
