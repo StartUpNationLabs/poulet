@@ -1,9 +1,5 @@
-resources:
-  - bitnami-helm-repository.yaml
-  - mongodb
-  - prometheus
-  - grafana
-  - keycloak
-  - ../../cloud/backend/alert-management/manifests/base
-  - ../../cloud/backend/patient-management/manifests/base
-  - ../../gateway/manifests/base
+helmCharts:
+  - name: poulet
+    repo: https://startupnationlabs.github.io/poulet/
+    version: 0.1.0
+    namespace: default
