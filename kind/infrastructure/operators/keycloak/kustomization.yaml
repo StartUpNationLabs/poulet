@@ -1,0 +1,4 @@
+resources:
+  - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/23.0.7/kubernetes/keycloaks.k8s.keycloak.org-v1.yml
+  - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/23.0.7/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml
+  - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/23.0.7/kubernetes/kubernetes.yml

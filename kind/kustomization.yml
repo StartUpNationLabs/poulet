@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - infrastructure/flux-cd
   - infrastructure/traefik
-  - apps/al
+  - infrastructure/operators

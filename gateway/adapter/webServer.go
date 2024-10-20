@@ -58,7 +58,6 @@ func StartServer(client *RabbitMQClient) {
     for _, value := range metrics {
 		http.HandleFunc("/api/data/"+value, handleData(value, client))
 	}
-
     serverPort := "8081"
     if os.Getenv("SERVER_PORT") != "" {
         serverPort = os.Getenv("SERVER_PORT") 

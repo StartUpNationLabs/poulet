@@ -1,0 +1,21 @@
+dependencies:
+- name: grafana
+  repository: https://grafana.github.io/helm-charts
+  version: 8.5.1
+- name: keycloak
+  repository: https://charts.bitnami.com/bitnami
+  version: 24.0.0
+- name: mongodb
+  repository: https://charts.bitnami.com/bitnami
+  version: 16.0.3
+- name: prometheus
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 25.27.0
+- name: alert-management
+  repository: ""
+  version: 0.1.0
+- name: patient-management
+  repository: ""
+  version: 0.1.0
+digest: sha256:edca654172e8e087b11155e1cb5e33d6e0cb2ce056d6bfe3695f921f28564a95
+generated: "2024-10-16T13:17:38.5167069+02:00"

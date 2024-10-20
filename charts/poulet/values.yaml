@@ -1,0 +1,141 @@
+grafana:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.al.apoorva64.com
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+prometheus:
+  enabled: true
+  ingress:
+    enabled: true
+    className: ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: prometheus.al.apoorva64.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
+  alertmanager:
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
+  kube-state-metrics:
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
+  prometheus-node-exporter:
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
+  prometheus-pushgateway:
+    enabled: false
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
+  server:
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
+    persistentVolume:
+      size: 1Gi
+
+    extraArgs:
+      web.enable-remote-write-receiver: null
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+
+  configmapReload:
+    prometheus:
+      resources:
+        requests:
+          memory: "100Mi"
+          cpu: "200m"
+        limits:
+          memory: "400Mi"
+          cpu: "400m"
+keycloak:
+  enabled: true
+  ingress:
+    enabled: true
+    className: ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hostname: keycloak.al.local
+    tls: [ ]
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+mongodb:
+  enabled: true
+  auth:
+    enabled: true
+    rootPassword: root
+alert-management:
+  enabled: true
+  env:
+    DB_PASSWORD: root
+    DB_NAME: alert
+    CLIENT_ID: backend-service
+    CLIENT_SECRET: J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd
+  ingress:
+    enabled: true
+    className: ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: alert-management.al.apoorva64.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
+
+patient-management:
+  enabled: true
+  env:
+    DB_PASSWORD: root
+    DB_NAME: patient
+    CLIENT_ID: backend-service
+    CLIENT_SECRET: J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd
+  ingress:
+    enabled: true
+    className: ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: patient-management.al.apoorva64.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
