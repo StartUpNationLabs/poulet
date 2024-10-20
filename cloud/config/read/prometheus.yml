@@ -4,15 +4,20 @@ global:
   evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
 
-# Alertmanager configuration
-#alerting:
-#  alertmanagers:
-#    - static_configs:
-#        - targets:
-          # - alertmanager:9093
+#Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+           - alertmanager:9093
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
+  - "rules/temperature_alerts.yml"
+  - "rules/acceleration_alerts.yml"
+  - "rules/glucose_alerts.yml"
+  - "rules/heartrate_alerts.yml"
+
 # - "first_rules.yml"
 # - "second_rules.yml"
 
@@ -25,5 +30,5 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
-    # static_configs:
-    #   - targets: ["localhost:9090"]
+    static_configs:
+       - targets: ["adapter:8081"]

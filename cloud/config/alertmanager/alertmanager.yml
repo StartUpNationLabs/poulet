@@ -1,18 +1,8 @@
-global:
-  resolve_timeout: 5m
-
 route:
-  group_by: ['alertname']
-  group_wait: 30s
-  group_interval: 5m
-  repeat_interval: 3h
-  receiver: 'email_notifications'
+  receiver: 'webhook_receiver'
 
 receivers:
-- name: 'email_notifications'
-  email_configs:
-  - to: 'email@example.com'
-    from: 'alert@example.com'
-    smarthost: 'smtp.example.com:587'
-    auth_username: 'username'
-    auth_password: 'password'
+  - name: 'webhook_receiver'
+    webhook_configs:
+      - url: 'http://host.docker.internal:8082/alert/receiveAlert'
+

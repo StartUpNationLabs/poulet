@@ -83,6 +83,7 @@ type WriteResponse struct {
 }
 
 func (prometheusClient *PrometheusClient) Write(metric string, batch []Sample) (bool) {
+	log.Print("Sent to prometheus")
 	return prometheusClient.originWrite(&WriteRequest{
         TimeSeries: []TimeSeries{
             {

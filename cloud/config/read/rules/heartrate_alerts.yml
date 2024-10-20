@@ -1,0 +1,30 @@
+groups:
+- name: heartrate-alerts
+  rules:
+  - alert: HighHeartRate
+    expr: heartrate > 100
+    for: 30s
+    labels:
+      severity: "WARNING"  
+      type: "heartrate"  
+      gatewayId: "example-gateway-id"  
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "High Heart Rate Alert"
+      description: "Heart rate is above 100 bpm."
+      message: "Current heart rate value: {{ $value }}"  
+
+  - alert: LowHeartRate
+    expr: heartrate < 50
+    for: 30s
+    labels:
+      severity: "WARNING"  
+      type: "heartrate"  
+      gatewayId: "example-gateway-id"
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Low Heart Rate Alert"
+      description: "Heart rate is below 50 bpm."
+      message: "Current heart rate value: {{ $value }}"  

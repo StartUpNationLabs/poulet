@@ -1,0 +1,30 @@
+groups:
+- name: temperature-alerts
+  rules:
+  - alert: HighTemperature
+    expr: temperature > 40
+    for: 30s
+    labels:
+      severity: "WARNING"  
+      type: "temperature"   
+      gatewayId: "example-gateway-id" 
+      value: "{{ $value }}"  
+
+    annotations:
+      summary: "High Temperature Alert"
+      description: "Temperature is above 40°C."
+      message: "Current temperature value: {{ $value }}" 
+
+  - alert: LowTemperature
+    expr: temperature < 35
+    for: 5m
+    labels:
+      severity: "WARNING" 
+      type: "temperature"  
+      gatewayId: "example-gateway-id"  
+      value: "{{ $value }}"  
+
+    annotations:
+      summary: "Low Temperature Alert"
+      description: "Temperature is below 35°C."
+      message: "Current temperature value: {{ $value }}" 

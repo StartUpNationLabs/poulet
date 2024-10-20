@@ -1,0 +1,283 @@
+---
+openapi: 3.0.3
+info:
+  title: alert-management API
+  version: 1.0-SNAPSHOT
+servers:
+  - url: http://localhost:8082
+    description: Auto generated value
+  - url: http://0.0.0.0:8082
+    description: Auto generated value
+paths:
+  /alert:
+    get:
+      tags:
+        - Alert Resource
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            format: int32
+            type: integer
+        - name: offset
+          in: query
+          schema:
+            format: int32
+            type: integer
+        - name: severity
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+    post:
+      tags:
+        - Alert Resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertDTO"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+  /alert/deleteAll:
+    delete:
+      tags:
+        - Alert Resource
+      responses:
+        "204":
+          description: No Content
+  /alert/gateway/{gatewayId}:
+    get:
+      tags:
+        - Alert Resource
+      parameters:
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            format: int32
+            type: integer
+        - name: offset
+          in: query
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+  /alert/severity/{severity}:
+    get:
+      tags:
+        - Alert Resource
+      parameters:
+        - name: severity
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+  /alert/treated:
+    get:
+      tags:
+        - Alert Resource
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+  /alert/untreated:
+    get:
+      tags:
+        - Alert Resource
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+  /alert/{alertId}:
+    get:
+      tags:
+        - Alert Resource
+      parameters:
+        - name: alertId
+          in: path
+          required: true
+          schema:
+            pattern: "^[0-9a-fA-F]{24}$"
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+    put:
+      tags:
+        - Alert Resource
+      parameters:
+        - name: alertId
+          in: path
+          required: true
+          schema:
+            pattern: "^[0-9a-fA-F]{24}$"
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertDTO"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+    delete:
+      tags:
+        - Alert Resource
+      parameters:
+        - name: alertId
+          in: path
+          required: true
+          schema:
+            pattern: "^[0-9a-fA-F]{24}$"
+            type: string
+      responses:
+        "204":
+          description: No Content
+  /alert/{alertId}/mark-treated:
+    patch:
+      tags:
+        - Alert Resource
+      parameters:
+        - name: alertId
+          in: path
+          required: true
+          schema:
+            pattern: "^[0-9a-fA-F]{24}$"
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+components:
+  schemas:
+    Alert:
+      type: object
+      properties:
+        id:
+          description: Alert ID as a 24-character hexadecimal string
+          type: string
+        time:
+          $ref: "#/components/schemas/Date"
+        type:
+          type: string
+        message:
+          type: string
+        gatewayId:
+          type: string
+        timestamp:
+          $ref: "#/components/schemas/LocalDateTime"
+        treated:
+          type: boolean
+        modified:
+          type: boolean
+        value:
+          format: int32
+          type: integer
+        severity:
+          $ref: "#/components/schemas/Severity"
+    AlertDTO:
+      required:
+        - time
+        - type
+        - message
+        - gatewayId
+        - severity
+      type: object
+      properties:
+        time:
+          $ref: "#/components/schemas/Date"
+        type:
+          minLength: 1
+          type: string
+        message:
+          minLength: 1
+          type: string
+        gatewayId:
+          minLength: 1
+          type: string
+        value:
+          format: int32
+          type: integer
+        severity:
+          $ref: "#/components/schemas/Severity"
+    Date:
+      format: date
+      type: string
+      example: 2022-03-10
+    LocalDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10T12:15:50
+    Severity:
+      enum:
+        - LOW
+        - MEDIUM
+        - INFO
+        - WARNING
+        - CRITICAL
+      type: string
+  securitySchemes:
+    SecurityScheme:
+      type: openIdConnect
+      description: Authentication
+      openIdConnectUrl: http://localhost:8081/realms/poulet-realm/.well-known/openid-configuration
