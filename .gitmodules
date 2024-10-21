@@ -1,0 +1,3 @@
+[submodule "terraform/keycloak"]
+	path = terraform/keycloak
+	url = https://gitlab.com/Apoorva64/al-keycloak-config
