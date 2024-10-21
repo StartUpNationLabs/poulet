@@ -1,9 +1,75 @@
 grafana:
   enabled: true
+  replicas: 1
+#  extraSecretMounts:
+#    - name: auth-generic-oauth-secret-mount
+#      secretName: auth-generic-oauth-secret
+#      defaultMode: 0440
+#      mountPath: /etc/secrets/auth_generic_oauth
+#      readOnly: true
+#
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://poulet-prometheus-server
+          uid: prometheus
+          access: proxy
+          jsonData:
+            httpMethod: POST
+            manageAlerts: true
+            prometheusType: Prometheus
+            prometheusVersion: 2.44.0
+            cacheLevel: 'High'
+            disableRecordingRules: false
+            incrementalQueryOverlapWindow: 10m
+  plugins:
+    - grafana-piechart-panel
+    - grafana-worldmap-panel
+    - grafana-clock-panel
+    - grafana-simple-json-datasource
+    - grafana-kubernetes-app
+
+  grafana.ini:
+#    server:
+#      root_url: https://grafana.al.apoorva64.com/
+#    security:
+#      cookie_samesite: strict
+#    auth.generic_oauth:
+#      enabled: true
+#      auto_login: true
+#      disable_login_form: true
+#      name: "Keycloak-OAuth"
+#      allow_sign_up: true
+#      client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
+#      client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
+#      scopes: "openid profile email roles offline_access"
+#      email_attribute_path: "email"
+#      login_attribute_path: "preferred_username"
+#      name_attribute_path: "name"
+#      auth_url: "https://keycloak.al.apoorva64.com/realms/poulet-realm/protocol/openid-connect/auth"
+#      token_url: "https://keycloak.al.apoorva64.com/realms/poulet-realm/protocol/openid-connect/token"
+#      api_url: "https://keycloak.al.apoorva64.com/realms/poulet-realm/protocol/openid-connect/userinfo"
+#      allow_assign_grafana_admin: true
+#      role_attribute_path: "contains(resource_access.grafana_oauth.roles[*], 'admin') && 'admin' || contains(resource_access.grafana_oauth.roles[*], 'editor') && 'Editor' || 'Viewer'"
   ingress:
     enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      cert-manager.io/cluster-issuer: letsencrypt-prod
     hosts:
       - grafana.al.apoorva64.com
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.al.apoorva64.com
+    path: /
+    pathType: Prefix
+
+
 # This is to override the chart name.
 nameOverride: ""
 fullnameOverride: ""
@@ -64,6 +130,8 @@ prometheus:
         cpu: "400m"
     persistentVolume:
       size: 1Gi
+    retentionSize: "20GB"
+
 
     extraArgs:
       web.enable-remote-write-receiver: null
