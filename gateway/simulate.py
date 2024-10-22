@@ -3,7 +3,7 @@ import requests
 import random
 import time
 
-ADAPTER_URL = "localhost:8081"
+ADAPTER_URL = "localhost:8082"
 
 # URLs of the four endpoints
 endpoints = [

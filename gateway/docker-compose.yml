@@ -23,6 +23,8 @@ services:
       - RABBITMQ_SERVER=rabbitmq:5672
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
+      - NOTIFICATION_SERVER=http://alertmanager:9093
+      - CLIENT_INFO_SERVER=http://myserver:1234
     depends_on:
       - rabbitmq
     networks: 
