@@ -5,9 +5,11 @@ services:
       context: ./adapter
     environment:
       - RABBITMQ_SERVER=rabbitmq:5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
       - SERVER_PORT=8080
     ports: 
-      - 0.0.0.0:8081:8080
+      - 0.0.0.0:8082:8080
     depends_on:
       - rabbitmq
     networks: 
@@ -19,6 +21,8 @@ services:
     environment:
       - PROMETHEUS_SERVER=http://read:9090/api/v1/write
       - RABBITMQ_SERVER=rabbitmq:5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
     depends_on:
       - rabbitmq
     networks: 
