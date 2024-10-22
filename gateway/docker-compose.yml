@@ -8,6 +8,8 @@ services:
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
       - SERVER_PORT=8080
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
     ports: 
       - 0.0.0.0:8082:8080
     depends_on:
@@ -25,6 +27,8 @@ services:
       - RABBITMQ_PASSWORD=guest
       - NOTIFICATION_SERVER=http://alertmanager:9093
       - CLIENT_INFO_SERVER=http://myserver:1234
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
     depends_on:
       - rabbitmq
     networks: 
@@ -33,6 +37,8 @@ services:
   
   rabbitmq:
     image: rabbitmq:management
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
     ports: 
       - 127.0.0.1:5672:5672
       - 127.0.0.1:8080:15672
