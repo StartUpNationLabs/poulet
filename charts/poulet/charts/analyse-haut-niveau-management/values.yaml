@@ -8,7 +8,7 @@ image:
   repository: ghcr.io/startupnationlabs/poulet/patient-management
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "51f394ae86814ee4384ddd8c001d7c2980323322"
 
 imagePullSecrets: []
 nameOverride: ""
