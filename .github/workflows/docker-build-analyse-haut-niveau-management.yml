@@ -34,6 +34,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           context: cloud/backend
-          file: cloud/backend/analyse-haut-niveau-management/src/main/docker/Dockerfile.multistage
+          file: cloud/backend/Dockerfile
+          build-args: |
+            SERVICE=analyse-haut-niveau-management
           tags: ghcr.io/${{ steps.downcase.outputs.downcase }}/analyse-haut-niveau-management:${{ github.sha }}, ghcr.io/${{ steps.downcase.outputs.downcase }}/analyse-haut-niveau-management:${{ github.ref_name }}
 
