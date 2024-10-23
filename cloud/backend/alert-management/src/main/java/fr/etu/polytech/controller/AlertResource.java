@@ -125,7 +125,7 @@ public class AlertResource {
             createdAlerts.add(alertEntity);
         }
 
-        return createdAlerts; // Retourner la liste des alertes créées
+        return createdAlerts;
     }
 
 
