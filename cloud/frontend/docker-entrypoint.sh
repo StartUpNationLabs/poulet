@@ -1,7 +1,7 @@
 #!/bin/env bash
 
 # List of environment variables to include
-include_vars=("ALERT_MANAGEMENT_BASE_URL" "PATIENT_MANAGEMENT_BASE_URL")
+include_vars=("ALERT_MANAGEMENT_BASE_URL" "PATIENT_MANAGEMENT_BASE_URL" "ANALYSE_HAUT_NIVEAU_MANAGEMENT_BASE_URL")
 
 # Convert specified environment variables to JSON format
 {
