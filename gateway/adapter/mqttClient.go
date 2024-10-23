@@ -23,7 +23,7 @@ func (rabbitMQClient *RabbitMQClient) init() {
 		log.Fatal("RABBITMQ_SERVER environment variable is not set")
 		return
 	}
-	endpoint := os.Getenv("RABBITMQ_USERNAME")
+	endpoint := os.Getenv("RABBITMQ_SERVER")
   if os.Getenv("RABBITMQ_USERNAME") == "" {
 		log.Fatal("RABBITMQ_USERNAME environment variable is not set")
 		return
