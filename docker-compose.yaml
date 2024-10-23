@@ -15,6 +15,7 @@ services:
       - poulet_internal
     volumes:
       - ./cloud/config/read:/etc/prometheus
+      - /etc/localtime:/etc/localtime:ro
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-remote-write-receiver
@@ -26,6 +27,7 @@ services:
       - poulet_internal
     volumes:
       - ./cloud/config/alertmanager:/etc/alertmanager
+      - /etc/localtime:/etc/localtime:ro
     command:
       - --config.file=/etc/alertmanager/alertmanager.yml
   #  env_file:
@@ -52,13 +54,18 @@ services:
       - ./cloud/config/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards/
       - ./cloud/config/grafana/dashboards_data:/var/lib/grafana/dashboards/
       - ./cloud/config/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - /etc/localtime:/etc/localtime:ro
   mongodb:
     image: mongodb/mongodb-community-server:7.0.2-ubi8
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 27017:27017
     networks:
       - poulet_internal
   keycloak:
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 8081:8080
     networks:
