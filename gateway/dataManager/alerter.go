@@ -15,14 +15,16 @@ type Alert struct {
 	Parameter string    `json:"type"`
 	Value     float64   `json:"value"`
 	Message   string    `json:"message"`
-	GatewayID string    `json:"GatewayID"`
+	GatewayID string    `json:"gatewayId"`
 	Time      time.Time `json:"time"`
+	Severity  string    `json:"severity"`
 }
 
 type Alerter struct {
 	downSampler          *DownSampler
 	notificationEndpoint string
 	clientInfoEndpoint   string
+	gatewayID 		     string
 }
 
 func (alerter *Alerter) init(downSampler *DownSampler) {
@@ -37,6 +39,12 @@ func (alerter *Alerter) init(downSampler *DownSampler) {
 		return
 	}
 	alerter.clientInfoEndpoint = os.Getenv("CLIENT_INFO_SERVER")
+	
+	if os.Getenv("GATEWAY_ID") == "" {
+		log.Fatal("GATEWAY_ID environment variable is not set")
+		return
+	}
+	alerter.gatewayID = os.Getenv("GATEWAY_ID")
 }
 
 func (alerter *Alerter) sendSample(metric string, sample Sample) {
@@ -54,13 +62,7 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	fmt.Println(" check health ")
 	fmt.Println(" param ", param)
 	fmt.Println(" sample  ", sample)
-	/*enverr := godotenv.Load("../.env")
-	if enverr != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	var gateway = os.Getenv("GATEWAY_ID")*/
-	var gateway = "6718a80f5a4836314c945191"
+	var gateway = alerter.gatewayID
 	var phoneNumbers, err = alerter.getPhoneNumbers(gateway)
 
 	if err != nil {
@@ -95,6 +97,7 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 			Time:      sample.Time,
 			Message:   message,
 			GatewayID: gateway,
+			Severity:  "CRITICAL",
 		}
 
 		if err := alerter.sendAlerts(alert); err != nil {
@@ -112,6 +115,7 @@ func (alerter *Alerter) sendAlerts(alert Alert) error {
 	}
 
 	resp, err := http.Post(alerter.notificationEndpoint+"/alert", "application/json", bytes.NewBuffer(alertData))
+
 	if err != nil {
 		return fmt.Errorf("error sending alert to server: %v", err)
 	}
@@ -121,8 +125,7 @@ func (alerter *Alerter) sendAlerts(alert Alert) error {
 }
 
 func (alerter *Alerter) getPhoneNumbers(gatewayID string) (string, error) {
-	//resp, err := http.Get( alerter.clientInfoEndpoint + "/patient/gateway/" + gatewayID)
-	resp, err := http.Get("http://host.docker.internal:8083/patient/gateway/" + gatewayID)
+	resp, err := http.Get( alerter.clientInfoEndpoint + "/patient/gateway/" + gatewayID)
 	if err != nil {
 		return "", fmt.Errorf("error getting patient data: %v", err)
 	}
