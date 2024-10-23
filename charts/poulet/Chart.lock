@@ -17,5 +17,11 @@ dependencies:
 - name: patient-management
   repository: ""
   version: 0.1.0
-digest: sha256:edca654172e8e087b11155e1cb5e33d6e0cb2ce056d6bfe3695f921f28564a95
-generated: "2024-10-21T22:08:58.0068186+02:00"
+- name: frontend
+  repository: ""
+  version: 0.1.0
+- name: analyse-haut-niveau-management
+  repository: ""
+  version: 0.1.0
+digest: sha256:66461e8f8c171339e6ce9e75313cc470f4b7919981c2f06c1f171555e6b9fc45
+generated: "2024-10-23T17:15:07.9772466+02:00"
