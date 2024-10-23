@@ -205,6 +205,7 @@ patient-management:
     tls: [ ]
 analyse-haut-niveau-management:
   enabled: true
+  
 frontend:
   enabled: true
   ingress:

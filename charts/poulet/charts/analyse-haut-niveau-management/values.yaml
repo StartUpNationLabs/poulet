@@ -5,14 +5,14 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/startupnationlabs/poulet/patient-management
+  repository: ghcr.io/startupnationlabs/poulet/analyse-haut-niveau-management
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "c31a89e0f961fbbe204015808dd56cd8e3ba406a"
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "kpi"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -78,7 +78,7 @@ livenessProbe:
 readinessProbe:
   httpGet:
     path: /
-    port: http
+    port: http  
 
 autoscaling:
   enabled: false
