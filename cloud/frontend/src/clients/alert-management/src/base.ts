@@ -19,7 +19,18 @@ import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
-export const BASE_PATH = "http://localhost:8082".replace(/\/+$/, "");
+export let BASE_PATH = "http://localhost:8082".replace(/\/+$/, "");
+
+fetch("/env").then(
+    (response) => {
+        response.json().then((data) => {
+            BASE_PATH = data.ALERT_MANAGEMENT_BASE_URL.replace(/\/+$/, "");
+        });
+    },
+    (error) => {
+        console.error("Failed to fetch /env: ", error);
+    }
+);
 
 /**
  *

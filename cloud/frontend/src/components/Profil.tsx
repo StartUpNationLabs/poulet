@@ -147,7 +147,7 @@ export default function Profil() {
                                                 <TableRow key={alert.id}>
                                                     <TableCell align="center">{alert.severity}</TableCell>
                                                     <TableCell align="center">{alert.message}</TableCell>
-                                                    <TableCell align="center">{formatTimestamp(alert.timestamp) ?? ""}</TableCell>
+                                                    <TableCell align="center">{formatTimestamp(alert.timestamp ?? "")}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
