@@ -51,16 +51,47 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
+            - name: MONGODB_USERNAME
+              value: root
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.mongodb.existingSecret }}
+                  name: {{ .Values.mongodb.existingSecret }}
+                  {{- else }}
+                  name: {{ .Release.Name }}-mongodb-patient-secret
+                  {{- end }}
+                  key: mongodb-root-password
+            - name: MONGODB_HOST
+              {{- if .Values.mongodb.host }}
+              value: {{ .Values.mongodb.host }}
+              {{- else }}
+              value: {{ .Release.Name }}-mongodb
+              {{- end }}
             - name: DB_URL
-              value:  {{ default (printf "mongodb://root:%s@%s-mongodb" .Values.env.DB_PASSWORD .Release.Name) .Values.env.DB_URL | quote }}
+              value: mongodb://$MONGODB_USERNAME:$MONGODB_PASSWORD@$MONGODB_HOST:27017
             - name: DB_NAME
-              value: {{ .Values.env.DB_NAME | quote }}
+              value: {{ .Values.mongodb.dbName | quote }}
             - name: AUTH_SERVER_URL
-              value: {{ default (printf "http://%s-keycloak/realm/realms/poulet-realm" .Release.Name) .Values.env.AUTH_SERVER_URL | quote }}
+              value: {{ default (printf "http://%s-keycloak/realm/realms/poulet-realm" .Release.Name) .Values.keycloak.authServerUrl | quote }}
             - name: CLIENT_ID
-              value: {{ .Values.env.CLIENT_ID | quote }}
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.keycloak.existingSecret }}
+                  name: {{ .Values.keycloak.existingSecret }}
+                  {{- else }}
+                  name: {{ .Release.Name }}-keycloak-patient-secret
+                  {{- end }}
+                  key: clientId
             - name: CLIENT_SECRET
-              value: {{ .Values.env.CLIENT_SECRET | quote }}
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.keycloak.existingSecret }}
+                  name: {{ .Values.keycloak.existingSecret }}
+                  {{- else }}
+                  name: {{ .Release.Name }}-keycloak-patient-secret
+                  {{- end }}
+                  key: clientSecret
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
