@@ -1,7 +1,7 @@
-ARG SERVICE
-
 ## Stage 1 : build with maven builder image with native capabilities
 FROM quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:jdk-23 AS build
+ARG SERVICE
+
 COPY --chown=quarkus:quarkus . /code
 ## install maven with curl
 # https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
@@ -16,6 +16,8 @@ RUN mvn -B -f /code/$SERVICE/pom.xml -DskipTests clean package -Dnative
 
 ## Stage 2 : create the docker final image
 FROM quay.io/quarkus/quarkus-micro-image:2.0
+ARG SERVICE
+
 WORKDIR /work/
 COPY --from=build /code/$SERVICE/target/*-runner /work/application
 
