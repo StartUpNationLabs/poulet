@@ -69,7 +69,7 @@ spec:
               value: {{ .Release.Name }}-mongodb
               {{- end }}
             - name: DB_URL
-              value: mongodb://$MONGODB_USERNAME:$MONGODB_PASSWORD@$MONGODB_HOST:27017
+              value: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:27017
             - name: DB_NAME
               value: {{ .Values.mongodb.dbName | quote }}
             - name: AUTH_SERVER_URL
