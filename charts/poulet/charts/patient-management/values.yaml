@@ -122,9 +122,15 @@ tolerations: []
 
 affinity: {}
 
-env:
+mongodb:
   #DB_URL: mongodb://localhost:27017
-  DB_NAME: poulet
+  dbName: patient
+  auth:
+    rootPassword: root
+
 #  AUTH_SERVER_URL: http://localhost:8081/realms/poulet-realm
-  CLIENT_ID: backend-service
-  CLIENT_SECRET: J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd
+
+
+keycloak:
+  clientId: backend-service
+  clientSecret: J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd
