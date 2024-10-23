@@ -7,7 +7,7 @@ groups:
     labels:
       severity: "WARNING"
       type: "acceleration"
-      gatewayId: "example-gateway-id"
+      gatewayId: "6718fcc16adfca0b7f8f6a67"
       value: "{{ $value }}" 
     annotations:
       summary: "High Acceleration Alert"
