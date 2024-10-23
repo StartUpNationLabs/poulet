@@ -18,13 +18,13 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 2,
   "links": [],
   "panels": [
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Prometheus"
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -42,7 +42,7 @@
         "content": "## Firsst name : Marie \n## Last name : Dupont\n## Age : 78\n## Sexe : F",
         "mode": "markdown"
       },
-      "pluginVersion": "11.2.0",
+      "pluginVersion": "11.3.0",
       "title": "Client informations",
       "type": "text"
     },
@@ -131,6 +131,7 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -139,7 +140,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "heartrate",
+          "expr": "heartrate{gateway_id=\"$gatewayId\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -238,6 +239,7 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -246,7 +248,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "temperature",
+          "expr": "temperature{gateway_id=\"$gatewayId\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -345,6 +347,7 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -353,7 +356,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "acceleration",
+          "expr": "acceleration{gateway_id=\"$gatewayId\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -368,10 +371,25 @@
       "type": "timeseries"
     }
   ],
-  "schemaVersion": 39,
+  "preload": false,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "description": "gatewayId",
+        "hide": 2,
+        "label": "gatewayId",
+        "name": "gatewayId",
+        "options": [],
+        "query": "",
+        "type": "custom"
+      }
+    ]
   },
   "time": {
     "from": "now-1h",
@@ -383,6 +401,6 @@
   "timezone": "browser",
   "title": "Doctor",
   "uid": "ee114zd3cfeo0c",
-  "version": 5,
+  "version": 1,
   "weekStart": ""
 }

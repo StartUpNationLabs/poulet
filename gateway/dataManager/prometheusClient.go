@@ -42,7 +42,8 @@ type clientOptions struct {
 	httpClient *http.Client
 }
 
-func (prometheusClient *PrometheusClient) init(options ...ClientOption) {
+func (prometheusClient *PrometheusClient) init(gatewayID string) {
+	prometheusClient.gatewayID = gatewayID
 	if os.Getenv("PROMETHEUS_SERVER") == "" {
 		log.Fatal("PROMETHEUS_SERVER environment variable is not set")
 		return
@@ -60,6 +61,7 @@ func (prometheusClient *PrometheusClient) init(options ...ClientOption) {
 type PrometheusClient struct {
 	endpoint string
 	opts     *clientOptions
+	gatewayID string
 }
 
 type WriteOption func(opts *writeOptions)
@@ -93,8 +95,8 @@ func (prometheusClient *PrometheusClient) Write(metric string, batch []Sample) (
                         Value: metric,
                     },
                     {
-                        Name:  "patient_id",
-                        Value: "1",
+                        Name:  "gateway_id",
+                        Value: prometheusClient.gatewayID,
                     },
                 },
                 Sample: batch,

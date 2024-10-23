@@ -27,6 +27,7 @@ services:
       - RABBITMQ_PASSWORD=guest
       - NOTIFICATION_SERVER=http://alertmanager:9093
       - CLIENT_INFO_SERVER=http://myserver:1234
+      - GATEWAY_ID=1234
     volumes:
       - /etc/localtime:/etc/localtime:ro
     depends_on:
