@@ -1,0 +1,52 @@
+services:
+  alert-management:
+    build:
+      context: ./
+      dockerfile: ./alert-management/src/main/docker/Dockerfile.multistage
+    container_name: alert-management
+    ports:
+      - 0.0.0.0:8082:8082
+    networks:
+      - poulet_internal
+      - internal
+
+  analyse-haut-niveau-management:
+    build:
+      context: ./
+      dockerfile: ./analyse-haut-niveau-management/src/main/docker/Dockerfile.multistage
+    container_name: analyse-haut-niveau-management
+    ports:
+      - 0.0.0.0:8084:8084
+    networks:
+      - poulet_internal
+      - internal
+    environment:
+      - DB_URL=mongodb://mongodb:27017
+
+
+  patient-management:
+    build:
+      context: ./
+      dockerfile: ./patient-management/src/main/docker/Dockerfile.multistage
+    container_name: patient-management
+    ports:
+      - 0.0.0.0:8083:8083
+    networks:
+      - poulet_internal
+      - internal
+
+
+  mongodb:
+    image: mongodb/mongodb-community-server:7.0.2-ubi8
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 0.0.0.0:27017:27017
+    networks:
+      - internal
+      - poulet_internal
+
+networks:
+  internal:
+  poulet_internal:
+    external: true

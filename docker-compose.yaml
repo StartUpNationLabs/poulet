@@ -55,19 +55,11 @@ services:
       - ./cloud/config/grafana/dashboards_data:/var/lib/grafana/dashboards/
       - ./cloud/config/grafana/grafana.ini:/etc/grafana/grafana.ini
       - /etc/localtime:/etc/localtime:ro
-  mongodb:
-    image: mongodb/mongodb-community-server:7.0.2-ubi8
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-    ports:
-      - 27017:27017
-    networks:
-      - poulet_internal
   keycloak:
     volumes:
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - 8081:8080
+      - 0.0.0.0:8081:8080
     networks:
       - poulet_internal
     environment:
@@ -79,3 +71,4 @@ services:
 networks:
   poulet_internal:
     name: poulet_internal
+    external: true

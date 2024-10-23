@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"net/http"
-	"time"
 	"log"
+	"net/http"
 	"os"
+	"time"
 	//"github.com/joho/godotenv"
 )
 
@@ -20,9 +20,9 @@ type Alert struct {
 }
 
 type Alerter struct {
-	downSampler *DownSampler
+	downSampler          *DownSampler
 	notificationEndpoint string
-	clientInfoEndpoint string
+	clientInfoEndpoint   string
 }
 
 func (alerter *Alerter) init(downSampler *DownSampler) {
@@ -44,7 +44,7 @@ func (alerter *Alerter) sendSample(metric string, sample Sample) {
 	alerter.downSampler.addSample(metric, sample)
 }
 
-func SendSMS(phoneNumber, message string) {
+func SendSMS(phoneNumber string, message string) {
 	fmt.Printf("Sending SMS to %s: %s\n", phoneNumber, message)
 }
 
@@ -60,42 +60,34 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	}
 
 	var gateway = os.Getenv("GATEWAY_ID")*/
-	var gateway = "670fd29e2be2690715bd0e55"
-	fmt.Println(" id ", gateway)
+	var gateway = "6718a80f5a4836314c945191"
 	var phoneNumbers, err = alerter.getPhoneNumbers(gateway)
 
-	for _, phoneNumber := range phoneNumbers {
-		fmt.Println("Phone number: ", phoneNumber)
-	}
-	
-
-	if err == nil {
+	if err != nil {
 		fmt.Println("Error getting phone numbers:", err)
 		return false
 	}
-	
+
 	switch param {
-		case "temperature":
-			isAbnormal = sample.Value < 36.0 || sample.Value > 37.5
-			message = fmt.Sprintf("Alert! Abnormal %s: %.2f°C", param, sample.Value)
-		case "acceleration":
-			isAbnormal = sample.Value > 100
-			message = fmt.Sprintf("Alert! Abnormal %s: %.2f m/s²", param, sample.Value)
-		case "glucose":
-			isAbnormal = sample.Value < 70 || sample.Value > 140
-			message = fmt.Sprintf("Alert! Abnormal %s: %.2f mg/dL", param, sample.Value)
-		case "heartrate":
-			isAbnormal = sample.Value < 60 || sample.Value > 100
-			message = fmt.Sprintf("Alert! Abnormal %s: %.2f BPM", param, sample.Value)
-		default:
-			fmt.Println("Unknown parameter:", param)
-			return false
+	case "temperature":
+		isAbnormal = sample.Value < 36.0 || sample.Value > 37.5
+		message = fmt.Sprintf("Alert! Abnormal %s: %.2f°C", param, sample.Value)
+	case "acceleration":
+		isAbnormal = sample.Value > 100
+		message = fmt.Sprintf("Alert! Abnormal %s: %.2f m/s²", param, sample.Value)
+	case "glucose":
+		isAbnormal = sample.Value < 70 || sample.Value > 140
+		message = fmt.Sprintf("Alert! Abnormal %s: %.2f mg/dL", param, sample.Value)
+	case "heartrate":
+		isAbnormal = sample.Value < 60 || sample.Value > 100
+		message = fmt.Sprintf("Alert! Abnormal %s: %.2f BPM", param, sample.Value)
+	default:
+		fmt.Println("Unknown parameter:", param)
+		return false
 	}
 
 	if isAbnormal {
-		//for _, phoneNumber := range phoneNumbers {
-			SendSMS(phoneNumbers, message)
-		//}
+		SendSMS(phoneNumbers, message)
 
 		alert := Alert{
 			Parameter: param,
@@ -119,7 +111,7 @@ func (alerter *Alerter) sendAlerts(alert Alert) error {
 		return fmt.Errorf("error marshaling alert data: %v", err)
 	}
 
-	resp, err := http.Post(alerter.notificationEndpoint + "/alert", "application/json", bytes.NewBuffer(alertData))
+	resp, err := http.Post(alerter.notificationEndpoint+"/alert", "application/json", bytes.NewBuffer(alertData))
 	if err != nil {
 		return fmt.Errorf("error sending alert to server: %v", err)
 	}
@@ -129,21 +121,18 @@ func (alerter *Alerter) sendAlerts(alert Alert) error {
 }
 
 func (alerter *Alerter) getPhoneNumbers(gatewayID string) (string, error) {
-	fmt.Println("Phone numbers")
-	resp, err := http.Get( alerter.clientInfoEndpoint + "/patient/gateway/" + gatewayID)
+	//resp, err := http.Get( alerter.clientInfoEndpoint + "/patient/gateway/" + gatewayID)
+	resp, err := http.Get("http://host.docker.internal:8083/patient/gateway/" + gatewayID)
 	if err != nil {
 		return "", fmt.Errorf("error getting patient data: %v", err)
 	}
 	defer resp.Body.Close()
 
 	var patient struct {
-		//EmergencyContactPhoneNumber []string `json:"emergencyContactPhoneNumber"`
 		EmergencyContactPhoneNumber string `json:"emergencyContactPhoneNumber"`
 	}
 	if err := json.NewDecoder(resp.Body).Decode(&patient); err != nil {
 		return "", fmt.Errorf("error decoding patient data: %v", err)
 	}
-	fmt.Println("patient : ", patient)
-	fmt.Println("Phone numbers: ", patient.EmergencyContactPhoneNumber)
 	return patient.EmergencyContactPhoneNumber, nil
 }
