@@ -203,11 +203,11 @@ mongodb:
     rootPassword: root
 alert-management:
   enabled: true
-  env:
-    DB_PASSWORD: root
-    DB_NAME: alert
-    CLIENT_ID: backend-service
-    CLIENT_SECRET: J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd
+  mongodb:
+    dbName: patient
+  keycloak:
+    clientId: backend-service
+    clientSecret: J1jZPePtgzG4Q9ltZTHlBGKEyj93P4hd
   ingress:
     enabled: true
     className: ""
