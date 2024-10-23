@@ -74,6 +74,8 @@ spec:
               value: {{ .Values.mongodb.dbName | quote }}
             - name: AUTH_SERVER_URL
               value: {{ default (printf "http://%s-keycloak/realm/realms/poulet-realm" .Release.Name) .Values.keycloak.authServerUrl | quote }}
+            - name: PORT
+              value: {{ .Values.service.port | quote }}
             - name: CLIENT_ID
               valueFrom:
                 secretKeyRef:

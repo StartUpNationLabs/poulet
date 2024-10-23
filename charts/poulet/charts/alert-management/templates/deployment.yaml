@@ -93,6 +93,8 @@ spec:
                   name: {{ .Release.Name }}-keycloak-patient-secret
                   {{- end }}
                   key: clientSecret
+            - name: PORT
+              value: {{ .Values.service.port | quote }}
 
       {{- with .Values.volumes }}
       volumes:

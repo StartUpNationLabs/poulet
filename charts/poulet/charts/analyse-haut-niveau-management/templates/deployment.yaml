@@ -85,7 +85,8 @@ spec:
                   key: clientId
             - name: PROMETHEUS_URL
               value: {{ .Values.prometheus.url | quote }}
-
+            - name: PORT
+              value: {{ .Values.service.port | quote }}
             - name: CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
