@@ -240,3 +240,7 @@ patient-management:
           - path: /
             pathType: ImplementationSpecific
     tls: [ ]
+analyse-haut-niveau-management:
+  enabled: false
+frontend:
+  enabled: false

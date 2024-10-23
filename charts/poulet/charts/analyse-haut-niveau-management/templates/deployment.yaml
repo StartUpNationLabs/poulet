@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "analyse-haut-niveau-management.fullname" . }}
+  labels:
+    {{- include "analyse-haut-niveau-management.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "analyse-haut-niveau-management.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "analyse-haut-niveau-management.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "analyse-haut-niveau-management.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            - name: MONGODB_USERNAME
+              value: root
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.mongodb.existingSecret }}
+                  name: {{ .Values.mongodb.existingSecret }}
+                  {{- else }}
+                  name: {{ .Release.Name }}-mongodb-patient-secret
+                  {{- end }}
+                  key: mongodb-root-password
+            - name: MONGODB_HOST
+              {{- if .Values.mongodb.host }}
+              value: {{ .Values.mongodb.host }}
+              {{- else }}
+              value: {{ .Release.Name }}-mongodb
+              {{- end }}
+            - name: DB_URL
+              value: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:27017
+            - name: DB_NAME
+              value: {{ .Values.mongodb.dbName | quote }}
+            - name: AUTH_SERVER_URL
+              value: {{ default (printf "http://%s-keycloak/realm/realms/poulet-realm" .Release.Name) .Values.keycloak.authServerUrl | quote }}
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.keycloak.existingSecret }}
+                  name: {{ .Values.keycloak.existingSecret }}
+                  {{- else }}
+                  name: {{ .Release.Name }}-keycloak-patient-secret
+                  {{- end }}
+                  key: clientId
+            - name: PROMETHEUS_URL
+              value: {{ .Values.prometheus.url | quote }}
+
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.keycloak.existingSecret }}
+                  name: {{ .Values.keycloak.existingSecret }}
+                  {{- else }}
+                  name: {{ .Release.Name }}-keycloak-patient-secret
+                  {{- end }}
+                  key: clientSecret
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
