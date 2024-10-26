@@ -1,0 +1,30 @@
+groups:
+- name: glucose-predict-alerts
+  rules:
+  - alert: PredictedHighGlucose
+    expr: predict_linear(glucose[30m], 30 * 60) > 180
+    for: 1m
+    labels:
+      severity: "WARNING"
+      type: "glucose_predict"
+      gatewayId: "671aaecbbf1f103b28e58788"
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Predicted High Glucose Alert"
+      description: "Glucose level is predicted to exceed 180 mg/dL within the next 30 minutes."
+      message: "Predicted glucose value in 30 minutes: {{ $value }} mg/dL"
+
+  - alert: PredictedLowGlucose
+    expr: predict_linear(glucose[30m], 30 * 60) < 70
+    for: 1m
+    labels:
+      severity: "WARNING"
+      type: "glucose_predict"
+      gatewayId: "671aaecbbf1f103b28e58788"
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Predicted Low Glucose Alert"
+      description: "Glucose level is predicted to fall below 70 mg/dL within the next 30 minutes."
+      message: "Predicted glucose value in 30 minutes: {{ $value }} mg/dL"

@@ -1,0 +1,30 @@
+groups:
+- name: temperature-deriv-alerts
+  rules:
+  - alert: RapidIncreaseTemperature
+    expr: deriv(temperature[5m]) > 0.5
+    for: 1m
+    labels:
+      severity: "MEDIUM"
+      type: "temperature_deriv"
+      gatewayId: "671aaecbbf1f103b28e58788"
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Rapid Increase in Temperature Alert"
+      description: "The temperature is increasing rapidly (rate of change > 0.5°C per 5 minutes)."
+      message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"
+
+  - alert: RapidDecreaseTemperature
+    expr: deriv(temperature[5m]) < -0.5
+    for: 1m
+    labels:
+      severity: "MEDIUM"
+      type: "temperature_deriv"
+      gatewayId: "671aaecbbf1f103b28e58788"
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Rapid Decrease in Temperature Alert"
+      description: "The temperature is decreasing rapidly (rate of change < -0.5°C per 5 minutes)."
+      message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"

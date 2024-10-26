@@ -1,0 +1,30 @@
+groups:
+- name: heartrate-predict-alerts
+  rules:
+  - alert: PredictedHighHeartRate
+    expr: predict_linear(heartrate[5m], 10 * 60) > 100
+    for: 1m
+    labels:
+      severity: "WARNING"  
+      type: "heartrate_predict"
+      gatewayId: "671aaecbbf1f103b28e58788"  
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Predicted High Heart Rate Alert"
+      description: "The heart rate is predicted to exceed 100 bpm within the next 10 minutes."
+      message: "Predicted heart rate value in 10 minutes: {{ $value }} bpm"
+
+  - alert: PredictedLowHeartRate
+    expr: predict_linear(heartrate[5m], 10 * 60) < 50
+    for: 1m
+    labels:
+      severity: "WARNING"  
+      type: "heartrate_predict"
+      gatewayId: "671aaecbbf1f103b28e58788"  
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Predicted Low Heart Rate Alert"
+      description: "The heart rate is predicted to drop below 50 bpm within the next 10 minutes."
+      message: "Predicted heart rate value in 10 minutes: {{ $value }} bpm"
