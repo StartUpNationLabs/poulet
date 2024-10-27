@@ -1,10 +1,7 @@
 name: CI-backend
 
 on:
-  push:
-    branches:
-      - main
-      - fix-ci
+  workflow_dispatch:
 
 permissions: write-all
 
