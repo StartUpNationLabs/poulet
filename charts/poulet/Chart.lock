@@ -19,9 +19,9 @@ dependencies:
   version: 0.1.0
 - name: frontend
   repository: ""
-  version: 0.2.5
+  version: 0.2.6
 - name: analyse-haut-niveau-management
   repository: ""
   version: 0.2.0
-digest: sha256:3eafdb0fc75b1e576f7cfbe2a849f28da3a4d8b9d9eff70771b15f01c76c2dcd
-generated: "2024-10-27T15:10:43.5471256+01:00"
+digest: sha256:220182c064a58fdae93d00ce42041fcdb428409fefe93863e6b61d6a3fae97b1
+generated: "2024-10-27T15:19:43.3793138+01:00"

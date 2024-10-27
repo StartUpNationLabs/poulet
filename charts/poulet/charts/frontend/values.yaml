@@ -94,7 +94,7 @@ autoscaling:
 volumes:
   - name: frontend
     configMap:
-    name: frontend
+      name: frontend
 # - name: foo
 #   secret:
 #     secretName: mysecret
