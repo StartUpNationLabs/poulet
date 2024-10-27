@@ -95,6 +95,9 @@ volumes:
   - name: frontend
     configMap:
       name: frontend
+      items:
+          - key: env
+            path: env
 # - name: foo
 #   secret:
 #     secretName: mysecret
@@ -103,7 +106,7 @@ volumes:
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts: 
   - name: frontend
-    mountPath: /usr/share/nginx/html/env
+    mountPath: /usr/share/nginx/html
 # - name: foo
 #   mountPath: "/etc/foo"
 #   readOnly: true
