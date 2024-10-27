@@ -208,6 +208,8 @@ analyse-haut-niveau-management:
   
 frontend:
   enabled: true
+  image:
+    tag: bc3a92244aca129b8df4a9e78fad79688e415d63
   ingress:
     enabled: true
     className: ""
