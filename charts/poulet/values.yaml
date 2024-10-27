@@ -72,7 +72,7 @@ fullnameOverride: ""
 prometheus:
   enabled: true
   ingress:
-    enabled: true
+    enabled: false
     className: ""
     annotations: { }
     # kubernetes.io/ingress.class: nginx
@@ -219,6 +219,13 @@ frontend:
     hosts:
       - host: doctor.al.apoorva64.com
         paths:
+          - path: /patient 
+            pathType: Prefix
+            backend:
+              service:
+                name: poulet-patient-management
+                port:
+                  number: 8080
           - path: /
             pathType: ImplementationSpecific
     tls: [ ]
