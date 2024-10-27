@@ -3,6 +3,48 @@ entries:
   poulet:
   - apiVersion: v2
     appVersion: 0.0.3
+    created: "2024-10-27T14:40:50.524554038Z"
+    dependencies:
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 8.5.1
+    - condition: keycloak.enabled
+      name: keycloak
+      repository: https://charts.bitnami.com/bitnami
+      version: 24.0.0
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.3
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 25.27.0
+    - condition: alert-management.enabled
+      name: alert-management
+      repository: ""
+      version: 0.1.0
+    - condition: patient-management.enabled
+      name: patient-management
+      repository: ""
+      version: 0.1.0
+    - name: frontend
+      repository: ""
+      version: 0.2.8
+    - condition: analyse-haut-niveau-management.enabled
+      name: analyse-haut-niveau-management
+      repository: ""
+      version: 0.2.0
+    description: A Helm chart for Kubernetes
+    digest: c489627d702f980756176e65718c41e9af05d445a9eda49499fba6d50b271486
+    name: poulet
+    type: application
+    urls:
+    - https://github.com/StartUpNationLabs/poulet/releases/download/poulet-0.1.16/poulet-0.1.16.tgz
+    version: 0.1.16
+  - apiVersion: v2
+    appVersion: 0.0.3
     created: "2024-10-27T14:29:27.805270694Z"
     dependencies:
     - condition: grafana.enabled
@@ -1128,4 +1170,4 @@ entries:
     urls:
     - https://github.com/StartUpNationLabs/poulet/releases/download/poulet-0.0.2/poulet-0.0.2.tgz
     version: 0.0.2
-generated: "2024-10-27T14:29:27.805538948Z"
+generated: "2024-10-27T14:40:50.524740806Z"
