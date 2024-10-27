@@ -230,6 +230,20 @@ frontend:
                 name: poulet-patient-management
                 port:
                   number: 8080
+          - path: /alert 
+            pathType: Prefix
+            backend:
+              service:
+                name: poulet-alert-management
+                port:
+                  number: 8080
+          - path: /metrics 
+            pathType: Prefix
+            backend:
+              service:
+                name: poulet-analyse-haut-niveau-management
+                port:
+                  number: 8080
           - path: /
             pathType: ImplementationSpecific
     tls: [ ]
