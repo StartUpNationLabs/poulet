@@ -246,6 +246,11 @@ frontend:
                   number: 8080
           - path: /
             pathType: ImplementationSpecific
+            backend:
+              service:
+                name: poulet-frontend
+                port:
+                  number: 80
     tls: [ ]
   resources:
     limits:
