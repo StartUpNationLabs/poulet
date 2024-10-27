@@ -21,7 +21,7 @@ import globalAxios from 'axios';
 
 export let BASE_PATH = "http://localhost:8083".replace(/\/+$/, "");
 
-fetch("/config/env.json").then(
+fetch("/env").then(
     (response) => {
         response.json().then((data) => {
             BASE_PATH = data.PATIENT_MANAGEMENT_BASE_URL.replace(/\/+$/, "");

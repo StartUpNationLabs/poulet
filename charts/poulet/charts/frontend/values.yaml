@@ -103,8 +103,7 @@ volumes:
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts: 
   - name: frontend
-    mountPath: /usr/share/nginx/html/config
-    subPath: env.json
+    mountPath: /usr/share/nginx/html/env
 # - name: foo
 #   mountPath: "/etc/foo"
 #   readOnly: true
