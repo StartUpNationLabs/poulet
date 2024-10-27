@@ -209,7 +209,7 @@ analyse-haut-niveau-management:
 frontend:
   enabled: true
   image:
-    tag: 52b26b7f92b5013b6a4904be211d1005e4ef809c
+    tag: d3f56ce96f79024747787edfa299b5de9f0b5ac5
   ingress:
     enabled: true
     className: ""
