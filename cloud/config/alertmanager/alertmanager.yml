@@ -4,5 +4,6 @@ route:
 receivers:
   - name: 'webhook_receiver'
     webhook_configs:
-      - url: 'http://host.docker.internal:8086/alert/receiveAlert'
+      - url: 'http://alert-management:8082/alert/receiveAlert'
+
 

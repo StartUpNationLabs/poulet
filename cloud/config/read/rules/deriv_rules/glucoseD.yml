@@ -1,0 +1,30 @@
+groups:
+- name: glucose-deriv-alerts
+  rules:
+  - alert: RapidIncreaseGlucose
+    expr: deriv(glucose[5m]) > 10
+    for: 1m
+    labels:
+      severity: "MEDIUM"
+      type: "glucose_deriv"
+      gatewayId: "671aaecbbf1f103b28e58788"
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Rapid Increase in Glucose Alert"
+      description: "The glucose level is increasing rapidly (rate of change > 10 mg/dL per 5 minutes)."
+      message: "Current rate of glucose change: {{ $value }} mg/dL per 5 minutes"
+
+  - alert: RapidDecreaseGlucose
+    expr: deriv(glucose[5m]) < -10
+    for: 1m
+    labels:
+      severity: "MEDIUM"
+      type: "glucose_deriv"
+      gatewayId: "671aaecbbf1f103b28e58788"
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Rapid Decrease in Glucose Alert"
+      description: "The glucose level is decreasing rapidly (rate of change < -10 mg/dL per 5 minutes)."
+      message: "Current rate of glucose change: {{ $value }} mg/dL per 5 minutes"

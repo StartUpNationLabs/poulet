@@ -25,20 +25,28 @@ public class KpiService {
 
 
 
-    public JsonObject calculateKpis(String start, String end) {
+    public JsonObject calculateKpis(String start, String end, String gatewayId, String step) {
         JsonObject kpis = new JsonObject();
+        log.info("Calculating KPIs for gateway " + gatewayId + " between" + start + " and " + end + " with step " + step);
 
-        kpis.put("averageAcceleration",calculateMetricsForRange("acceleration", start, end));
-        kpis.put("averageHeartRate", calculateMetricsForRange("heartrate", start, end));
-        kpis.put("averageTemperature", calculateMetricsForRange("temperature", start, end));
-        kpis.put("averageGlucose", calculateMetricsForRange("glucose", start, end));
+        kpis.put("averageAcceleration",calculateMetricsForRange("acceleration", start, end, gatewayId, step));
+        kpis.put("averageHeartRate", calculateMetricsForRange("heartrate", start, end, gatewayId, step));
+        kpis.put("averageTemperature", calculateMetricsForRange("temperature", start, end, gatewayId, step));
+        kpis.put("averageGlucose", calculateMetricsForRange("glucose", start, end, gatewayId, step));
 
         return kpis;
     }
 
-    private JsonObject  calculateMetricsForRange(String metricName, String start, String end) {
-        String step = "120s";
-        Response response = prometheusService.queryMetric(metricName, start, end, step);
+    private JsonObject  calculateMetricsForRange(String metricName, String start, String end, String gatewayId, String step) {
+        if (step != null) {
+            step = "120s";
+        }
+
+        String query = metricName + "{gateway_id=\"" + gatewayId + "\"}";
+
+        log.info("Querying Prometheus for metric " + query + " between " + start + " and " + end + " with step " + step);
+
+        Response response = prometheusService.queryMetric(query, start, end, step);
         JsonObject result = new JsonObject(response.readEntity(String.class));
 
 

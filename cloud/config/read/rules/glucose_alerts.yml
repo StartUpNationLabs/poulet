@@ -7,7 +7,7 @@ groups:
     labels:
       severity: "WARNING" 
       type: "glucose"      
-      gatewayId: "example-gateway-id" 
+      gatewayId: "671aaecbbf1f103b28e58788" 
       value: "{{ $value  }}" 
 
     annotations:
@@ -21,7 +21,7 @@ groups:
     labels:
       severity: "WARNING" 
       type: "glucose"     
-      gatewayId: "e6718fcc16adfca0b7f8f6a67"  
+      gatewayId: "671aaecbbf1f103b28e58788"  
       value: "{{ $value }}"
     annotations:
       summary: "Low Glucose Alert"

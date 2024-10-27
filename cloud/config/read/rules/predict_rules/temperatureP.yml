@@ -1,0 +1,30 @@
+groups:
+- name: temperature-predict-alerts
+  rules:
+  - alert: PredictedHighTemperature
+    expr: predict_linear(temperature[5m], 10 * 60) > 40
+    for: 1m
+    labels:
+      severity: "WARNING"  
+      type: "temperature_predict"
+      gatewayId: "671aaecbbf1f103b28e58788"  
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Predicted High Temperature Alert"
+      description: "The temperature is predicted to exceed 40°C within the next 10 minutes."
+      message: "Predicted temperature value in 10 minutes: {{ $value }}°C"
+
+  - alert: PredictedLowTemperature
+    expr: predict_linear(temperature[5m], 10 * 60) < 35
+    for: 1m
+    labels:
+      severity: "WARNING"  
+      type: "temperature_predict"
+      gatewayId: "671aaecbbf1f103b28e58788"  
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Predicted Low Temperature Alert"
+      description: "The temperature is predicted to drop below 35°C within the next 10 minutes."
+      message: "Predicted temperature value in 10 minutes: {{ $value }}°C"

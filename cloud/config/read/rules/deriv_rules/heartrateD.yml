@@ -1,0 +1,30 @@
+groups:
+- name: heartrate-deriv-alerts
+  rules:
+  - alert: RapidIncreaseHeartRate
+    expr: deriv(heartrate[5m]) > 15
+    for: 1m
+    labels:
+      severity: "MEDIUM"
+      type: "heartrate_deriv"
+      gatewayId: "671aaecbbf1f103b28e58788"
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Rapid Increase in Heart Rate Alert"
+      description: "The heart rate is increasing rapidly (rate of change > 15 bpm per 5 minutes)."
+      message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
+
+  - alert: RapidDecreaseHeartRate
+    expr: deriv(heartrate[5m]) < -15
+    for: 1m
+    labels:
+      severity: "HIGH"
+      type: "heartrate_deriv"
+      gatewayId: "671aaecbbf1f103b28e58788"
+      value: "{{ $value }}"
+
+    annotations:
+      summary: "Rapid Decrease in Heart Rate Alert"
+      description: "The heart rate is decreasing rapidly (rate of change < -15 bpm per 5 minutes)."
+      message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"

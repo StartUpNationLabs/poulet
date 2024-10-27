@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"net/http"
-	"time"
 	"log"
+	"net/http"
 	"os"
+	"time"
 	//"github.com/joho/godotenv"
 )
 
@@ -15,14 +15,16 @@ type Alert struct {
 	Parameter string    `json:"type"`
 	Value     float64   `json:"value"`
 	Message   string    `json:"message"`
-	GatewayID string    `json:"GatewayID"`
+	GatewayID string    `json:"gatewayId"`
 	Time      time.Time `json:"time"`
+	Severity  string    `json:"severity"`
 }
 
 type Alerter struct {
-	downSampler *DownSampler
+	downSampler          *DownSampler
 	notificationEndpoint string
-	clientInfoEndpoint string
+	clientInfoEndpoint   string
+	gatewayID 		     string
 }
 
 func (alerter *Alerter) init(downSampler *DownSampler) {
@@ -37,6 +39,12 @@ func (alerter *Alerter) init(downSampler *DownSampler) {
 		return
 	}
 	alerter.clientInfoEndpoint = os.Getenv("CLIENT_INFO_SERVER")
+	
+	if os.Getenv("GATEWAY_ID") == "" {
+		log.Fatal("GATEWAY_ID environment variable is not set")
+		return
+	}
+	alerter.gatewayID = os.Getenv("GATEWAY_ID")
 }
 
 func (alerter *Alerter) sendSample(metric string, sample Sample) {
@@ -44,7 +52,7 @@ func (alerter *Alerter) sendSample(metric string, sample Sample) {
 	alerter.downSampler.addSample(metric, sample)
 }
 
-func SendSMS(phoneNumber, message string) {
+func SendSMS(phoneNumber string, message string) {
 	fmt.Printf("Sending SMS to %s: %s\n", phoneNumber, message)
 }
 
@@ -54,48 +62,34 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	fmt.Println(" check health ")
 	fmt.Println(" param ", param)
 	fmt.Println(" sample  ", sample)
-	/*enverr := godotenv.Load("../.env")
-	if enverr != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	var gateway = os.Getenv("GATEWAY_ID")*/
-	var gateway = "670fd29e2be2690715bd0e55"
-	fmt.Println(" id ", gateway)
+	var gateway = alerter.gatewayID
 	var phoneNumbers, err = alerter.getPhoneNumbers(gateway)
 
-	for _, phoneNumber := range phoneNumbers {
-		fmt.Println("Phone number: ", phoneNumber)
-	}
-	
-
-	if err == nil {
+	if err != nil {
 		fmt.Println("Error getting phone numbers:", err)
 		return false
 	}
-	
+
 	switch param {
-		case "temperature":
-			isAbnormal = sample.Value < 36.0 || sample.Value > 37.5
-			message = fmt.Sprintf("Alert! Abnormal %s: %.2f°C", param, sample.Value)
-		case "acceleration":
-			isAbnormal = sample.Value > 100
-			message = fmt.Sprintf("Alert! Abnormal %s: %.2f m/s²", param, sample.Value)
-		case "glucose":
-			isAbnormal = sample.Value < 70 || sample.Value > 140
-			message = fmt.Sprintf("Alert! Abnormal %s: %.2f mg/dL", param, sample.Value)
-		case "heartrate":
-			isAbnormal = sample.Value < 60 || sample.Value > 100
-			message = fmt.Sprintf("Alert! Abnormal %s: %.2f BPM", param, sample.Value)
-		default:
-			fmt.Println("Unknown parameter:", param)
-			return false
+	case "temperature":
+		isAbnormal = sample.Value < 36.0 || sample.Value > 37.5
+		message = fmt.Sprintf("Alert! Abnormal %s: %.2f°C", param, sample.Value)
+	case "acceleration":
+		isAbnormal = sample.Value > 100
+		message = fmt.Sprintf("Alert! Abnormal %s: %.2f m/s²", param, sample.Value)
+	case "glucose":
+		isAbnormal = sample.Value < 70 || sample.Value > 140
+		message = fmt.Sprintf("Alert! Abnormal %s: %.2f mg/dL", param, sample.Value)
+	case "heartrate":
+		isAbnormal = sample.Value < 60 || sample.Value > 100
+		message = fmt.Sprintf("Alert! Abnormal %s: %.2f BPM", param, sample.Value)
+	default:
+		fmt.Println("Unknown parameter:", param)
+		return false
 	}
 
 	if isAbnormal {
-		//for _, phoneNumber := range phoneNumbers {
-			SendSMS(phoneNumbers, message)
-		//}
+		SendSMS(phoneNumbers, message)
 
 		alert := Alert{
 			Parameter: param,
@@ -103,6 +97,7 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 			Time:      sample.Time,
 			Message:   message,
 			GatewayID: gateway,
+			Severity:  "CRITICAL",
 		}
 
 		if err := alerter.sendAlerts(alert); err != nil {
@@ -119,7 +114,8 @@ func (alerter *Alerter) sendAlerts(alert Alert) error {
 		return fmt.Errorf("error marshaling alert data: %v", err)
 	}
 
-	resp, err := http.Post(alerter.notificationEndpoint + "/alert", "application/json", bytes.NewBuffer(alertData))
+	resp, err := http.Post(alerter.notificationEndpoint+"/alert", "application/json", bytes.NewBuffer(alertData))
+
 	if err != nil {
 		return fmt.Errorf("error sending alert to server: %v", err)
 	}
@@ -129,7 +125,6 @@ func (alerter *Alerter) sendAlerts(alert Alert) error {
 }
 
 func (alerter *Alerter) getPhoneNumbers(gatewayID string) (string, error) {
-	fmt.Println("Phone numbers")
 	resp, err := http.Get( alerter.clientInfoEndpoint + "/patient/gateway/" + gatewayID)
 	if err != nil {
 		return "", fmt.Errorf("error getting patient data: %v", err)
@@ -137,13 +132,10 @@ func (alerter *Alerter) getPhoneNumbers(gatewayID string) (string, error) {
 	defer resp.Body.Close()
 
 	var patient struct {
-		//EmergencyContactPhoneNumber []string `json:"emergencyContactPhoneNumber"`
 		EmergencyContactPhoneNumber string `json:"emergencyContactPhoneNumber"`
 	}
 	if err := json.NewDecoder(resp.Body).Decode(&patient); err != nil {
 		return "", fmt.Errorf("error decoding patient data: %v", err)
 	}
-	fmt.Println("patient : ", patient)
-	fmt.Println("Phone numbers: ", patient.EmergencyContactPhoneNumber)
 	return patient.EmergencyContactPhoneNumber, nil
 }

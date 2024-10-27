@@ -11,7 +11,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
     ports: 
-      - 0.0.0.0:8082:8080
+      - 0.0.0.0:8088:8080
     depends_on:
       - rabbitmq
     networks: 
@@ -25,9 +25,9 @@ services:
       - RABBITMQ_SERVER=rabbitmq:5672
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
-      - NOTIFICATION_SERVER=http://alertmanager:9093
-      - CLIENT_INFO_SERVER=http://myserver:1234
-      - GATEWAY_ID=1234
+      - NOTIFICATION_SERVER=http://alert-management:8082
+      - CLIENT_INFO_SERVER=http://patient-management:8083
+      - GATEWAY_ID=671954d2490bd363cd077544
     volumes:
       - /etc/localtime:/etc/localtime:ro
     depends_on:
