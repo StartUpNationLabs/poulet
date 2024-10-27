@@ -1,4 +1,4 @@
-name: CI-backend
+name: Alert management
 
 on:
   workflow_dispatch:

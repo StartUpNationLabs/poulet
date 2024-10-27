@@ -1,4 +1,4 @@
-name: CI-backend
+name: Analyse haut niveau
 
 on:
   workflow_dispatch:

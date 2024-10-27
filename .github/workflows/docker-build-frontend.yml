@@ -1,4 +1,4 @@
-name: PACKAGE-frontend
+name: Frontend
 
 on:
   push:

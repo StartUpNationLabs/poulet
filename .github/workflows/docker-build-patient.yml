@@ -1,5 +1,4 @@
-name: CI-backend
-
+name: Patient
 on:
   workflow_dispatch:
 
