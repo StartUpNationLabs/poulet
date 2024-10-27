@@ -210,6 +210,13 @@ frontend:
   enabled: true
   image:
     tag: d3f56ce96f79024747787edfa299b5de9f0b5ac5
+  env:
+    - name: ALERT_MANAGEMENT_BASE_URL               
+      value: "http://doctor.al.apoorva64.com"
+    - name: PATIENT_MANAGEMENT_BASE_URL              
+      value: "http://doctor.al.apoorva64.com"
+    - name: ANALYSE_HAUT_NIVEAU_MANAGEMENT_BASE_URL               
+      value: "http://doctor.al.apoorva64.com"
   ingress:
     enabled: true
     className: ""
