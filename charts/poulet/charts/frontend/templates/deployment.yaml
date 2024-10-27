@@ -50,16 +50,10 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
-            - name: frontend
-              mountPath: /usr/share/nginx/html/config
-              subPath: env.json
             {{- toYaml . | nindent 12 }}
           {{- end }}
       {{- with .Values.volumes }}
       volumes:
-        - name: frontend
-          configMap:
-            name: frontend
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.nodeSelector }}
