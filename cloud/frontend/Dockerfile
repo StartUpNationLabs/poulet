@@ -16,9 +16,5 @@ RUN apt-get update && apt-get install -y gettext-base && rm -rf /var/lib/apt/lis
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
-
 EXPOSE 80
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
