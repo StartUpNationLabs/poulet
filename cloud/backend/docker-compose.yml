@@ -4,6 +4,8 @@ services:
       context: ./
       dockerfile: ./alert-management/src/main/docker/Dockerfile.multistage
     container_name: alert-management
+    environment:
+      - DB_URL=mongodb://mongodb:27017
     ports:
       - 0.0.0.0:8082:8082
     networks:
@@ -15,13 +17,13 @@ services:
       context: ./
       dockerfile: ./analyse-haut-niveau-management/src/main/docker/Dockerfile.multistage
     container_name: analyse-haut-niveau-management
+    environment:
+      - DB_URL=mongodb://mongodb:27017
     ports:
       - 0.0.0.0:8084:8084
     networks:
       - poulet_internal
       - internal
-    environment:
-      - DB_URL=mongodb://mongodb:27017
 
 
   patient-management:
@@ -29,6 +31,8 @@ services:
       context: ./
       dockerfile: ./patient-management/src/main/docker/Dockerfile.multistage
     container_name: patient-management
+    environment:
+      - DB_URL=mongodb://mongodb:27017
     ports:
       - 0.0.0.0:8083:8083
     networks:
