@@ -5,7 +5,7 @@ import Register from "./components/Register.tsx";
 import Search from "./components/Search.tsx";
 import SearchResult from "./components/Search-results.tsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import Profil from "./components/Profil.tsx";
+import Profil from "./components/profil/Profil.tsx";
 
 function App() {
     const queryClient = new QueryClient();

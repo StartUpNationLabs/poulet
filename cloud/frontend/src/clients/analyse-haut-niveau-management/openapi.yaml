@@ -4,24 +4,44 @@ info:
   title: analyse-haut-niveau-management API
   version: 1.0.0-SNAPSHOT
 servers:
-  - url: http://localhost:8084
-    description: Auto generated value
-  - url: http://0.0.0.0:8084
-    description: Auto generated value
+- url: http://localhost:8084
+  description: Auto generated value
+- url: http://0.0.0.0:8084
+  description: Auto generated value
 paths:
   /metrics/kpis:
     get:
       tags:
-        - Metrics Resource
+      - Metrics Resource
       parameters:
-        - name: end
-          in: query
-          schema:
-            type: string
-        - name: start
-          in: query
-          schema:
-            type: string
+      - name: end
+        in: query
+        schema:
+          type: string
+      - name: gatewayId
+        in: query
+        schema:
+          type: string
+      - name: start
+        in: query
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonObject"
+  /metrics/today:
+    get:
+      tags:
+      - Metrics Resource
+      parameters:
+      - name: gatewayId
+        in: query
+        schema:
+          type: string
       responses:
         "200":
           description: OK

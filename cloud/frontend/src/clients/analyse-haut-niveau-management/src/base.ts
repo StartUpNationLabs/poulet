@@ -31,7 +31,6 @@ fetch("/env").then(
         console.error("Failed to fetch /env: ", error);
     }
 );
-
 /**
  *
  * @export

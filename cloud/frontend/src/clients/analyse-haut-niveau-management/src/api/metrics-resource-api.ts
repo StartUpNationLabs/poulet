@@ -32,11 +32,12 @@ export const MetricsResourceApiAxiosParamCreator = function (configuration?: Con
         /**
          * 
          * @param {string} [end] 
+         * @param {string} [gatewayId] 
          * @param {string} [start] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        metricsKpisGet: async (end?: string, start?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        metricsKpisGet: async (end?: string, gatewayId?: string, start?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/metrics/kpis`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -53,8 +54,46 @@ export const MetricsResourceApiAxiosParamCreator = function (configuration?: Con
                 localVarQueryParameter['end'] = end;
             }
 
+            if (gatewayId !== undefined) {
+                localVarQueryParameter['gatewayId'] = gatewayId;
+            }
+
             if (start !== undefined) {
                 localVarQueryParameter['start'] = start;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [gatewayId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        metricsTodayGet: async (gatewayId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/metrics/today`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (gatewayId !== undefined) {
+                localVarQueryParameter['gatewayId'] = gatewayId;
             }
 
 
@@ -81,14 +120,27 @@ export const MetricsResourceApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} [end] 
+         * @param {string} [gatewayId] 
          * @param {string} [start] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async metricsKpisGet(end?: string, start?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<JsonObjectInner>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metricsKpisGet(end, start, options);
+        async metricsKpisGet(end?: string, gatewayId?: string, start?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<JsonObjectInner>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.metricsKpisGet(end, gatewayId, start, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MetricsResourceApi.metricsKpisGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} [gatewayId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async metricsTodayGet(gatewayId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<JsonObjectInner>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.metricsTodayGet(gatewayId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MetricsResourceApi.metricsTodayGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -108,7 +160,16 @@ export const MetricsResourceApiFactory = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         metricsKpisGet(requestParameters: MetricsResourceApiMetricsKpisGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<JsonObjectInner>> {
-            return localVarFp.metricsKpisGet(requestParameters.end, requestParameters.start, options).then((request) => request(axios, basePath));
+            return localVarFp.metricsKpisGet(requestParameters.end, requestParameters.gatewayId, requestParameters.start, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {MetricsResourceApiMetricsTodayGetRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        metricsTodayGet(requestParameters: MetricsResourceApiMetricsTodayGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<JsonObjectInner>> {
+            return localVarFp.metricsTodayGet(requestParameters.gatewayId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -131,7 +192,28 @@ export interface MetricsResourceApiMetricsKpisGetRequest {
      * @type {string}
      * @memberof MetricsResourceApiMetricsKpisGet
      */
+    readonly gatewayId?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof MetricsResourceApiMetricsKpisGet
+     */
     readonly start?: string
+}
+
+/**
+ * Request parameters for metricsTodayGet operation in MetricsResourceApi.
+ * @export
+ * @interface MetricsResourceApiMetricsTodayGetRequest
+ */
+export interface MetricsResourceApiMetricsTodayGetRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetricsResourceApiMetricsTodayGet
+     */
+    readonly gatewayId?: string
 }
 
 /**
@@ -149,7 +231,18 @@ export class MetricsResourceApi extends BaseAPI {
      * @memberof MetricsResourceApi
      */
     public metricsKpisGet(requestParameters: MetricsResourceApiMetricsKpisGetRequest = {}, options?: RawAxiosRequestConfig) {
-        return MetricsResourceApiFp(this.configuration).metricsKpisGet(requestParameters.end, requestParameters.start, options).then((request) => request(this.axios, this.basePath));
+        return MetricsResourceApiFp(this.configuration).metricsKpisGet(requestParameters.end, requestParameters.gatewayId, requestParameters.start, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {MetricsResourceApiMetricsTodayGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MetricsResourceApi
+     */
+    public metricsTodayGet(requestParameters: MetricsResourceApiMetricsTodayGetRequest = {}, options?: RawAxiosRequestConfig) {
+        return MetricsResourceApiFp(this.configuration).metricsTodayGet(requestParameters.gatewayId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
