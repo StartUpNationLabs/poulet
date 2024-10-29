@@ -44,17 +44,17 @@ spec:
             - name: PROMETHEUS_SERVER
               value: "https://prometheus.al.apoorva64.com/api/v1/write"
             - name: RABBITMQ_SERVER
-              value: poulet-rabbitmq:5672
+              value: "poulet-rabbitmq:5672"
             - name: RABBITMQ_USERNAME
-              value: user
+              value: "user"
             - name: RABBITMQ_PASSWORD
-              value: password
+              value: "password"
             - name: NOTIFICATION_SERVER
               value: "http://doctor.al.apoorva64.com"
             - name: CLIENT_INFO_SERVER
               value: "http://doctor.al.apoorva64.com"
             - name: GATEWAY_ID
-              value: 671954d2490bd363cd077544            
+              value: "671954d2490bd363cd077544"            
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:

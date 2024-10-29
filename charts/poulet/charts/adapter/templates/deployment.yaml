@@ -42,13 +42,13 @@ spec:
               protocol: TCP
           env:
             - name: RABBITMQ_SERVER
-              value: poulet-rabbitmq:5672
+              value: "poulet-rabbitmq:5672"
             - name: RABBITMQ_USERNAME
-              value: user
+              value: "user"
             - name: RABBITMQ_PASSWORD
-              value: password
+              value: "password"
             - name: SERVER_PORT
-              value: 80
+              value: "80"
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
