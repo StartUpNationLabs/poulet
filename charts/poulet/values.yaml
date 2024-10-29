@@ -262,6 +262,17 @@ frontend:
 
 #GATEWAY
 
+rabbitmq:
+  auth:
+    password: password
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
 adapter:
   nabled: true
   image:
