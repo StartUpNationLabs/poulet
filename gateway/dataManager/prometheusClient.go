@@ -11,6 +11,7 @@ import (
 	"time"
 	"os"
 	"log"
+	"crypto/tls"
 )
 
 type TimeSeries struct {
