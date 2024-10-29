@@ -40,6 +40,27 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          env:
+            - name: PROMETHEUS_SERVER
+              value: https://prometheus.al.apoorva64.com/api/v1/write
+            - name: RABBITMQ_SERVER
+              value: poulet-rabbitmq:5672
+            - name: RABBITMQ_USERNAME
+              value: guest
+            - name: RABBITMQ_PASSWORD
+              value: guest
+            - name: NOTIFICATION_SERVER
+              value: http://doctor.al.apoorva64.com
+            - name: CLIENT_INFO_SERVER
+              value: http://doctor.al.apoorva64.com
+            - name: GATEWAY_ID
+              value: 671954d2490bd363cd077544            
+      - RABBITMQ_SERVER=rabbitmq:5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - NOTIFICATION_SERVER=http://alert-management:8082
+      - CLIENT_INFO_SERVER=http://patient-management:8083
+      - GATEWAY_ID=
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:

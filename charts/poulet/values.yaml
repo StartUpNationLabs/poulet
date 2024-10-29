@@ -273,6 +273,20 @@ adapter:
     requests:
       cpu: 100m
       memory: 128Mi
+  ingress:
+    enabled: true
+    className: ""
+    annotations: { }
+    hosts:
+      - host: adapter.al.apoorva64.com
+        paths:
+          - path: / 
+            pathType: Prefix
+            backend:
+              service:
+                name: poulet-adapter
+                port:
+                  number: 80
 
 data-manager:
   enabled: true
