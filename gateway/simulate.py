@@ -3,7 +3,7 @@ import requests
 import random
 import time
 
-ADAPTER_URL = "localhost:8088"
+ADAPTER_URL = "adapter.al.apoorva64.com"
 
 # URLs of the four endpoints
 endpoints = [

@@ -51,8 +51,15 @@ func (prometheusClient *PrometheusClient) init(gatewayID string) {
 	
 
 	endpoint := os.Getenv("PROMETHEUS_SERVER")
+	customTransport := &http.Transport{
+        TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+    }
 	prometheusClient.opts = &clientOptions{
-		httpClient: &http.Client{Timeout: 30 * time.Second},
+		httpClient: &http.Client{
+			Timeout: 30 * time.Second,
+			Transport: customTransport,
+		},
+		
 	}
 	prometheusClient.endpoint = endpoint 
 }
