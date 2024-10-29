@@ -28,9 +28,9 @@ dependencies:
   version: 15.0.4
 - name: adapter
   repository: ""
-  version: 0.1.0
+  version: 0.1.1
 - name: data-manager
   repository: ""
-  version: 0.1.0
-digest: sha256:7c51fa1c06d03c016da22b8cb085339532a927be2090eaab817e66f73ee6423d
-generated: "2024-10-29T20:05:15.7660324+01:00"
+  version: 0.1.1
+digest: sha256:a36fcc1d0fc0c0ea4bf2636f12230cc0d0af515ce80426d5f45afdb682bf7237
+generated: "2024-10-29T20:19:12.3186668+01:00"
