@@ -23,5 +23,11 @@ dependencies:
 - name: analyse-haut-niveau-management
   repository: ""
   version: 0.2.1
-digest: sha256:f18d30ef284ff5727da7a2e0ebf5f616c3c1322e54e796a5dad735c7dfa693fa
-generated: "2024-10-29T19:21:27.0685398+01:00"
+- name: adapter
+  repository: ""
+  version: 0.1.0
+- name: data-manager
+  repository: ""
+  version: 0.1.0
+digest: sha256:0eb4c9b59a6857b9a7b931daee3d1dc6318520b1a641db6be8451a81a3d0c542
+generated: "2024-10-29T19:48:32.8295131+01:00"

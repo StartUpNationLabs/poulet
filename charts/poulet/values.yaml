@@ -259,3 +259,29 @@ frontend:
     requests:
       cpu: 100m
       memory: 128Mi
+
+#GATEWAY
+
+adapter:
+  nabled: true
+  image:
+    tag: 7e22aaf8ef9c9cbc30925a0eca3c90517e74b1a7
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+data-manager:
+  enabled: true
+  image:
+    tag: 7e22aaf8ef9c9cbc30925a0eca3c90517e74b1a7
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
