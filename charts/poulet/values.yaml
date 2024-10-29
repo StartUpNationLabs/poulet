@@ -266,12 +266,11 @@ rabbitmq:
   auth:
     password: password
   resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
     requests:
-      cpu: 100m
-      memory: 128Mi
+      memory: "200Mi"
+      cpu: "200m"
+    limits:
+      memory: "512Mi"
 
 adapter:
   nabled: true
