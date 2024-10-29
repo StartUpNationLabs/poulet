@@ -22,6 +22,6 @@ dependencies:
   version: 0.2.10
 - name: analyse-haut-niveau-management
   repository: ""
-  version: 0.2.0
-digest: sha256:274f5900dbff548a99b76846f1f489232f26dd621d552a0844ebe5dcda6d0fbe
-generated: "2024-10-27T23:36:48.905439+01:00"
+  version: 0.2.1
+digest: sha256:f18d30ef284ff5727da7a2e0ebf5f616c3c1322e54e796a5dad735c7dfa693fa
+generated: "2024-10-29T19:21:27.0685398+01:00"
