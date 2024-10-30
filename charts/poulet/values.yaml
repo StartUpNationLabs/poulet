@@ -130,7 +130,7 @@ prometheus:
 
 
     extraArgs:
-      web.enable-remote-write-receiver: null
+      web.enable-remote-write-receiver: true
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
