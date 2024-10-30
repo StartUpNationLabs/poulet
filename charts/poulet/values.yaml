@@ -125,7 +125,8 @@ prometheus:
         memory: "400Mi"
         cpu: "400m"
     persistentVolume:
-      size: 1Gi
+      size: 2Gi
+
     retentionSize: "20GB"
 
 
