@@ -150,17 +150,7 @@ prometheus:
 
   serverFiles:
     prometheus.yml:
-      scrape_configs:
-        - null
-        - null
-        - null
-        - null
-        - null
-        - null
-        - null
-        - null
-        - null
-        - null
+      scrape_configs: {}
 
 
 keycloak:
