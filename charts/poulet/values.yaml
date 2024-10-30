@@ -130,7 +130,7 @@ prometheus:
 
 
     extraArgs:
-      web.enable-remote-write-receiver: true
+      web.enable-remote-write-receiver: null
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
@@ -149,7 +149,18 @@ prometheus:
 
   serverFiles:
     prometheus.yml:
-      scrape_configs: { }
+      scrape_configs:
+        - null
+        - null
+        - null
+        - null
+        - null
+        - null
+        - null
+        - null
+        - null
+        - null
+
 
 keycloak:
   enabled: true
