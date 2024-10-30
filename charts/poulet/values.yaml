@@ -129,9 +129,8 @@ prometheus:
 
     retentionSize: "20GB"
 
-
     extraArgs:
-      web.enable-remote-write-receiver: null
+      enable-feature: remote-write-receiver
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
