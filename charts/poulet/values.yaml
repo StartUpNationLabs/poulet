@@ -145,6 +145,12 @@ prometheus:
         limits:
           memory: "400Mi"
           cpu: "400m"
+
+
+  serverFiles:
+    prometheus.yml:
+      scrape_configs: { }
+
 keycloak:
   enabled: true
   ingress:
@@ -205,7 +211,7 @@ patient-management:
     tls: [ ]
 analyse-haut-niveau-management:
   enabled: true
-  
+
 frontend:
   enabled: true
   image:
@@ -223,21 +229,21 @@ frontend:
     hosts:
       - host: doctor.al.apoorva64.com
         paths:
-          - path: /patient 
+          - path: /patient
             pathType: Prefix
             backend:
               service:
                 name: poulet-patient-management
                 port:
                   number: 8080
-          - path: /alert 
+          - path: /alert
             pathType: Prefix
             backend:
               service:
                 name: poulet-alert-management
                 port:
                   number: 8080
-          - path: /metrics 
+          - path: /metrics
             pathType: Prefix
             backend:
               service:
@@ -291,7 +297,7 @@ adapter:
     hosts:
       - host: adapter.al.apoorva64.com
         paths:
-          - path: / 
+          - path: /
             pathType: Prefix
             backend:
               service:
