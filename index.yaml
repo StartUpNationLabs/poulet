@@ -3,6 +3,59 @@ entries:
   poulet:
   - apiVersion: v2
     appVersion: 0.0.3
+    created: "2024-10-30T20:29:36.547472392Z"
+    dependencies:
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 8.5.1
+    - condition: keycloak.enabled
+      name: keycloak
+      repository: https://charts.bitnami.com/bitnami
+      version: 24.0.0
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.3
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 25.27.0
+    - condition: alert-management.enabled
+      name: alert-management
+      repository: ""
+      version: 0.1.0
+    - condition: patient-management.enabled
+      name: patient-management
+      repository: ""
+      version: 0.1.0
+    - name: frontend
+      repository: ""
+      version: 0.2.10
+    - condition: analyse-haut-niveau-management.enabled
+      name: analyse-haut-niveau-management
+      repository: ""
+      version: 0.2.1
+    - name: rabbitmq
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.0.4
+    - condition: adapter
+      name: adapter
+      repository: ""
+      version: 0.1.2
+    - condition: data-manager
+      name: data-manager
+      repository: ""
+      version: 0.1.2
+    description: A Helm chart for Kubernetes
+    digest: e530cb860db55a329d4a3b6e2a9630d3166c4ede52d0d9f48462240bf9e246d3
+    name: poulet
+    type: application
+    urls:
+    - https://github.com/StartUpNationLabs/poulet/releases/download/poulet-0.1.35/poulet-0.1.35.tgz
+    version: 0.1.35
+  - apiVersion: v2
+    appVersion: 0.0.3
     created: "2024-10-29T21:17:41.110371523Z"
     dependencies:
     - condition: grafana.enabled
@@ -2044,4 +2097,4 @@ entries:
     urls:
     - https://github.com/StartUpNationLabs/poulet/releases/download/poulet-0.0.2/poulet-0.0.2.tgz
     version: 0.0.2
-generated: "2024-10-29T21:17:41.110762924Z"
+generated: "2024-10-30T20:29:36.547806174Z"
