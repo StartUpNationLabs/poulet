@@ -21,12 +21,14 @@ services:
     build:
       context: ./dataManager
     environment:
-      - PROMETHEUS_SERVER=http://read:9090/api/v1/write
+      - PROMETHEUS_SERVER=https://prometheus.al.apoorva64.com/api/v1/write
+      - PROMETHEUS_USERNAME=admin
+      - PROMETHEUS_PASSWORD=NBSJFZDtM6hI0kxinpG52jiBNHsHR3bhUjUZT6Jl00gBaUZcAo
       - RABBITMQ_SERVER=rabbitmq:5672
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
-      - NOTIFICATION_SERVER=http://alert-management:8082
-      - CLIENT_INFO_SERVER=http://patient-management:8083
+      - NOTIFICATION_SERVER=http://doctor.al.apoorva64.com
+      - CLIENT_INFO_SERVER=http://doctor.al.apoorva64.com
       - GATEWAY_ID=671954d2490bd363cd077544
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -34,7 +36,7 @@ services:
       - rabbitmq
     networks: 
       - internal
-      - poulet_internal
+      #- poulet_internal
   
   rabbitmq:
     image: rabbitmq:management
@@ -48,5 +50,5 @@ services:
   
 networks:
   internal:
-  poulet_internal:
-    external: true
+  #poulet_internal:
+  #  external: true

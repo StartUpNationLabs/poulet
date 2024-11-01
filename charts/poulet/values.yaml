@@ -71,6 +71,7 @@ nameOverride: ""
 fullnameOverride: ""
 prometheus:
   enabled: true
+  
   ingress:
     enabled: false
     className: ""

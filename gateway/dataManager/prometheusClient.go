@@ -12,6 +12,7 @@ import (
 	"os"
 	"log"
 	"crypto/tls"
+	"encoding/base64"
 )
 
 type TimeSeries struct {
@@ -93,7 +94,6 @@ type WriteResponse struct {
 }
 
 func (prometheusClient *PrometheusClient) Write(metric string, batch []Sample) (bool) {
-	log.Print("Sent to prometheus")
 	return prometheusClient.originWrite(&WriteRequest{
         TimeSeries: []TimeSeries{
             {
@@ -142,6 +142,21 @@ func (prometheusClient *PrometheusClient) originWrite(req *WriteRequest, options
 		httpReq.Header.Add(k, v)
 	}
 
+
+	if os.Getenv("PROMETHEUS_USERNAME") == "" {
+		log.Fatal("PROMETHEUS_USERNAME environment variable is not set")
+		return false
+	}
+	if os.Getenv("PROMETHEUS_PASSWORD") == "" {
+		log.Fatal("PROMETHEUS_PASSWORD environment variable is not set")
+		return false
+	}
+
+	username := os.Getenv("PROMETHEUS_USERNAME")
+	password := os.Getenv("PROMETHEUS_PASSWORD")
+	auth := base64.StdEncoding.EncodeToString([]byte(username + ":" + password))
+	httpReq.Header.Set("Authorization", "Basic "+auth)
+
 	// Send http request.
 	httpResp, err := prometheusClient.opts.httpClient.Do(httpReq)
 	if err != nil {
@@ -155,6 +170,7 @@ func (prometheusClient *PrometheusClient) originWrite(req *WriteRequest, options
 		log.Println("Error:","promwrite error : %w", msg)
 		return false
 	}
+	log.Print("Sent to prometheus")
 	return true
 }
 
