@@ -21,7 +21,7 @@ import globalAxios from 'axios';
 
 export let BASE_PATH = "http://localhost:8084".replace(/\/+$/, "");
 
-fetch("/env").then(
+fetch("/config/env").then(
     (response) => {
         response.json().then((data) => {
             BASE_PATH = data.ANALYSE_HAUT_NIVEAU_MANAGEMENT_BASE_URL.replace(/\/+$/, "");
