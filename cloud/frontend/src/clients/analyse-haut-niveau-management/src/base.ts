@@ -19,7 +19,7 @@ import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
-export let BASE_PATH = "http://localhost:8084".replace(/\/+$/, "");
+export let BASE_PATH = "http://localhost:50912".replace(/\/+$/, "");
 
 fetch("/config/env").then(
     (response) => {
