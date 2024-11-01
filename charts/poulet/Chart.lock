@@ -23,14 +23,5 @@ dependencies:
 - name: analyse-haut-niveau-management
   repository: ""
   version: 0.2.1
-- name: rabbitmq
-  repository: https://charts.bitnami.com/bitnami
-  version: 15.0.4
-- name: adapter
-  repository: ""
-  version: 0.1.2
-- name: data-manager
-  repository: ""
-  version: 0.1.2
-digest: sha256:26ecfc67f6e6c3ac653ae7e0aff27158a76537cc4124147f6e1ec9c39e565940
-generated: "2024-10-29T21:00:18.0738261+01:00"
+digest: sha256:f18d30ef284ff5727da7a2e0ebf5f616c3c1322e54e796a5dad735c7dfa693fa
+generated: "2024-11-01T08:48:32.8296242+01:00"
