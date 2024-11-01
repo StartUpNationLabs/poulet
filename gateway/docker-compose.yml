@@ -29,7 +29,7 @@ services:
       - RABBITMQ_PASSWORD=guest
       - NOTIFICATION_SERVER=http://doctor.al.apoorva64.com
       - CLIENT_INFO_SERVER=http://doctor.al.apoorva64.com
-      - GATEWAY_ID=671954d2490bd363cd077544
+      - GATEWAY_ID=671ec1f0c368aa3dd8f66649
     volumes:
       - /etc/localtime:/etc/localtime:ro
     depends_on:
@@ -47,7 +47,21 @@ services:
       - 127.0.0.1:8080:15672
     networks: 
       - internal
-  
+
+  agent:
+    container_name: newrelic-infra
+    image: newrelic/infrastructure:latest
+    cap_add:
+      - SYS_PTRACE
+    network_mode: host
+    pid: host
+    privileged: true
+    volumes:
+      - "/:/host:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./newrelic-infra.yml:/etc/newrelic-infra.yml"
+    restart: unless-stopped
+
 networks:
   internal:
   #poulet_internal:

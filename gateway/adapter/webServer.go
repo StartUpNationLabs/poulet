@@ -8,6 +8,7 @@ import (
     "log"
     "net/http"
     "os"
+    "github.com/newrelic/go-agent/v3/newrelic"
 )
 
 type RequestData struct {
@@ -47,7 +48,7 @@ func handleData(metric string, client *RabbitMQClient) http.HandlerFunc {
 }
 
 // StartServer starts the HTTP server
-func StartServer(client *RabbitMQClient) {
+func StartServer(client *RabbitMQClient, app *newrelic.Application) {
     metrics := []string{
         "acceleration",
         "heartrate",
@@ -56,7 +57,8 @@ func StartServer(client *RabbitMQClient) {
     }
 
     for _, value := range metrics {
-		http.HandleFunc("/api/data/"+value, handleData(value, client))
+        http.HandleFunc(newrelic.WrapHandleFunc(app, "/api/data/"+value,  handleData(value, client)))
+
 	}
     serverPort := "8081"
     if os.Getenv("SERVER_PORT") != "" {

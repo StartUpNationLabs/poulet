@@ -8,7 +8,7 @@ image:
   repository: ghcr.io/startupnationlabs/poulet/analyse-haut-niveau-management
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "f42dcea109984b2e7a133a37762dc07f24f16eca"
+  tag: "12f04e9fe10440f6e3d2a26b017d4fc11839447d"
 
 imagePullSecrets: []
 nameOverride: ""

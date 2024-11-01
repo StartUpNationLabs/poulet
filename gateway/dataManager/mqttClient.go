@@ -7,7 +7,7 @@ import (
   "strings"
   "os"
   "strconv"
-
+  "github.com/newrelic/go-agent/v3/newrelic"
   amqp "github.com/rabbitmq/amqp091-go"
 )
 type RabbitMQClient struct {
@@ -77,7 +77,7 @@ func (rabbitMQClient *RabbitMQClient) publish(topic string, message string) {
 }
 
 
-func (rabbitMQClient *RabbitMQClient) consume(topic string){
+func (rabbitMQClient *RabbitMQClient) consume(topic string, app *newrelic.Application){
 	ch, err := rabbitMQClient.conn.Channel()
     failOnError(err, "Failed to open a channel")
     defer ch.Close()
@@ -133,8 +133,10 @@ func (rabbitMQClient *RabbitMQClient) consume(topic string){
             value, _ := strconv.ParseFloat(string(d.Body), 64)
 
             sample := Sample{Time: time.Now(), Value: value}
-
+            
+            txn := app.StartTransaction("Get data")
             rabbitMQClient.alerter.sendSample(metric, sample)
+            defer txn.End()
         }
     }()
 

@@ -14,6 +14,8 @@ endpoints = [
     "http://"+ADAPTER_URL+"/api/data/acceleration",
 ]
 
+
+
 value_ranges = [
     (0, 100),    # acceleration range
     (50, 120),   # heartrate range
@@ -53,7 +55,7 @@ def get_acceleration():
     # Minor random variations with occasional spikes for movement
     return baseline_values["acceleration"] + random.gauss(0, 1) + (5 * random.choice([0, 1]) if random.random() < 0.1 else 0)
 
-data_generators = [get_acceleration, get_heartrate, get_temperature, get_glucose]
+data_generators = [get_temperature, get_heartrate, get_glucose, get_acceleration]
 
 # Function to send POST request to an endpoint with a random number
 def send_post_request(url, interval, data_function):
