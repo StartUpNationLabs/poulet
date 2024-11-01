@@ -29,10 +29,10 @@ public class KpiService {
         JsonObject kpis = new JsonObject();
         log.info("Calculating KPIs for gateway " + gatewayId + " between" + start + " and " + end + " with step " + step);
 
-        kpis.put("averageAcceleration",calculateMetricsForRange("acceleration", start, end, gatewayId, step));
-        kpis.put("averageHeartRate", calculateMetricsForRange("heartrate", start, end, gatewayId, step));
-        kpis.put("averageTemperature", calculateMetricsForRange("temperature", start, end, gatewayId, step));
-        kpis.put("averageGlucose", calculateMetricsForRange("glucose", start, end, gatewayId, step));
+        kpis.put("Acceleration",calculateMetricsForRange("acceleration", start, end, gatewayId, step));
+        kpis.put("HeartRate", calculateMetricsForRange("heartrate", start, end, gatewayId, step));
+        kpis.put("Temperature", calculateMetricsForRange("temperature", start, end, gatewayId, step));
+        kpis.put("Glucose", calculateMetricsForRange("glucose", start, end, gatewayId, step));
 
         return kpis;
     }

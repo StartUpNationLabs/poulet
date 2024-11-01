@@ -214,12 +214,12 @@ patient-management:
 analyse-haut-niveau-management:
   enabled: true
   image:
-    tag: "12f04e9fe10440f6e3d2a26b017d4fc11839447d"
+    tag: ad926e374383c474e66304cb6ed3a301968831cd
 
 frontend:
   enabled: true
   image:
-    tag: af9be46a278056077c26a5d8c0182bdf853a0f4d
+    tag: ad926e374383c474e66304cb6ed3a301968831cd
   environment:
     ALERT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
     PATIENT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
