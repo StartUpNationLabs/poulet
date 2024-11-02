@@ -1,6 +1,8 @@
 import {useQuery} from "@tanstack/react-query";
 import {MetricsResourceApi} from "../../clients/analyse-haut-niveau-management/src";
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from "@mui/material";
+import {Paper, Typography, Box} from "@mui/material";
+import GaugeComponent  from 'react-gauge-component';
+
 
 interface ProfilKpiProps {
     gatewayId: string;
@@ -33,7 +35,6 @@ export default function ProfilKpi(props: ProfilKpiProps) {
     if (isLoading) {
         return <Typography>Loading...</Typography>;
     }
-
     return (
         <>
 
@@ -42,24 +43,38 @@ export default function ProfilKpi(props: ProfilKpiProps) {
             ) : (
                 <>
                     {kpi !== undefined  && typeof kpi?.data === 'object' ? (
-                        <TableContainer component={Paper}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center">Label</TableCell>
-                                        <TableCell align="center">Value</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {Object.keys(kpi?.data).map((key) => (
-                                        <TableRow key={key}>
-                                            <TableCell align="center">{key}</TableCell> 
-                                            <TableCell align="center">{Number((kpi?.data[key as keyof typeof kpi.data]  as KPIData)?.average).toFixed(2)}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                           <Box>
+                           {kpi !== undefined && typeof kpi?.data === 'object' ? (
+                               <Box display="flex" justifyContent="space-around" alignItems="center" mt={2}>
+                                   {Object.keys(kpi.data).map((key) => (
+                                       <Paper key={key} style={{ padding: '20px', borderRadius: '10px', textAlign: 'center' }}>
+                                           <Typography variant="h6">{key}</Typography>
+                                           <GaugeComponent 
+                                               type="semicircle"
+                                               value={(kpi.data[key as keyof typeof kpi.data] as KPIData).average}
+                                               maxValue={(kpi.data[key as keyof typeof kpi.data] as KPIData).max}
+                                               minValue={(kpi.data[key as keyof typeof kpi.data] as KPIData).min}
+                                                arc={{
+                                                    gradient: true,
+                                                    colorArray: ['#00FF15', '#FF2121'],
+                                                    width: 0.15,
+                                                    padding: 0,
+                                                    subArcs:
+                                                    [
+                                                        {limit: (kpi.data[key as keyof typeof kpi.data] as KPIData).min + (((kpi.data[key as keyof typeof kpi.data] as KPIData).max-(kpi.data[key as keyof typeof kpi.data] as KPIData).min)/4)},
+                                                        {limit: (kpi.data[key as keyof typeof kpi.data] as KPIData).min + (((kpi.data[key as keyof typeof kpi.data] as KPIData).max-(kpi.data[key as keyof typeof kpi.data] as KPIData).min)/2)},
+                                                        {limit: (kpi.data[key as keyof typeof kpi.data] as KPIData).min + (((kpi.data[key as keyof typeof kpi.data] as KPIData).max-(kpi.data[key as keyof typeof kpi.data] as KPIData).min)/1.2)},
+                                                    ]
+                                                }}
+                                                pointer={{type: "arrow", elastic: true}}
+                                           />
+                                       </Paper>
+                                   ))}
+                               </Box>
+                           ) : (
+                               <Typography>No metrics available</Typography>
+                           )}
+                       </Box>
                     ) : <Typography>No metrics available</Typography>}
                 </>
             )}
