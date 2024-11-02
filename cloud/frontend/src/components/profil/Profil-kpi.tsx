@@ -6,6 +6,13 @@ interface ProfilKpiProps {
     gatewayId: string;
 }
 
+interface KPIData {
+    average: number;
+    max: number;
+    min: number;
+    stdDev: number;
+}
+
 export default function ProfilKpi(props: ProfilKpiProps) {
     const {
         data: kpi,
@@ -46,9 +53,8 @@ export default function ProfilKpi(props: ProfilKpiProps) {
                                 <TableBody>
                                     {Object.keys(kpi?.data).map((key) => (
                                         <TableRow key={key}>
-                                            <TableCell align="center">{key}</TableCell>
-                                            // @ts-ignore
-                                            <TableCell align="center">{Number(kpi?.data[key as keyof typeof kpi.data]?["average"]:-1).toFixed(2)}</TableCell>
+                                            <TableCell align="center">{key}</TableCell> 
+                                            <TableCell align="center">{Number((kpi?.data[key as keyof typeof kpi.data]  as KPIData)?.average).toFixed(2)}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
