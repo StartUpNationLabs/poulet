@@ -34,7 +34,7 @@ export default function ProfilKpi(props: ProfilKpiProps) {
                 <Typography>Loading kpi's...</Typography>
             ) : (
                 <>
-                    {kpi !== undefined  && typeof kpi.data === 'object' ? (
+                    {kpi !== undefined  && typeof kpi?.data === 'object' ? (
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableHead>
@@ -44,10 +44,11 @@ export default function ProfilKpi(props: ProfilKpiProps) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {Object.keys(kpi.data).map((key) => (
+                                    {Object.keys(kpi?.data).map((key) => (
                                         <TableRow key={key}>
                                             <TableCell align="center">{key}</TableCell>
-                                            <TableCell align="center">{kpi.data[key]?.average.toFixed(2)}</TableCell>
+                                            // @ts-ignore
+                                            <TableCell align="center">{Number(kpi?.data[key as keyof typeof kpi.data]?["average"]:-1).toFixed(2)}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
