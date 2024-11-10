@@ -71,4 +71,4 @@ services:
 networks:
   poulet_internal:
     name: poulet_internal
-    external: true
+    #external: true
