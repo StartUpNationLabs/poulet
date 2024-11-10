@@ -2,8 +2,8 @@ groups:
 - name: glucose-deriv-alerts
   rules:
   - alert: RapidIncreaseGlucose
-    expr: deriv(glucose[5m]) > 10
-    for: 1m
+    expr: deriv(glucose[30s]) > 10
+    for: 15s
     labels:
       severity: "MEDIUM"
       type: "glucose_deriv"
@@ -16,8 +16,8 @@ groups:
       message: "Current rate of glucose change: {{ $value }} mg/dL per 5 minutes"
 
   - alert: RapidDecreaseGlucose
-    expr: deriv(glucose[5m]) < -10
-    for: 1m
+    expr: deriv(glucose[30s]) < -10
+    for: 15s
     labels:
       severity: "MEDIUM"
       type: "glucose_deriv"

@@ -2,8 +2,8 @@ groups:
 - name: temperature-deriv-alerts
   rules:
   - alert: RapidIncreaseTemperature
-    expr: deriv(temperature[5m]) > 0.5
-    for: 1m
+    expr: deriv(temperature[30s]) > 0.5
+    for: 15s
     labels:
       severity: "MEDIUM"
       type: "temperature_deriv"
@@ -16,8 +16,8 @@ groups:
       message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"
 
   - alert: RapidDecreaseTemperature
-    expr: deriv(temperature[5m]) < -0.5
-    for: 1m
+    expr: deriv(temperature[30s]) < -0.5
+    for: 15s
     labels:
       severity: "MEDIUM"
       type: "temperature_deriv"

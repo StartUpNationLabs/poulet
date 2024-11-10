@@ -2,8 +2,8 @@ groups:
 - name: heartrate-deriv-alerts
   rules:
   - alert: RapidIncreaseHeartRate
-    expr: deriv(heartrate[5m]) > 15
-    for: 1m
+    expr: deriv(heartrate[30s]) > 15
+    for: 15s
     labels:
       severity: "MEDIUM"
       type: "heartrate_deriv"
@@ -16,8 +16,8 @@ groups:
       message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
 
   - alert: RapidDecreaseHeartRate
-    expr: deriv(heartrate[5m]) < -15
-    for: 1m
+    expr: deriv(heartrate[30s]) < -15
+    for: 15s
     labels:
       severity: "HIGH"
       type: "heartrate_deriv"
