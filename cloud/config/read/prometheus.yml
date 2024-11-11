@@ -13,7 +13,13 @@ alerting:
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
-
+  - "rules/deriv_rules/glucoseD.yml"
+  - "rules/deriv_rules/temperatureD.yml"
+  - "rules/deriv_rules/heartrateD.yml"
+  
+  - "rules/predict_rules/glucoseP.yml"
+  - "rules/predict_rules/temperatureP.yml"
+  - "rules/predict_rules/heartrateP.yml"
   
   
   - "rules/temperature_alerts.yml"
@@ -34,4 +40,4 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-       - targets: ["adapter-1:8088"]
+       - targets: ["adapter:8088"]

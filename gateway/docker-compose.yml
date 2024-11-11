@@ -48,6 +48,8 @@ services:
       - 127.0.0.1:8080:15672
     networks: 
       - internal
+      - poulet_internal
+
 
   agent:
     container_name: newrelic-infra
