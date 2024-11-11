@@ -6,7 +6,7 @@ This project is composed of 3 parts :
 - WebApp
 
 Launch the Webapp by deploying the 2 docker compose :
--  [Prometheus stack](../../docker-compose)
+-  [Prometheus stack](../../docker-compose.yaml)
 -  [Services](../../cloud/backend/docker-compose.yml)
 
 
