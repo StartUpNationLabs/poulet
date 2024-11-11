@@ -7,7 +7,7 @@ groups:
     labels:
       severity: "WARNING"  
       type: "temperature"   
-      gatewayId: "671aaecbbf1f103b28e58788" 
+      gatewayId: "67325277b01fb040f8e73672" 
       value: "{{ $value }}"  
 
     annotations:
@@ -21,7 +21,7 @@ groups:
     labels:
       severity: "WARNING" 
       type: "temperature"  
-      gatewayId: "671aaecbbf1f103b28e58788"  
+      gatewayId: "67325277b01fb040f8e73672"  
       value: "{{ $value }}"  
 
     annotations:
