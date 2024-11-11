@@ -15,10 +15,12 @@ Les sections du rapport sont les suivantes :
 - [les choix technologiques](sous-section/techno.md)
 - [Architecture pour les Microservices](sous-section/architectureMS.md)
 - [Modèle de Données](sous-section/dataModel.md)
+- [Sécurité des données](sous-section/securite.md)
 
 il manque 
 
 - [matrice de risque](sous-section/matriceRisque.md)
+- [Sécurité des données](sous-section/securite.md)
 
 
   <span style="color:red"> je ne suis pas sur qu'est ce que c'est la strecture de code et comment contribuer au projet bon pour moi la meme chose que comment lancer le projet  </span>
