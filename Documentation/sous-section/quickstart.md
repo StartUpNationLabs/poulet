@@ -5,12 +5,18 @@ This project is composed of 3 parts :
 - Gateway
 - WebApp
 
-Launch the Webapp by deploying the 2 docker compose :
+**Launch the Webapp** by deploying the 2 docker compose :
 -  [Prometheus stack](../../docker-compose.yaml)
 -  [Services](../../cloud/backend/docker-compose.yml)
 
+**Launch the webapp portail** directly on the   [frontend directory](../../cloud/frontend/) by running 
+```npm run start```
+Access the frontend at [http://localhost:8080](http://localhost:8080)
+    - Register a new patient
+    - Connect to the mongoDB and retrieve his gateway ID
 
-Launch the gatway by deploying the following docker compose :
+Replace the gateway id in the corresponding environment variables in the [gateway docker compose](../../gateway/docker-compose.yml)
+**Launch the gatway** by deploying the following docker compose :
 
 -  [Gateway](../../gateway/docker-compose.yml)
   
