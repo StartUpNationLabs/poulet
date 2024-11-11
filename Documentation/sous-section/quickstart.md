@@ -6,13 +6,13 @@ This project is composed of 3 parts :
 - WebApp
 
 Launch the Webapp by deploying the 2 docker compose :
--  [Prometheus stack](..\..\docker-compose)
--  [Services](..\..\cloud\backend\docker-compose.yml)
+-  [Prometheus stack](../../docker-compose)
+-  [Services](../../cloud/backend/docker-compose.yml)
 
 
 Launch the gatway by deploying the following docker compose :
 
--  [Gateway](..\..\gateway\docker-compose.yml)
+-  [Gateway](../../gateway/docker-compose.yml)
   
 
 After this two steps you can execute the simulate.py script that will emulate data to the gateway adapter as if you were using sensors. The gateway will then compute the measures and send it to the prometheus server.
