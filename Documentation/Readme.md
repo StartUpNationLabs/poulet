@@ -9,6 +9,7 @@ Les sections du rapport sont les suivantes :
 - [Introduction](sous-section/into.md)
 - [user stories](sous-section/usecases.md)
 - [Périmètre Du POC](sous-section/perimetre.md)
+- [Quickstart](sous-section/quickstart.md)
 - [Fonctionnement du Système](sous-section/fonctionnement.md)
 - [les Services du Système](sous-section/services.md)
 - [les choix technologiques](sous-section/techno.md)
@@ -16,7 +17,7 @@ Les sections du rapport sont les suivantes :
 - [Modèle de Données](sous-section/dataModel.md)
 
 il manque 
-- [comment lancer le projet](sous-section/lancement.md)
+
 - [matrice de risque](sous-section/matriceRisque.md)
 
 

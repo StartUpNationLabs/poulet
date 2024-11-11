@@ -82,6 +82,11 @@ func (rabbitMQClient *RabbitMQClient) consume(topic string, app *newrelic.Applic
     failOnError(err, "Failed to open a channel")
     defer ch.Close()
 
+    err = ch.Qos(50, 0, false)
+    if err != nil {
+        log.Fatalf("Failed to set QoS: %v", err)
+    }
+
     err = ch.ExchangeDeclare(
             "sensor", // name
             "topic",      // type
@@ -115,7 +120,7 @@ func (rabbitMQClient *RabbitMQClient) consume(topic string, app *newrelic.Applic
     msgs, err := ch.Consume(
         q.Name, // queue
         "sensor",     // consumer
-        true,   // auto ack
+        false,   // auto ack
         false,  // exclusive
         false,  // no local
         false,  // no wait
@@ -126,7 +131,10 @@ func (rabbitMQClient *RabbitMQClient) consume(topic string, app *newrelic.Applic
     var forever chan struct{}
 
     go func() {
+        var batch []amqp.Delivery
+
         for d := range msgs {
+            batch = append(batch, d)
             log.Printf(" [x] %s in %s", d.Body, d.RoutingKey)
 
             metric := strings.Split(d.RoutingKey, ".")[1]
@@ -134,9 +142,24 @@ func (rabbitMQClient *RabbitMQClient) consume(topic string, app *newrelic.Applic
 
             sample := Sample{Time: time.Now(), Value: value}
             
-            txn := app.StartTransaction("Get data")
-            rabbitMQClient.alerter.sendSample(metric, sample)
-            defer txn.End()
+            isSent := rabbitMQClient.alerter.sendSample(metric, sample)
+            if isSent == false {
+                for _, msg2 := range batch {
+                    msg2.Nack(false, true) // Nack each message in the batch to requeue
+                }
+                log.Printf("Failure: Sent back to broker")
+                batch = []amqp.Delivery{}
+            } 
+            if len(batch) > 49 {
+                for _, msg2 := range batch {
+                    err = msg2.Ack(false) // ack each message in the batch to requeue
+                    if err != nil {
+                        log.Fatalf("Failed to Ack : %v", err)
+                    }                
+                }
+                log.Printf("Batch Acknoledged")
+                batch = []amqp.Delivery{}
+            }
         }
     }()
 

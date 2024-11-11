@@ -24,7 +24,7 @@ value_ranges = [
 ]
 
 # Time intervals for each endpoint (in seconds)
-intervals = [10, 5, 15, 1]
+intervals = [2, 1, 5, 0.3]
 
 baseline_values = {
     "temperature": 37.0,  # average human body temperature

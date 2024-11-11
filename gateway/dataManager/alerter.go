@@ -47,9 +47,9 @@ func (alerter *Alerter) init(downSampler *DownSampler) {
 	alerter.gatewayID = os.Getenv("GATEWAY_ID")
 }
 
-func (alerter *Alerter) sendSample(metric string, sample Sample) {
+func (alerter *Alerter) sendSample(metric string, sample Sample) bool {
 	alerter.CheckHealthParameter(metric, sample)
-	alerter.downSampler.addSample(metric, sample)
+	return alerter.downSampler.addSample(metric, sample)
 }
 
 func SendSMS(phoneNumber string, message string) {
@@ -59,9 +59,9 @@ func SendSMS(phoneNumber string, message string) {
 func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	var isAbnormal bool
 	var message string
-	fmt.Println(" check health ")
-	fmt.Println(" param ", param)
-	fmt.Println(" sample  ", sample)
+	//fmt.Println(" check health ")
+	//fmt.Println(" param ", param)
+	//fmt.Println(" sample  ", sample)
 	var gateway = alerter.gatewayID
 	var phoneNumbers, err = alerter.getPhoneNumbers(gateway)
 

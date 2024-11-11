@@ -1,1 +1,0 @@
- <span style="color:red"> je comte faire un script pour lancer les 3 docker build et juste on lui dire de lancer le script  </span>
