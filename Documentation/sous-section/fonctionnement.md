@@ -54,4 +54,6 @@ qui sont ensuite stockés dans la base de données patient. Cette intégration a
 et les rapports médicaux, permettant une visualisation cohérente et un accès rapide à l’information cruciale sur la santé des patients.
 
 ## Phase 7 : La Partie VPN
-<span style="color:red"> Apoorva </span>
+Afin de simplifier la gestion des gateways et de faciliter l’assistance en cas de panne, un tunnel sécurisé est créé entre chaque gateway et le serveur. Ce tunnel permet à un opérateur de se connecter à la gateway pour effectuer des tâches de support.
+
+Les mises à jour des gateways sont effectuées en utilisant un mécanisme de pull sur un endpoint qui enregistre les dernières versions et les met à disposition des gateways.
