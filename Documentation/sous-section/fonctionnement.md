@@ -10,9 +10,8 @@ analyser et afficher des données critiques pour assurer un suivi médical effic
 ## Phase 1 : Collecte des Données des Capteurs
 Le système commence par la collecte de données provenant de divers capteurs, tels que le cardiofréquencemètre,
 l'accéléromètre, le thermomètre et le glucomètre, qui mesurent les signes vitaux du patient à des fréquences variées. 
-Ces capteurs transmettent leurs données via la technologie Zigbee à un adaptateur. Une fois les données arrivées 
-dans l'adaptateur, elles sont envoyées vers RabbitMQ, qui assure la communication entre l’adaptateur et le reste 
-de l'infrastructure, garantissant une transmission fiable des données en temps réel.
+Ces capteurs transmettent leurs données via la technologie Zigbee à la gateway placé chez le client. Une fois les données arrivées 
+dans la gateway, elles sont envoyées vers un broker (RabbitMQ), qui la sauvegarde des donnée dans la gateway en attendant la transmission au serveur, il garantit une transmission fiable des données.
 
 ## Phase 2 : Système de Détection d'Alerte Urgente
 Le système de détection d'alerte, situé côté patient, surveille en temps réel les données provenant des files de chaque 
@@ -28,10 +27,7 @@ Parallèlement, une alerte est automatiquement enregistrée dans la base de donn
 ce qui permet de documenter et centraliser les événements critiques pour un suivi et une analyse ultérieurs.
 
 ## Phase 3 : Downsampling et Communication avec le Cloud
-Après la détection des alertes critiques, les données passent à une phase de compression. Les données traitées sont 
-ensuite placées dans un broker, garantissant la continuité de la transmission vers le cloud, même en cas de perte 
-temporaire de la connexion. Cette approche permet de maintenir un flux de données stable et fiable, tout en assurant 
-une efficacité accrue dans le traitement des informations.
+Après la détection des alertes critiques, les données passent à une phase de réduction. La fréquence d'échantillonage est réduite pour correspondre au besoin d'analyse côté serveur. Une fréquence élevée de mesures n'est pas nécessaire une fois la détection d'alertes critiques faite. Les données sont ensuite compactés en batch puis envoyées au serveur.
 
 ## Phase 4 : Prometheus pour la Surveillance des Données
 Prometheus consomme les données pour les stocker en vue d'analyses ultérieures. Un service d'analyse de haut niveau 
@@ -58,4 +54,4 @@ qui sont ensuite stockés dans la base de données patient. Cette intégration a
 et les rapports médicaux, permettant une visualisation cohérente et un accès rapide à l’information cruciale sur la santé des patients.
 
 ## Phase 7 : La Partie VPN
-<span style="color:red"> no idea ça fait quoi xd </span>
+<span style="color:red"> Apoorva </span>
