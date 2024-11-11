@@ -31,10 +31,10 @@ Après la détection des alertes critiques, les données passent à une phase de
 
 ## Phase 4 : Prometheus pour la Surveillance des Données
 Prometheus consomme les données pour les stocker en vue d'analyses ultérieures. Un service d'analyse de haut niveau 
-extrait les données de Prometheus pour fournir aux utilisateurs <span style="color:red"> à identifier les utilisateur est ce que doc et nurse ou juste doc </span> 
-des analyses détaillées, tout en offrant des résumés accessibles aux proches des patients. De plus, l'intégration 
+extrait les données de Prometheus pour fournir aux utilisateurs 
+des analyses plus détaillées en fonction de leur rôle. De plus, l'intégration 
 d'Alert Manager dans ce processus permet d'identifier des anomalies sur des périodes prolongées en générant des alertes 
-via le service Gestion des Alertes.
+via le service de gestion des Alertes.
 
 ## Phase 5 : Accès des Utilisateurs
 Les utilisateurs, qu'il s'agisse de proches, de médecins ou d'infirmières, accèdent à l'interface frontend via Traefik, 
