@@ -48,7 +48,7 @@ export default function Profil() {
                 <>
                     <ProfilDetails patient={profil.data}/>
                     
-                    <Box sx={{width: '100%', pt: 4,maxHeight: 400, overflowY: 'auto'}}>
+                    <Box sx={{width: '100%', pt: 4}}>
                         <Typography variant="h6" gutterBottom>
                             Alerts
                         </Typography>
