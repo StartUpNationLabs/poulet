@@ -6,7 +6,7 @@ globale qui en découle. Chaque section correspond à un domaine précis, avec d
 concernant différents composants et aspects du système.
 
 Les sections du rapport sont les suivantes :
-- [Introduction](sous-section/into.md)
+- [Introduction](sous-section/intro.md)
 - [user stories](sous-section/usecases.md)
 - [Périmètre Du POC](sous-section/perimetre.md)
 - [Quickstart](sous-section/quickstart.md)
