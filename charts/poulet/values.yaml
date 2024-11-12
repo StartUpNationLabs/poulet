@@ -52,7 +52,14 @@ grafana:
       doctor-dashboard:
         url: https://raw.githubusercontent.com/StartUpNationLabs/poulet/refs/heads/main/cloud/config/grafana/dashboards_data/doctor.json
         token: ''
-
+  downloadDashboards:
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
   sidecar:
     resources:
       limits:
