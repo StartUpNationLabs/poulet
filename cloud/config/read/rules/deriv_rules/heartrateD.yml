@@ -7,7 +7,7 @@ groups:
     labels:
       severity: "MEDIUM"
       type: "heartrate_deriv"
-      gatewayId: "671aaecbbf1f103b28e58788"
+      gatewayId: "{{ $labels.gateway_id }}"
       value: "{{ $value }}"
 
     annotations:
@@ -21,7 +21,7 @@ groups:
     labels:
       severity: "HIGH"
       type: "heartrate_deriv"
-      gatewayId: "671aaecbbf1f103b28e58788"
+      gatewayId: "{{ $labels.gateway_id }}"
       value: "{{ $value }}"
 
     annotations:
