@@ -195,7 +195,7 @@ prometheus:
         - name: glucose-deriv-alerts
           rules:
             - alert: RapidIncreaseGlucose
-              expr: deriv(glucose[30s]) > 10
+              expr: increase(glucose[30s]) > 10
               labels:
                 severity: "MEDIUM"
                 type: "glucose_deriv"
@@ -208,7 +208,7 @@ prometheus:
                 message: "Current rate of glucose change: {{ $value }} mg/dL per 5 minutes"
 
             - alert: RapidDecreaseGlucose
-              expr: deriv(glucose[30s]) < -10
+              expr: increase(glucose[30s]) < -10
               labels:
                 severity: "MEDIUM"
                 type: "glucose_deriv"
@@ -223,7 +223,7 @@ prometheus:
         - name: heartrate-deriv-alerts
           rules:
             - alert: RapidIncreaseHeartRate
-              expr: deriv(heartrate[30s]) > 15
+              expr: increase(heartrate[30s]) > 15
               labels:
                 severity: "MEDIUM"
                 type: "heartrate_deriv"
@@ -236,7 +236,7 @@ prometheus:
                 message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
 
             - alert: RapidDecreaseHeartRate
-              expr: deriv(heartrate[30s]) < -15
+              expr: increase(heartrate[30s]) < -15
               labels:
                 severity: "HIGH"
                 type: "heartrate_deriv"
@@ -251,7 +251,7 @@ prometheus:
         - name: temperature-deriv-alerts
           rules:
             - alert: RapidIncreaseTemperature
-              expr: deriv(temperature[30s]) > 0.5
+              expr: increase(temperature[30s]) > 0.5
               labels:
                 severity: "MEDIUM"
                 type: "temperature_deriv"
@@ -264,7 +264,7 @@ prometheus:
                 message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"
 
             - alert: RapidDecreaseTemperature
-              expr: deriv(temperature[30s]) < -0.5
+              expr: increase(temperature[30s]) < -0.5
               labels:
                 severity: "MEDIUM"
                 type: "temperature_deriv"
@@ -275,186 +275,6 @@ prometheus:
                 summary: "Rapid Decrease in Temperature Alert"
                 description: "The temperature is decreasing rapidly (rate of change < -0.5°C per 5 minutes)."
                 message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"
-
-        - name: glucose-predict-alerts
-          rules:
-            - alert: PredictedHighGlucose
-              expr: predict_linear(glucose[10s], 30 * 60) > 180
-              labels:
-                severity: "WARNING"
-                type: "glucose_predict"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Predicted High Glucose Alert"
-                description: "Glucose level is predicted to exceed 180 mg/dL within the next 30 minutes."
-                message: "Predicted glucose value in 30 minutes: {{ $value }} mg/dL"
-
-            - alert: PredictedLowGlucose
-              expr: predict_linear(glucose[10s], 30 * 60) < 70
-              labels:
-                severity: "WARNING"
-                type: "glucose_predict"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Predicted Low Glucose Alert"
-                description: "Glucose level is predicted to fall below 70 mg/dL within the next 30 minutes."
-                message: "Predicted glucose value in 30 minutes: {{ $value }} mg/dL"
-
-        - name: heartrate-predict-alerts
-          rules:
-            - alert: PredictedHighHeartRate
-              expr: predict_linear(heartrate[10s], 10 * 60) > 100
-              labels:
-                severity: "WARNING"
-                type: "heartrate_predict"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Predicted High Heart Rate Alert"
-                description: "The heart rate is predicted to exceed 100 bpm within the next 10 minutes."
-                message: "Predicted heart rate value in 10 minutes: {{ $value }} bpm"
-
-            - alert: PredictedLowHeartRate
-              expr: predict_linear(heartrate[10s], 10 * 60) < 50
-              labels:
-                severity: "WARNING"
-                type: "heartrate_predict"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Predicted Low Heart Rate Alert"
-                description: "The heart rate is predicted to drop below 50 bpm within the next 10 minutes."
-                message: "Predicted heart rate value in 10 minutes: {{ $value }} bpm"
-
-        - name: temperature-predict-alerts
-          rules:
-            - alert: PredictedHighTemperature
-              expr: predict_linear(temperature[10s], 10 * 60) > 40
-              labels:
-                severity: "WARNING"
-                type: "temperature_predict"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Predicted High Temperature Alert"
-                description: "The temperature is predicted to exceed 40°C within the next 10 minutes."
-                message: "Predicted temperature value in 10 minutes: {{ $value }}°C"
-
-            - alert: PredictedLowTemperature
-              expr: predict_linear(temperature[10s], 10 * 60) < 35
-              labels:
-                severity: "WARNING"
-                type: "temperature_predict"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Predicted Low Temperature Alert"
-                description: "The temperature is predicted to drop below 35°C within the next 10 minutes."
-                message: "Predicted temperature value in 10 minutes: {{ $value }}°C"
-
-        - name: acceleration-alerts
-          rules:
-            - alert: HighAcceleration
-              expr: acceleration > 1
-              labels:
-                severity: "WARNING"
-                type: "acceleration"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-              annotations:
-                summary: "High Acceleration Alert"
-                description: "Acceleration exceeds 80 units."
-                message: "Current acceleration value: {{ $value }}"
-
-        - name: glucose-alerts
-          rules:
-            - alert: HighGlucose
-              expr: glucose > 180
-              labels:
-                severity: "WARNING"
-                type: "glucose"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value  }}"
-
-              annotations:
-                summary: "High Glucose Alert"
-                description: "Glucose level is above 180 mg/dL."
-                message: "Current glucose value: {{ $value }}"
-
-            - alert: LowGlucose
-              expr: glucose < 70
-              labels:
-                severity: "WARNING"
-                type: "glucose"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-              annotations:
-                summary: "Low Glucose Alert"
-                description: "Glucose level is below 70 mg/dL."
-                message: "Current glucose value: {{ $value }}"
-
-        - name: heartrate-alerts
-          rules:
-            - alert: HighHeartRate
-              expr: heartrate > 100
-              labels:
-                severity: "WARNING"
-                type: "heartrate"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "High Heart Rate Alert"
-                description: "Heart rate is above 100 bpm."
-                message: "Current heart rate value: {{ $value }}"
-
-            - alert: LowHeartRate
-              expr: heartrate < 50
-              labels:
-                severity: "WARNING"
-                type: "heartrate"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Low Heart Rate Alert"
-                description: "Heart rate is below 50 bpm."
-                message: "Current heart rate value: {{ $value }}"
-        - name: temperature-alerts
-          rules:
-            - alert: HighTemperature
-              expr: temperature > 40
-              labels:
-                severity: "WARNING"
-                type: "temperature"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "High Temperature Alert"
-                description: "Temperature is above 40°C."
-                message: "Current temperature value: {{ $value }}"
-
-            - alert: LowTemperature
-              expr: temperature < 35
-              labels:
-                severity: "WARNING"
-                type: "temperature"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Low Temperature Alert"
-                description: "Temperature is below 35°C."
-                message: "Current temperature value: {{ $value }}"
 
 keycloak:
   enabled: true
