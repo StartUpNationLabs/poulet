@@ -393,6 +393,7 @@ mongodb:
   auth:
     enabled: true
     rootPassword: root
+    
 alert-management:
   enabled: true
   mongodb:
@@ -440,7 +441,7 @@ analyse-haut-niveau-management:
 frontend:
   enabled: true
   image:
-    tag: 35cb10013e38d0dd822e0a0ad122ba41def5dc00
+    tag: 4910bd214c1eb875c8efaa59bc75903204e3c94d
   environment:
     ALERT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
     PATIENT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
@@ -509,7 +510,7 @@ rabbitmq:
 adapter:
   nabled: true
   image:
-    tag: 6ceac3399f0da47234cc3e909abfa0880d8c871c
+    tag: 2d5bc3a78d77d74b3db138f2c5ce1ac8258680e5
   resources:
     limits:
       cpu: 100m
@@ -535,7 +536,7 @@ adapter:
 data-manager:
   enabled: true
   image:
-    tag: 6ceac3399f0da47234cc3e909abfa0880d8c871c
+    tag: 3de8ae57ce7d654f234f2f4a9d2484ca4a26b9d2
   resources:
     limits:
       cpu: 100m

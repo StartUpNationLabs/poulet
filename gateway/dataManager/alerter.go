@@ -25,6 +25,7 @@ type Alerter struct {
 	notificationEndpoint string
 	clientInfoEndpoint   string
 	gatewayID 		     string
+	phoneNumber			 string
 }
 
 func (alerter *Alerter) init(downSampler *DownSampler) {
@@ -45,6 +46,11 @@ func (alerter *Alerter) init(downSampler *DownSampler) {
 		return
 	}
 	alerter.gatewayID = os.Getenv("GATEWAY_ID")
+	phoneNum, err := alerter.getPhoneNumbers(alerter.gatewayID)
+	alerter.phoneNumber = phoneNum
+	if err != nil {
+		fmt.Println("Error getting phone numbers:", err)
+	}
 }
 
 func (alerter *Alerter) sendSample(metric string, sample Sample) {
@@ -59,23 +65,16 @@ func SendSMS(phoneNumber string, message string) {
 func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	var isAbnormal bool
 	var message string
-	fmt.Println(" check health ")
-	fmt.Println(" param ", param)
-	fmt.Println(" sample  ", sample)
-	var gateway = alerter.gatewayID
-	var phoneNumbers, err = alerter.getPhoneNumbers(gateway)
-
-	if err != nil {
-		fmt.Println("Error getting phone numbers:", err)
-		return false
-	}
+	//fmt.Println(" check health ")
+	//fmt.Println(" param ", param)
+	//fmt.Println(" sample  ", sample)
 
 	switch param {
 	case "temperature":
 		isAbnormal = sample.Value < 36.0 || sample.Value > 38
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f°C", param, sample.Value)
 	case "acceleration":
-		isAbnormal = sample.Value > 100
+		isAbnormal = sample.Value > 500
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f m/s²", param, sample.Value)
 	case "glucose":
 		isAbnormal = sample.Value < 50 || sample.Value > 140
@@ -89,14 +88,14 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	}
 
 	if isAbnormal {
-		SendSMS(phoneNumbers, message)
+		SendSMS(alerter.phoneNumber, message)
 
 		alert := Alert{
 			Parameter: param,
 			Value:     sample.Value,
 			Time:      sample.Time,
 			Message:   message,
-			GatewayID: gateway,
+			GatewayID: alerter.gatewayID,
 			Severity:  "CRITICAL",
 		}
 
@@ -120,7 +119,7 @@ func (alerter *Alerter) sendAlerts(alert Alert) error {
 		return fmt.Errorf("error sending alert to server: %v", err)
 	}
 	defer resp.Body.Close()
-
+	fmt.Printf("Sending Alert to server : %s\n", alert.Parameter)
 	return nil
 }
 

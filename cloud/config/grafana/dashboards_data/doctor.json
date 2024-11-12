@@ -18,34 +18,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
   "links": [],
   "panels": [
-    {
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 0
-      },
-      "id": 5,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "## Firsst name : Marie \n## Last name : Dupont\n## Age : 78\n## Sexe : F",
-        "mode": "markdown"
-      },
-      "pluginVersion": "11.3.0",
-      "title": "Client informations",
-      "type": "text"
-    },
     {
       "datasource": {
         "default": false,
@@ -113,9 +87,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
+        "h": 9,
+        "w": 24,
+        "x": 0,
         "y": 0
       },
       "id": 3,
@@ -224,7 +198,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 9
       },
       "id": 2,
       "options": {
@@ -332,7 +306,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 8
+        "y": 9
       },
       "id": 4,
       "options": {
@@ -371,16 +345,14 @@
       "type": "timeseries"
     }
   ],
-  "preload": false,
-  "schemaVersion": 40,
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "> asdqwe",
-          "value": "asdqwe"
+          "text": "",
+          "value": ""
         },
         "description": "gatewayId",
         "hide": 0,
@@ -390,7 +362,6 @@
         "name": "gatewayId",
         "options": [],
         "query": "",
-        "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
       }
@@ -401,7 +372,7 @@
     "to": "now"
   },
   "timepicker": {
-    "hidden": true
+    "hidden": false
   },
   "timezone": "browser",
   "title": "Doctor",
