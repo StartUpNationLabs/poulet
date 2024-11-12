@@ -284,7 +284,7 @@ prometheus:
         - name: glucose-predict-alerts
           rules:
             - alert: PredictedHighGlucose
-              expr: predict_linear(glucose[30m], 30 * 60) > 180
+              expr: predict_linear(glucose[10s], 30 * 60) > 180
               for: 10s
               labels:
                 severity: "WARNING"
@@ -298,8 +298,8 @@ prometheus:
                 message: "Predicted glucose value in 30 minutes: {{ $value }} mg/dL"
 
             - alert: PredictedLowGlucose
-              expr: predict_linear(glucose[30m], 30 * 60) < 70
-              for: 1m
+              expr: predict_linear(glucose[10s], 30 * 60) < 70
+              for: 10s
               labels:
                 severity: "WARNING"
                 type: "glucose_predict"
@@ -390,7 +390,7 @@ prometheus:
           rules:
             - alert: HighGlucose
               expr: glucose > 180
-              for: 30s
+#              for: 30s
               labels:
                 severity: "WARNING"
                 type: "glucose"
@@ -404,7 +404,7 @@ prometheus:
 
             - alert: LowGlucose
               expr: glucose < 70
-              for: 30s
+#              for: 30s
               labels:
                 severity: "WARNING"
                 type: "glucose"
@@ -419,7 +419,7 @@ prometheus:
           rules:
             - alert: HighHeartRate
               expr: heartrate > 100
-              for: 30s
+#              for: 30s
               labels:
                 severity: "WARNING"
                 type: "heartrate"
@@ -448,7 +448,7 @@ prometheus:
           rules:
             - alert: HighTemperature
               expr: temperature > 40
-              for: 30s
+#              for: 30s
               labels:
                 severity: "WARNING"
                 type: "temperature"
@@ -462,7 +462,7 @@ prometheus:
 
             - alert: LowTemperature
               expr: temperature < 35
-              for: 10s
+#              for: 10s
               labels:
                 severity: "WARNING"
                 type: "temperature"
