@@ -135,6 +135,9 @@ prometheus:
       size: 2Gi
 
     retentionSize: "20GB"
+    statefulSet:
+      enabled: true
+    replicaCount: 3
 
     extraArgs:
       enable-feature: remote-write-receiver
@@ -303,6 +306,7 @@ frontend:
 #GATEWAY
 
 rabbitmq:
+  enabled: true
   auth:
     password: password
   resources:
@@ -350,3 +354,4 @@ data-manager:
     requests:
       cpu: 100m
       memory: 128Mi
+
