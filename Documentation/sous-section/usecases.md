@@ -45,8 +45,4 @@ aux informations sensibles.
 - **En tant que développeur**, je veux configurer et mettre à jour le système, afin de garantir la bonne intégration 
 des nouveaux capteurs et la sécurité des données.
 
-## 7. Système IoT
-- **En tant que système IoT**, je veux remonter automatiquement les données, afin de surveiller en temps réel l'état 
-du patient.
-- **En tant que système IoT**, je veux notifier automatiquement les utilisateurs en cas de dysfonctionnement ou d'alerte, 
-afin qu'ils puissent réagir rapidement en cas de problème.
+<img src="../diagrams/UseCase.jpg">
