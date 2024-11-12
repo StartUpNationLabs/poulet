@@ -195,11 +195,11 @@ prometheus:
           rules:
             - alert: RapidIncreaseGlucose
               expr: deriv(glucose[30s]) > 10
-              for: 15s
+              for: 10s
               labels:
                 severity: "MEDIUM"
                 type: "glucose_deriv"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -209,11 +209,11 @@ prometheus:
 
             - alert: RapidDecreaseGlucose
               expr: deriv(glucose[30s]) < -10
-              for: 15s
+              for: 10s
               labels:
                 severity: "MEDIUM"
                 type: "glucose_deriv"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -225,11 +225,11 @@ prometheus:
           rules:
             - alert: RapidIncreaseHeartRate
               expr: deriv(heartrate[30s]) > 15
-              for: 15s
+              for: 10s
               labels:
                 severity: "MEDIUM"
                 type: "heartrate_deriv"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -239,11 +239,11 @@ prometheus:
 
             - alert: RapidDecreaseHeartRate
               expr: deriv(heartrate[30s]) < -15
-              for: 15s
+              for: 10s
               labels:
                 severity: "HIGH"
                 type: "heartrate_deriv"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -255,11 +255,11 @@ prometheus:
           rules:
             - alert: RapidIncreaseTemperature
               expr: deriv(temperature[30s]) > 0.5
-              for: 15s
+              for: 10s
               labels:
                 severity: "MEDIUM"
                 type: "temperature_deriv"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -269,11 +269,11 @@ prometheus:
 
             - alert: RapidDecreaseTemperature
               expr: deriv(temperature[30s]) < -0.5
-              for: 15s
+              for: 10s
               labels:
                 severity: "MEDIUM"
                 type: "temperature_deriv"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -285,11 +285,11 @@ prometheus:
           rules:
             - alert: PredictedHighGlucose
               expr: predict_linear(glucose[30m], 30 * 60) > 180
-              for: 1m
+              for: 10s
               labels:
                 severity: "WARNING"
                 type: "glucose_predict"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -303,7 +303,7 @@ prometheus:
               labels:
                 severity: "WARNING"
                 type: "glucose_predict"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -314,12 +314,12 @@ prometheus:
         - name: heartrate-predict-alerts
           rules:
             - alert: PredictedHighHeartRate
-              expr: predict_linear(heartrate[5m], 10 * 60) > 100
-              for: 1m
+              expr: predict_linear(heartrate[10s], 10 * 60) > 100
+              for: 10s
               labels:
                 severity: "WARNING"
                 type: "heartrate_predict"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -328,12 +328,12 @@ prometheus:
                 message: "Predicted heart rate value in 10 minutes: {{ $value }} bpm"
 
             - alert: PredictedLowHeartRate
-              expr: predict_linear(heartrate[5m], 10 * 60) < 50
-              for: 1m
+              expr: predict_linear(heartrate[10s], 10 * 60) < 50
+              for: 10s
               labels:
                 severity: "WARNING"
                 type: "heartrate_predict"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -344,12 +344,12 @@ prometheus:
         - name: temperature-predict-alerts
           rules:
             - alert: PredictedHighTemperature
-              expr: predict_linear(temperature[5m], 10 * 60) > 40
-              for: 1m
+              expr: predict_linear(temperature[10s], 10 * 60) > 40
+              for: 10s
               labels:
                 severity: "WARNING"
                 type: "temperature_predict"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -358,12 +358,12 @@ prometheus:
                 message: "Predicted temperature value in 10 minutes: {{ $value }}°C"
 
             - alert: PredictedLowTemperature
-              expr: predict_linear(temperature[5m], 10 * 60) < 35
-              for: 1m
+              expr: predict_linear(temperature[10s], 10 * 60) < 35
+              for: 10s
               labels:
                 severity: "WARNING"
                 type: "temperature_predict"
-                gatewayId: "671aaecbbf1f103b28e58788"
+                gatewayId: "{{ $labels.gateway_id }}"
                 value: "{{ $value }}"
 
               annotations:
@@ -371,8 +371,108 @@ prometheus:
                 description: "The temperature is predicted to drop below 35°C within the next 10 minutes."
                 message: "Predicted temperature value in 10 minutes: {{ $value }}°C"
 
+        - name: acceleration-alerts
+          rules:
+            - alert: HighAcceleration
+              expr: acceleration > 1
+              #for: 10s
+              labels:
+                severity: "WARNING"
+                type: "acceleration"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
+              annotations:
+                summary: "High Acceleration Alert"
+                description: "Acceleration exceeds 80 units."
+                message: "Current acceleration value: {{ $value }}"
 
+        - name: glucose-alerts
+          rules:
+            - alert: HighGlucose
+              expr: glucose > 180
+              for: 30s
+              labels:
+                severity: "WARNING"
+                type: "glucose"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value  }}"
 
+              annotations:
+                summary: "High Glucose Alert"
+                description: "Glucose level is above 180 mg/dL."
+                message: "Current glucose value: {{ $value }}"
+
+            - alert: LowGlucose
+              expr: glucose < 70
+              for: 30s
+              labels:
+                severity: "WARNING"
+                type: "glucose"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
+              annotations:
+                summary: "Low Glucose Alert"
+                description: "Glucose level is below 70 mg/dL."
+                message: "Current glucose value: {{ $value }}"
+
+        - name: heartrate-alerts
+          rules:
+            - alert: HighHeartRate
+              expr: heartrate > 100
+              for: 30s
+              labels:
+                severity: "WARNING"
+                type: "heartrate"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
+
+              annotations:
+                summary: "High Heart Rate Alert"
+                description: "Heart rate is above 100 bpm."
+                message: "Current heart rate value: {{ $value }}"
+
+            - alert: LowHeartRate
+              expr: heartrate < 50
+              for: 30s
+              labels:
+                severity: "WARNING"
+                type: "heartrate"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
+
+              annotations:
+                summary: "Low Heart Rate Alert"
+                description: "Heart rate is below 50 bpm."
+                message: "Current heart rate value: {{ $value }}"
+        - name: temperature-alerts
+          rules:
+            - alert: HighTemperature
+              expr: temperature > 40
+              for: 30s
+              labels:
+                severity: "WARNING"
+                type: "temperature"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
+
+              annotations:
+                summary: "High Temperature Alert"
+                description: "Temperature is above 40°C."
+                message: "Current temperature value: {{ $value }}"
+
+            - alert: LowTemperature
+              expr: temperature < 35
+              for: 10s
+              labels:
+                severity: "WARNING"
+                type: "temperature"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
+
+              annotations:
+                summary: "Low Temperature Alert"
+                description: "Temperature is below 35°C."
+                message: "Current temperature value: {{ $value }}"
 
 keycloak:
   enabled: true
@@ -443,7 +543,7 @@ analyse-haut-niveau-management:
 frontend:
   enabled: true
   image:
-    tag: 53596be130d71da9921d03a2ab3c25af334e99f3
+    tag: f7c676ff7375daa3d771d5ab1af25aeac45c8328
   environment:
     ALERT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
     PATIENT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
