@@ -25,6 +25,7 @@ type Alerter struct {
 	notificationEndpoint string
 	clientInfoEndpoint   string
 	gatewayID 		     string
+	phoneNumber
 }
 
 func (alerter *Alerter) init(downSampler *DownSampler) {
@@ -45,6 +46,7 @@ func (alerter *Alerter) init(downSampler *DownSampler) {
 		return
 	}
 	alerter.gatewayID = os.Getenv("GATEWAY_ID")
+	alerter.phoneNumber = alerter.getPhoneNumbers(alerter.gatewayID)
 }
 
 func (alerter *Alerter) sendSample(metric string, sample Sample) {
@@ -52,8 +54,8 @@ func (alerter *Alerter) sendSample(metric string, sample Sample) {
 	alerter.downSampler.addSample(metric, sample)
 }
 
-func SendSMS(phoneNumber string, message string) {
-	fmt.Printf("Sending SMS to %s: %s\n", phoneNumber, message)
+func SendSMS(message string) {
+	fmt.Printf("Sending SMS to %s: %s\n", alerter.phoneNumber, message)
 }
 
 func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
@@ -62,13 +64,6 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	//fmt.Println(" check health ")
 	//fmt.Println(" param ", param)
 	//fmt.Println(" sample  ", sample)
-	var gateway = alerter.gatewayID
-	var phoneNumbers, err = alerter.getPhoneNumbers(gateway)
-
-	if err != nil {
-		fmt.Println("Error getting phone numbers:", err)
-		return false
-	}
 
 	switch param {
 	case "temperature":
@@ -89,7 +84,7 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	}
 
 	if isAbnormal {
-		SendSMS(phoneNumbers, message)
+		SendSMS(message)
 
 		alert := Alert{
 			Parameter: param,
@@ -124,7 +119,7 @@ func (alerter *Alerter) sendAlerts(alert Alert) error {
 	return nil
 }
 
-func (alerter *Alerter) getPhoneNumbers(gatewayID string) (string, error) {
+func (alerter *Alerter) getPhoneNumbers(gatewayID string) string {
 	resp, err := http.Get( alerter.clientInfoEndpoint + "/patient/gateway/" + gatewayID)
 	if err != nil {
 		return "", fmt.Errorf("error getting patient data: %v", err)
@@ -137,5 +132,5 @@ func (alerter *Alerter) getPhoneNumbers(gatewayID string) (string, error) {
 	if err := json.NewDecoder(resp.Body).Decode(&patient); err != nil {
 		return "", fmt.Errorf("error decoding patient data: %v", err)
 	}
-	return patient.EmergencyContactPhoneNumber, nil
+	return patient.EmergencyContactPhoneNumber
 }
