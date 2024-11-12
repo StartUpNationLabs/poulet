@@ -46,7 +46,8 @@ func (alerter *Alerter) init(downSampler *DownSampler) {
 		return
 	}
 	alerter.gatewayID = os.Getenv("GATEWAY_ID")
-	alerter.phoneNumber, err := alerter.getPhoneNumbers(alerter.gatewayID)
+	phoneNum, err := alerter.getPhoneNumbers(alerter.gatewayID)
+	alerter.phoneNumber = phoneNum
 	if err != nil {
 		fmt.Println("Error getting phone numbers:", err)
 	}
