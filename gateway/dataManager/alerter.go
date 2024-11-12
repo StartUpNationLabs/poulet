@@ -71,16 +71,16 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 
 	switch param {
 	case "temperature":
-		isAbnormal = sample.Value < 36.0 || sample.Value > 38
+		isAbnormal = sample.Value < 36.1 || sample.Value > 42
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f°C", param, sample.Value)
 	case "acceleration":
 		isAbnormal = sample.Value > 500
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f m/s²", param, sample.Value)
 	case "glucose":
-		isAbnormal = sample.Value < 50 || sample.Value > 140
+		isAbnormal = sample.Value < 20 || sample.Value > 90
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f mg/dL", param, sample.Value)
 	case "heartrate":
-		isAbnormal = sample.Value < 50 || sample.Value > 120
+		isAbnormal = sample.Value < 50 || sample.Value > 150
 		message = fmt.Sprintf("Alert! Abnormal %s: %.2f BPM", param, sample.Value)
 	default:
 		fmt.Println("Unknown parameter:", param)
