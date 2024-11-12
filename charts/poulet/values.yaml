@@ -150,7 +150,7 @@ prometheus:
 
   serverFiles:
     prometheus.yml:
-      scrape_configs: []
+      scrape_configs: [ ]
 
 
 keycloak:
@@ -273,6 +273,7 @@ frontend:
 #GATEWAY
 
 rabbitmq:
+  enabled: true
   auth:
     password: password
   resources:
@@ -320,3 +321,4 @@ data-manager:
     requests:
       cpu: 100m
       memory: 128Mi
+
