@@ -35,3 +35,5 @@ dependencies:
 - name: data-manager
   repository: ""
   version: 0.1.2
+digest: sha256:cbdd0f6221600c7543aa03eb1cd3b0d445991b1817cf74b1f4f6c9dca471e36f
+generated: "2024-11-12T11:29:07.083422413+01:00"
