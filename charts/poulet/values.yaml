@@ -509,7 +509,7 @@ rabbitmq:
 adapter:
   nabled: true
   image:
-    tag: 6ceac3399f0da47234cc3e909abfa0880d8c871c
+    tag: 2d5bc3a78d77d74b3db138f2c5ce1ac8258680e5
   resources:
     limits:
       cpu: 100m
@@ -535,7 +535,7 @@ adapter:
 data-manager:
   enabled: true
   image:
-    tag: 6ceac3399f0da47234cc3e909abfa0880d8c871c
+    tag: 2d5bc3a78d77d74b3db138f2c5ce1ac8258680e5
   resources:
     limits:
       cpu: 100m
