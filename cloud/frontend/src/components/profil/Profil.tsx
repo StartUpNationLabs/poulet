@@ -74,13 +74,6 @@ export default function Profil() {
 
                     <Box sx={{width: '100%', pt: 4}}>
                         <Typography variant="h6" gutterBottom>
-                            Alerts
-                        </Typography>
-                        <ProfilAlerts gatewayId={gatewayId}/>
-                    </Box>
-
-                    <Box sx={{width: '100%', pt: 4}}>
-                        <Typography variant="h6" gutterBottom>
                             Dashboards
                         </Typography>
                         <Box display="flex" justifyContent="center" sx={{ pt: 2 }}>
@@ -90,6 +83,13 @@ export default function Profil() {
                                 <CallMadeIcon sx={{marginLeft:"0.5dvw"}}/>
                             </Button>
                         </Box>
+                    </Box>
+
+                    <Box sx={{width: '100%', pt: 4}}>
+                        <Typography variant="h6" gutterBottom>
+                            Alerts
+                        </Typography>
+                        <ProfilAlerts gatewayId={gatewayId}/>
                     </Box>
 
                 </>
