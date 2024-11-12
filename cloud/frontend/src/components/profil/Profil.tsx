@@ -47,6 +47,12 @@ export default function Profil() {
             {profil !== undefined ? (
                 <>
                     <ProfilDetails patient={profil.data}/>
+                    <Box sx={{width: '100%', pt: 4}}>
+                        <Typography variant="h6" gutterBottom>
+                            Latest metrics:
+                        </Typography>
+                        <ProfilKpi gatewayId={gatewayId}/>
+                    </Box>
                     
                     <Box sx={{width: '100%', pt: 4}}>
                         <Typography variant="h6" gutterBottom>
@@ -54,12 +60,7 @@ export default function Profil() {
                         </Typography>
                         <ProfilAlerts gatewayId={gatewayId}/>
                     </Box>
-                    <Box sx={{width: '100%', pt: 4}}>
-                        <Typography variant="h6" gutterBottom>
-                            Latest metrics:
-                        </Typography>
-                        <ProfilKpi gatewayId={gatewayId}/>
-                    </Box>
+                   
                 </>
 
             ) : (

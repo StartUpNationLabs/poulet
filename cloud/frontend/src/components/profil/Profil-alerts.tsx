@@ -46,7 +46,7 @@ export default function ProfilAlerts(props: ProfilAlertsProps) {
                 <Typography>Loading alerts...</Typography>
             ) : (
                 alerts !== undefined && alerts.data.length > 0 ? (
-                    <TableContainer component={Paper} sx={{maxHeight: 400, overflowY: 'auto'}}>
+                    <TableContainer component={Paper} sx={{maxHeight: 650, overflowY: 'auto'}}>
 
                         <Table>
                             <TableHead>
