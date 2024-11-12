@@ -49,7 +49,6 @@ func (alerter *Alerter) init(downSampler *DownSampler) {
 	alerter.phoneNumber, err = alerter.getPhoneNumbers(alerter.gatewayID)
 	if err != nil {
 		fmt.Println("Error getting phone numbers:", err)
-		return false
 	}
 }
 
