@@ -445,6 +445,7 @@ frontend:
     ALERT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
     PATIENT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
     ANALYSE_HAUT_NIVEAU_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
+    DASHBOARD_BASE_URL: "https://grafana.al.apoorva64.com/d/ee114zd3cfeo0c/doctor"
   ingress:
     enabled: true
     className: ""
