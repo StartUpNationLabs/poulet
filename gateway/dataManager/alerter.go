@@ -59,9 +59,9 @@ func SendSMS(phoneNumber string, message string) {
 func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	var isAbnormal bool
 	var message string
-	fmt.Println(" check health ")
-	fmt.Println(" param ", param)
-	fmt.Println(" sample  ", sample)
+	//fmt.Println(" check health ")
+	//fmt.Println(" param ", param)
+	//fmt.Println(" sample  ", sample)
 	var gateway = alerter.gatewayID
 	var phoneNumbers, err = alerter.getPhoneNumbers(gateway)
 
@@ -120,7 +120,7 @@ func (alerter *Alerter) sendAlerts(alert Alert) error {
 		return fmt.Errorf("error sending alert to server: %v", err)
 	}
 	defer resp.Body.Close()
-
+	fmt.Printf("Sending Alert to server : %s\n", alert.Parameter)
 	return nil
 }
 
