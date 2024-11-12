@@ -20,7 +20,7 @@ export default function ProfilKpi(props: ProfilKpiProps) {
         data: kpi,
         isLoading: isLoading
     } = useQuery({
-        queryKey: ['getAlertsByPatientId', props.gatewayId],
+        queryKey: ['getMetricsByPatientId', props.gatewayId],
         queryFn: async () => {
             const metricsResourceApi: MetricsResourceApi = new MetricsResourceApi();
             return metricsResourceApi.metricsTodayGet({
