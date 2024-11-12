@@ -38,19 +38,20 @@ grafana:
     dashboardproviders.yaml:
       apiVersion: 1
       providers:
-      - name: 'Default'
-        orgId: 1
-        folder: ''
-        type: file
-        disableDeletion: false
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/default
+        - name: 'Default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
 
-#  dashboards:
-#    doctor-dashboard:
-#      url: https://raw.githubusercontent.com/StartUpNationLabs/poulet/refs/heads/main/cloud/config/grafana/dashboards_data/doctor.json
-#      token: ''
+  dashboards:
+    Default:
+      doctor-dashboard:
+        url: https://raw.githubusercontent.com/StartUpNationLabs/poulet/refs/heads/main/cloud/config/grafana/dashboards_data/doctor.json
+        token: ''
 
   sidecar:
     resources:
