@@ -88,14 +88,14 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	}
 
 	if isAbnormal {
-		SendSMS(phoneNumbers, message)
+		SendSMS(alerter.phoneNumber, message)
 
 		alert := Alert{
 			Parameter: param,
 			Value:     sample.Value,
 			Time:      sample.Time,
 			Message:   message,
-			GatewayID: gateway,
+			GatewayID: alerter.gatewayID,
 			Severity:  "CRITICAL",
 		}
 
