@@ -25,7 +25,7 @@ type Alerter struct {
 	notificationEndpoint string
 	clientInfoEndpoint   string
 	gatewayID 		     string
-	phoneNumber
+	phoneNumber			 string
 }
 
 func (alerter *Alerter) init(downSampler *DownSampler) {
@@ -46,7 +46,11 @@ func (alerter *Alerter) init(downSampler *DownSampler) {
 		return
 	}
 	alerter.gatewayID = os.Getenv("GATEWAY_ID")
-	alerter.phoneNumber = alerter.getPhoneNumbers(alerter.gatewayID)
+	alerter.phoneNumber, err = alerter.getPhoneNumbers(alerter.gatewayID)
+	if err != nil {
+		fmt.Println("Error getting phone numbers:", err)
+		return false
+	}
 }
 
 func (alerter *Alerter) sendSample(metric string, sample Sample) {
@@ -54,8 +58,8 @@ func (alerter *Alerter) sendSample(metric string, sample Sample) {
 	alerter.downSampler.addSample(metric, sample)
 }
 
-func SendSMS(message string) {
-	fmt.Printf("Sending SMS to %s: %s\n", alerter.phoneNumber, message)
+func SendSMS(phoneNumber string, message string) {
+	fmt.Printf("Sending SMS to %s: %s\n", phoneNumber, message)
 }
 
 func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
@@ -84,7 +88,7 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	}
 
 	if isAbnormal {
-		SendSMS(message)
+		SendSMS(phoneNumbers, message)
 
 		alert := Alert{
 			Parameter: param,
@@ -119,7 +123,7 @@ func (alerter *Alerter) sendAlerts(alert Alert) error {
 	return nil
 }
 
-func (alerter *Alerter) getPhoneNumbers(gatewayID string) string {
+func (alerter *Alerter) getPhoneNumbers(gatewayID string) (string, error) {
 	resp, err := http.Get( alerter.clientInfoEndpoint + "/patient/gateway/" + gatewayID)
 	if err != nil {
 		return "", fmt.Errorf("error getting patient data: %v", err)
@@ -132,5 +136,5 @@ func (alerter *Alerter) getPhoneNumbers(gatewayID string) string {
 	if err := json.NewDecoder(resp.Body).Decode(&patient); err != nil {
 		return "", fmt.Errorf("error decoding patient data: %v", err)
 	}
-	return patient.EmergencyContactPhoneNumber
+	return patient.EmergencyContactPhoneNumber, nil
 }
