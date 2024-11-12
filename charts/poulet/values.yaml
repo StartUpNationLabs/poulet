@@ -35,16 +35,22 @@ grafana:
             disableRecordingRules: false
             incrementalQueryOverlapWindow: 10m
   dashboardProviders:
-    - name: Default # A uniquely identifiable name for the provider
-      folder: Services # The folder where to place the dashboards
-      type: file
-      options:
-        path: /var/lib/grafana/dashboards # The directory where the dashboards are stored
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'Default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
 
   dashboards:
-     doctor-dashboard:
-       url: https://raw.githubusercontent.com/StartUpNationLabs/poulet/refs/heads/main/cloud/config/grafana/dashboards_data/doctor.json
-       token: ''
+    doctor-dashboard:
+      url: https://raw.githubusercontent.com/StartUpNationLabs/poulet/refs/heads/main/cloud/config/grafana/dashboards_data/doctor.json
+      token: ''
 
   sidecar:
     resources:
