@@ -22,7 +22,7 @@ services:
     build:
       context: ./dataManager
     environment:
-      - PROMETHEUS_SERVER=http://read:9090/api/v1/write
+      - PROMETHEUS_SERVER=https://prometheus.al.apoorva64.com/api/v1/write
       - PROMETHEUS_USERNAME=admin
       - PROMETHEUS_PASSWORD=NBSJFZDtM6hI0kxinpG52jiBNHsHR3bhUjUZT6Jl00gBaUZcAo
       - RABBITMQ_SERVER=rabbitmq:5672
@@ -30,7 +30,7 @@ services:
       - RABBITMQ_PASSWORD=guest
       - NOTIFICATION_SERVER=http://doctor.al.apoorva64.com
       - CLIENT_INFO_SERVER=http://doctor.al.apoorva64.com
-      - GATEWAY_ID=67325277b01fb040f8e73672
+      - GATEWAY_ID=671ec1f0c368aa3dd8f66649
     volumes:
       - /etc/localtime:/etc/localtime:ro
     depends_on:
