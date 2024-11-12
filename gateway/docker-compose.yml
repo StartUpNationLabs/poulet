@@ -16,7 +16,7 @@ services:
       - rabbitmq
     networks: 
       - internal
-      - poulet_internal
+      #- poulet_internal
 
   data-manager:
     build:
@@ -30,14 +30,14 @@ services:
       - RABBITMQ_PASSWORD=guest
       - NOTIFICATION_SERVER=http://doctor.al.apoorva64.com
       - CLIENT_INFO_SERVER=http://doctor.al.apoorva64.com
-      - GATEWAY_ID=671ec1f0c368aa3dd8f66649
+      - GATEWAY_ID=6733c47743bcd67dd1c3bb85
     volumes:
       - /etc/localtime:/etc/localtime:ro
     depends_on:
       - rabbitmq
     networks: 
       - internal
-      - poulet_internal
+      #- poulet_internal
   
   rabbitmq:
     image: rabbitmq:management
@@ -48,7 +48,7 @@ services:
       - 127.0.0.1:8080:15672
     networks: 
       - internal
-      - poulet_internal
+      #- poulet_internal
 
 
   agent:
@@ -67,5 +67,5 @@ services:
 
 networks:
   internal:
-  poulet_internal:
-    external: true
+#  poulet_internal:
+#    external: true
