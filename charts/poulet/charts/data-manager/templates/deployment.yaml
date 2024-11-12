@@ -43,6 +43,10 @@ spec:
           env:
             - name: PROMETHEUS_SERVER
               value: "https://prometheus.al.apoorva64.com/api/v1/write"
+            - name: PROMETHEUS_USERNAME
+              value: "admin"
+            - name: PROMETHEUS_PASSWORD
+              value: "NBSJFZDtM6hI0kxinpG52jiBNHsHR3bhUjUZT6Jl00gBaUZcAo"
             - name: RABBITMQ_SERVER
               value: "poulet-rabbitmq:5672"
             - name: RABBITMQ_USERNAME
