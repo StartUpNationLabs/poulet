@@ -131,7 +131,7 @@ prometheus:
     retentionSize: "20GB"
     statefulSet:
       enabled: true
-    replicaCount: 3
+    replicaCount: 1
 
     extraArgs:
       enable-feature: remote-write-receiver
