@@ -38,7 +38,7 @@ grafana:
     dashboardproviders.yaml:
       apiVersion: 1
       providers:
-        - name: 'Default'
+        - name: 'default'
           orgId: 1
           folder: ''
           type: file
@@ -48,7 +48,7 @@ grafana:
             path: /var/lib/grafana/dashboards/default
 
   dashboards:
-    Default:
+    default:
       doctor-dashboard:
         url: https://raw.githubusercontent.com/StartUpNationLabs/poulet/refs/heads/main/cloud/config/grafana/dashboards_data/doctor.json
         token: ''
