@@ -3,6 +3,60 @@ entries:
   poulet:
   - apiVersion: v2
     appVersion: 0.0.3
+    created: "2024-11-12T13:00:22.07811618Z"
+    dependencies:
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 8.5.1
+    - condition: keycloak.enabled
+      name: keycloak
+      repository: https://charts.bitnami.com/bitnami
+      version: 24.0.0
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.3
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 25.27.0
+    - condition: alert-management.enabled
+      name: alert-management
+      repository: ""
+      version: 0.1.0
+    - condition: patient-management.enabled
+      name: patient-management
+      repository: ""
+      version: 0.1.0
+    - name: frontend
+      repository: ""
+      version: 0.2.11
+    - condition: analyse-haut-niveau-management.enabled
+      name: analyse-haut-niveau-management
+      repository: ""
+      version: 0.2.1
+    - condition: rabbitmq.enabled
+      name: rabbitmq
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.0.4
+    - condition: adapter.enabled
+      name: adapter
+      repository: ""
+      version: 0.1.2
+    - condition: data-manager.enabled
+      name: data-manager
+      repository: ""
+      version: 0.1.2
+    description: A Helm chart for Kubernetes
+    digest: f64ec249c3fe67f59ee6e2f3a0e22032198cb5dcf6812abe96b00085fd844088
+    name: poulet
+    type: application
+    urls:
+    - https://github.com/StartUpNationLabs/poulet/releases/download/poulet-0.1.57/poulet-0.1.57.tgz
+    version: 0.1.57
+  - apiVersion: v2
+    appVersion: 0.0.3
     created: "2024-11-12T10:31:24.771196711Z"
     dependencies:
     - condition: grafana.enabled
@@ -2841,4 +2895,4 @@ entries:
     urls:
     - https://github.com/StartUpNationLabs/poulet/releases/download/poulet-0.0.2/poulet-0.0.2.tgz
     version: 0.0.2
-generated: "2024-11-12T10:31:24.771474742Z"
+generated: "2024-11-12T13:00:22.078379783Z"
