@@ -34,6 +34,18 @@ grafana:
             cacheLevel: 'High'
             disableRecordingRules: false
             incrementalQueryOverlapWindow: 10m
+  dashboardProviders:
+    - name: Default # A uniquely identifiable name for the provider
+      folder: Services # The folder where to place the dashboards
+      type: file
+      options:
+        path: /var/lib/grafana/dashboards # The directory where the dashboards are stored
+
+  dashboards:
+     doctor-dashboard:
+       url: https://raw.githubusercontent.com/StartUpNationLabs/poulet/refs/heads/main/cloud/config/grafana/dashboards_data/doctor.json
+       token: ''
+
   sidecar:
     resources:
       limits:
