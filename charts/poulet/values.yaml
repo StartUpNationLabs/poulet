@@ -71,7 +71,13 @@ nameOverride: ""
 fullnameOverride: ""
 prometheus:
   enabled: true
-  
+  global:
+    scrape_interval: 5s
+    evaluation_interval: 5s 
+  alertmanagers:
+    - static_configs:
+        - targets:
+           - poulet-alertmanager:9093
   ingress:
     enabled: false
     className: ""
@@ -149,8 +155,32 @@ prometheus:
 
 
   serverFiles:
-    prometheus.yml:
-      scrape_configs: []
+    alerting_rules.yml:
+      rules:
+        - alert: HighAcceleration
+          expr: acceleration > 1
+          #for: 10s
+          labels:
+            severity: "WARNING"
+            type: "acceleration"
+            gatewayId: "67325277b01fb040f8e73672"
+            value: '{{ $value }}'
+          annotations:
+            summary: "High Acceleration Alert"
+            description: "Acceleration exceeds 80 units."
+            message: 'Current acceleration value: {{ $value }}'
+
+alertmanager:
+  command:
+    - "--config.file=/etc/alertmanager/alertmanager.yml"
+  config:
+    route:
+      receiver: "webhook_receiver"
+    receivers:
+      - name: 'webhook_receiver'
+        webhook_configs:
+          - url: 'http://poulet-alert-management:8080/alert/receiveAlert'
+
 
 
 keycloak:

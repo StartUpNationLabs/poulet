@@ -11,6 +11,9 @@ dependencies:
 - name: prometheus
   repository: https://prometheus-community.github.io/helm-charts
   version: 25.27.0
+- name: alertmanager
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 1.13.1
 - name: alert-management
   repository: ""
   version: 0.1.0
@@ -23,5 +26,5 @@ dependencies:
 - name: analyse-haut-niveau-management
   repository: ""
   version: 0.2.1
-digest: sha256:70d90b0244721c2f431153015d1f505f6fc5f8bc6eb953045e48d4493a04ea81
-generated: "2024-11-12T10:35:58.889924393+01:00"
+digest: sha256:b2e46d5a9eec5e73f4f27a741b6958097a194cf7ff312eef80d40d179435dfb2
+generated: "2024-11-12T11:17:35.590558437+01:00"
