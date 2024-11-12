@@ -378,15 +378,20 @@
     "list": [
       {
         "current": {
-          "text": "",
-          "value": ""
+          "selected": true,
+          "text": "> asdqwe",
+          "value": "asdqwe"
         },
         "description": "gatewayId",
-        "hide": 2,
+        "hide": 0,
+        "includeAll": false,
         "label": "gatewayId",
+        "multi": false,
         "name": "gatewayId",
         "options": [],
         "query": "",
+        "queryValue": "",
+        "skipUrlSync": false,
         "type": "custom"
       }
     ]
