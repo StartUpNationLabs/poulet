@@ -538,7 +538,7 @@ adapter:
 data-manager:
   enabled: true
   image:
-    tag: 3de8ae57ce7d654f234f2f4a9d2484ca4a26b9d2
+    tag: 8ed56141b3346e97532a83e4d323ba9f9cbc51e5
   resources:
     limits:
       cpu: 100m
