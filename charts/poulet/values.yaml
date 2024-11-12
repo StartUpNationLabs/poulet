@@ -393,6 +393,7 @@ mongodb:
   auth:
     enabled: true
     rootPassword: root
+    
 alert-management:
   enabled: true
   mongodb:
