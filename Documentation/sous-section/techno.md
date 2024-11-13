@@ -35,13 +35,10 @@ qu'une cohérence immédiate, offrant ainsi une meilleure disponibilité des ser
 notre environnement de microservices distribués.
 
 ## 6. **RabbitMQ**
-RabbitMQ est sélectionné pour délivrer les messages directement au services concernés. Implémantant une police de multi-ack, il nous permet de recevoir un ensemble de messgaes et de valider leur réception en batch en attendant leur envoi sur le seveur cloud. RabbitMQ est open-source et permet aussi de conserver les messages sur disque en cas de surcharge. RabbitMQ libère alors la mémoire RAM et permet de conserver un grand nombre de messages en cas de panne.
+RabbitMQ est sélectionné pour délivrer les messages directement aux services concernés. En implémentant une politique de multi-ack, il nous permet de recevoir un ensemble de messages et de valider leur réception en lot, en attendant leur envoi vers le serveur cloud. RabbitMQ est open-source et permet aussi de conserver les messages sur disque en cas de surcharge. Cela libère alors la mémoire RAM et permet de stocker un grand nombre de messages en cas de panne.
 
 ## 7. **Traefik**
-Traefik sert d'API Gateway pour diriger le trafic vers les services. Notre usage permet d'utiliser la version open-source. Traefik est compatible avec des environnements 
-comme Docker ou Kubernetes. Traefik est trés populaire et répandu sur le marché .
+Traefik sert d'API Gateway pour diriger le trafic vers les services. Notre usage permet d'utiliser la version open-source. Traefik est compatible avec des environnements comme Docker ou Kubernetes. Traefik est très populaire et répandu sur le marché.
 
 ## 8. **Keycloak**
-Keycloak est utilisé pour la gestion de l'authentification et de l’autorisation basée sur les rôles des utilisateurs 
-(proches, médecins, infirmiers). En centralisant la gestion des identités, Keycloak offre une solution complète, sécurisée
-et modulable pour contrôler les accès aux différentes parties du système.Il a été choisi pour son caractère open-source et populaire. De plus c'est une technologie maîtrisé par les membres de l'équipe ce qui facilite sa mise en place.
+Keycloak est utilisé pour la gestion de l'authentification et de l’autorisation basée sur les rôles des utilisateurs (proches, médecins, infirmiers). En centralisant la gestion des identités, Keycloak offre une solution complète, sécurisée et modulable pour contrôler les accès aux différentes parties du système. Il a été choisi pour son caractère open-source et populaire. De plus, c'est une technologie maîtrisée par les membres de l'équipe, ce qui facilite sa mise en place.
