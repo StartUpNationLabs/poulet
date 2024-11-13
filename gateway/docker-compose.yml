@@ -30,7 +30,7 @@ services:
       - RABBITMQ_PASSWORD=guest
       - NOTIFICATION_SERVER=http://doctor.al.apoorva64.com
       - CLIENT_INFO_SERVER=http://doctor.al.apoorva64.com
-      - GATEWAY_ID=6733c47743bcd67dd1c3bb85
+      - GATEWAY_ID=672f480ac368aa3dd8f6664b
     volumes:
       - /etc/localtime:/etc/localtime:ro
     depends_on:

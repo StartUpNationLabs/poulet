@@ -26,9 +26,11 @@ type Alerter struct {
 	clientInfoEndpoint   string
 	gatewayID 		     string
 	phoneNumber			 string
+	lastAlert			 time.Time
 }
 
 func (alerter *Alerter) init(downSampler *DownSampler) {
+	alerter.lastAlert = time.Now()
 	alerter.downSampler = downSampler
 	if os.Getenv("NOTIFICATION_SERVER") == "" {
 		log.Fatal("NOTIFICATION_SERVER environment variable is not set")
@@ -88,19 +90,24 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 	}
 
 	if isAbnormal {
-		SendSMS(alerter.phoneNumber, message)
 
-		alert := Alert{
-			Parameter: param,
-			Value:     sample.Value,
-			Time:      sample.Time,
-			Message:   message,
-			GatewayID: alerter.gatewayID,
-			Severity:  "CRITICAL",
-		}
+		currentTime := time.Now()
+		alertsSpan := currentTime.Sub(alerter.lastAlert).Seconds()
+		if alertsSpan > 8 {
+			SendSMS(alerter.phoneNumber, message)
+			alert := Alert{
+				Parameter: param,
+				Value:     sample.Value,
+				Time:      sample.Time,
+				Message:   message,
+				GatewayID: alerter.gatewayID,
+				Severity:  "CRITICAL",
+			}
 
-		if err := alerter.sendAlerts(alert); err != nil {
-			fmt.Println("Error sending alert to server:", err)
+			if err := alerter.sendAlerts(alert); err != nil {
+				fmt.Println("Error sending alert to server:", err)
+			}
+			alerter.lastAlert = currentTime
 		}
 	}
 
