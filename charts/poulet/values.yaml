@@ -220,33 +220,33 @@ prometheus:
                 description: "The glucose level is decreasing rapidly (rate of change < -10 mg/dL per 5 minutes)."
                 message: "Current rate of glucose change: {{ $value }} mg/dL per 5 minutes"
 
-        - name: heartrate-deriv-alerts
-          rules:
-            - alert: RapidIncreaseHeartRate
-              expr: increase(heartrate[30s]) > 15
-              labels:
-                severity: "MEDIUM"
-                type: "heartrate_deriv"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Rapid Increase in Heart Rate Alert"
-                description: "The heart rate is increasing rapidly (rate of change > 15 bpm per 5 minutes)."
-                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
-
-            - alert: RapidDecreaseHeartRate
-              expr: increase(heartrate[30s]) < -15
-              labels:
-                severity: "HIGH"
-                type: "heartrate_deriv"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Rapid Decrease in Heart Rate Alert"
-                description: "The heart rate is decreasing rapidly (rate of change < -15 bpm per 5 minutes)."
-                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
+#        - name: heartrate-deriv-alerts
+#          rules:
+#            - alert: RapidIncreaseHeartRate
+#              expr: increase(heartrate[30s]) > 15
+#              labels:
+#                severity: "MEDIUM"
+#                type: "heartrate_deriv"
+#                gatewayId: "{{ $labels.gateway_id }}"
+#                value: "{{ $value }}"
+#
+#              annotations:
+#                summary: "Rapid Increase in Heart Rate Alert"
+#                description: "The heart rate is increasing rapidly (rate of change > 15 bpm per 5 minutes)."
+#                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
+#
+#            - alert: RapidDecreaseHeartRate
+#              expr: increase(heartrate[30s]) < -15
+#              labels:
+#                severity: "HIGH"
+#                type: "heartrate_deriv"
+#                gatewayId: "{{ $labels.gateway_id }}"
+#                value: "{{ $value }}"
+#
+#              annotations:
+#                summary: "Rapid Decrease in Heart Rate Alert"
+#                description: "The heart rate is decreasing rapidly (rate of change < -15 bpm per 5 minutes)."
+#                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
 
         - name: temperature-deriv-alerts
           rules:
