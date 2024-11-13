@@ -1,6 +1,7 @@
 # Choix Technologiques
 
 ## 1. **Java Quarkus**
+On a utilisé Java quarkus pour implémenter nos micro-service pour le management de patient, d'alertes et de metrics.
 Quarkus est conçu pour les environnements cloud natifs, facilitant la gestion, le déploiement et la scalabilité 
 des services. Il se distingue par sa rapidité de démarrage et sa faible utilisation de la mémoire, réduisant les coûts 
 en ressources. Ces atouts sont cruciaux pour un déploiement cloud efficace et réactif. Comparé à d'autres langages 
@@ -9,10 +10,13 @@ le rend idéal pour des architectures de microservices dans le cloud.
 
 ## 2. **Prometheus**
 Prometheus est conçu spécifiquement pour gérer des données chronologiques (time-series), ce qui est idéal pour 
-des mesures prises à intervalles réguliers, comme les métriques de santé des utilisateurs. Contrairement à une base 
+des mesures prises à intervalles réguliers, comme les métriques de santé des utilisateurs (accélération, glucose, temperature et la fréquence cardiaque). Contrairement à une base 
 de données classique, Prometheus est optimisé pour stocker, interroger et analyser rapidement des séries temporelles, 
 ce qui facilite la détection de tendances, d'anomalies et l'analyse historique des données. Cette capacité est cruciale 
-pour évaluer l'état de santé général des patients et générer des alertes.
+pour évaluer l'état de santé général des patients et générer des alertes.  Dans notre projet, AlertManager prend en charge différents types d’alertes pour le suivi de la glycémie, du rythme cardiaque et de la température corporelle du patient. Ces alertes peuvent être basées sur la détection des variations rapides de ces valeurs (alertes dérivées) ou sur les prédictions de niveaux futurs (alertes prédictives). 
+L’alert manager centralise la gestion des alertes, ce qui réduit le risque de notifications redondantes et améliore la réactivité du système face aux situations critiques. Il permet de configurer des niveaux de gravité, de regrouper des alertes similaires et de les envoyer de manière ciblée.
+Une fois générées, les alertes sont envoyées au service de gestion des alertes (alertManagement), qui se charge de les stocker dans la base de données pour assurer une traçabilité et faciliter l’analyse des tendances à long terme.
+
 
 ## 3. **Grafana**
 Grafana est un excellent choix pour visualiser les données de santé collectées. Il permet de créer des dashboards 
@@ -22,6 +26,7 @@ aide les utilisateurs à analyser facilement les données. De plus, il peut êtr
 front-end pour faciliter l'accès aux données.
 
 ## 4. **Go**
+Du côté gateway on a utilisé go pour implémenter la pipeline contenant la détection des alertes critiques, le downsampling et l'envoie des donnée à prometheus.
 Go est un excellent choix pour les systèmes IoT en raison de sa performance élevée et de sa faible empreinte mémoire. 
 Ces caractéristiques sont essentielles pour des appareils souvent limités en ressources. De plus, Go offre une syntaxe 
 simple, facilitant la maintenance du code, et sa gestion automatique de la mémoire assure des performances optimales 
