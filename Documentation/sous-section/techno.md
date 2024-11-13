@@ -6,7 +6,7 @@ Quarkus est conçu pour les environnements cloud natifs, facilitant la gestion, 
 des services. Il se distingue par sa rapidité de démarrage et sa faible utilisation de la mémoire, réduisant les coûts 
 en ressources. Ces atouts sont cruciaux pour un déploiement cloud efficace et réactif. Comparé à d'autres langages 
 ou frameworks, Quarkus offre un compromis optimal entre la robustesse de l'écosystème Java et la performance, ce qui 
-le rend idéal pour des architectures de microservices dans le cloud.
+le rend idéal pour des architectures de microservices dans le cloud. Il permet aussi de diminuer le nombre de ressources nécessaires pour maintenir un grand nombre de services, réduisant ainsi l'empreinte carbone de l’infrastructure.
 
 ## 2. **Prometheus**
 Prometheus est conçu spécifiquement pour gérer des données chronologiques (time-series), ce qui est idéal pour 
