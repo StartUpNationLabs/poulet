@@ -18,3 +18,4 @@ Les sections du rapport sont les suivantes :
 - [Sécurité des données](sous-section/securite.md)
 - [Matrice de risque](sous-section/matriceRisque.md)
 - [Structure de code](sous-section/structureCode.md)
+- [Validation](sous-section/Validation.md)
