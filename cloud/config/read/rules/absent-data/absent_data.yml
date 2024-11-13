@@ -1,0 +1,45 @@
+- name: data-absence-alerts
+  rules:
+  - alert: NoGlucoseData
+    expr: absent(glucose)
+    labels:
+      severity: "CRITICAL"
+      type: "data_absent"
+      metric: "glucose"
+    annotations:
+      summary: "No Glucose Data"
+      description: "No glucose data has been received for the last 10 seconds."
+      message: "Prometheus has not received glucose data for more than 10 seconds."
+
+  - alert: NoAccelerationData
+    expr: absent(acceleration)
+    labels:
+      severity: "CRITICAL"
+      type: "data_absent"
+      metric: "acceleration"
+    annotations:
+      summary: "No Acceleration Data"
+      description: "No acceleration data has been received for the last 10 seconds."
+      message: "Prometheus has not received acceleration data for more than 10 seconds."
+
+  - alert: NoTemperatureData
+    expr: absent(temperature)
+    labels:
+      severity: "CRITICAL"
+      type: "data_absent"
+      metric: "temperature"
+    annotations:
+      summary: "No Temperature Data"
+      description: "No temperature data has been received for the last 10 seconds."
+      message: "Prometheus has not received temperature data for more than 10 seconds."
+
+  - alert: NoHeartRateData
+    expr: absent(heartrate)
+    labels:
+      severity: "CRITICAL"
+      type: "data_absent"
+      metric: "heartrate"
+    annotations:
+      summary: "No Heart Rate Data"
+      description: "No heart rate data has been received for the last 10 seconds."
+      message: "Prometheus has not received heart rate data for more than 10 seconds."
