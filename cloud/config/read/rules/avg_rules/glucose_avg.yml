@@ -10,5 +10,5 @@
       value: "{{ $value  }}" 
     annotations:
       summary: "Rapidly High Glucose Level"
-      description: "Glucose level exceeded 180 mg/dL in the last 10 seconds."
+      description: "Glucose level exceeded 100 mg/dL in the last 5 seconds."
       message: "Current glucose value: {{ $value }}"
