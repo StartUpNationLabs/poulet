@@ -1,6 +1,6 @@
 # Fonctionnement du Système
 
-<img src="../diagrams/archi.jpg"/>
+<img src="../diagrams/Archi.jpg"/>
 
 Le système de surveillance des patients repose sur une architecture modulaire et dynamique, permettant de collecter, 
 analyser et afficher des données critiques pour assurer un suivi médical efficace et en temps réel. 
