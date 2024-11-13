@@ -345,7 +345,7 @@ analyse-haut-niveau-management:
 frontend:
   enabled: true
   image:
-    tag: efd1cec71ec79800a0dba7655e76d0206873a6ce
+    tag: 14930024f02edcb93ad93093c396c18c28492507
   environment:
     ALERT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
     PATIENT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
