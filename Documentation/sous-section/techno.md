@@ -26,7 +26,7 @@ aide les utilisateurs à analyser facilement les données. De plus, il peut êtr
 front-end pour faciliter l'accès aux données.
 
 ## 4. **Go**
-Du côté gateway on a utilisé go pour implémenter la pipeline contenant la détection des alertes critiques, le downsampling et l'envoie des donnée à prometheus.
+Pour la gateway on a utilisé le langage Go pour implémenter la pipeline contenant la détection des alertes critiques, le downsampling et l'envoie des donnée à prometheus.
 Go est un excellent choix pour les systèmes IoT en raison de sa performance élevée et de sa faible empreinte mémoire. 
 Ces caractéristiques sont essentielles pour des appareils souvent limités en ressources. De plus, Go offre une syntaxe 
 simple, facilitant la maintenance du code, et sa gestion automatique de la mémoire assure des performances optimales 
