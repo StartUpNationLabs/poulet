@@ -28,7 +28,12 @@ fiabilité accrue dans la transmission des messages critiques.
 ![alt text](image.png)
 
 La deuxième capture met en évidence les statistiques de performance et d’usage, ce qui nous a permis d'évaluer la stabilité 
-et l'efficacité de l’architecture en conditions réelles. L'analyse de ces données confirme que l’architecture répond bien aux attentes.
+et l'efficacité de l’architecture en conditions réelles. L'analyse de ces données confirme que l’architecture répond bien aux attentes. 
+Protocol :
+    - Détermination d'une requête envoyé par le système de gateway par batch de 50 mesures
+    - Envoi des batchs avec un nombre d'utilisateurs importants (ici 500 utilisateurs)
+    
+K6 permet de simuler des utilisateurs virtuels et de récupérer des métriques de durée des transactions.
 
 ### Conclusion
 
