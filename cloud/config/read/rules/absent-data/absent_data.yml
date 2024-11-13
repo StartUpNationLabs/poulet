@@ -6,6 +6,8 @@
       severity: "CRITICAL"
       type: "data_absent"
       metric: "glucose"
+      gatewayId: "{{ $labels.gateway_id }}"
+      value: "0" 
     annotations:
       summary: "No Glucose Data"
       description: "No glucose data has been received for the last 10 seconds."
@@ -17,6 +19,8 @@
       severity: "CRITICAL"
       type: "data_absent"
       metric: "acceleration"
+      gatewayId: "{{ $labels.gateway_id }}"
+      value: "0" 
     annotations:
       summary: "No Acceleration Data"
       description: "No acceleration data has been received for the last 10 seconds."
@@ -28,6 +32,8 @@
       severity: "CRITICAL"
       type: "data_absent"
       metric: "temperature"
+      gatewayId: "{{ $labels.gateway_id }}"
+      value: "0" 
     annotations:
       summary: "No Temperature Data"
       description: "No temperature data has been received for the last 10 seconds."
@@ -39,6 +45,8 @@
       severity: "CRITICAL"
       type: "data_absent"
       metric: "heartrate"
+      gatewayId: "{{ $labels.gateway_id }}"
+      value: "0" 
     annotations:
       summary: "No Heart Rate Data"
       description: "No heart rate data has been received for the last 10 seconds."
