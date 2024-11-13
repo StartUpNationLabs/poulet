@@ -50,21 +50,6 @@ services:
       - internal
       #- poulet_internal
 
-
-  agent:
-    container_name: newrelic-infra
-    image: newrelic/infrastructure:latest
-    cap_add:
-      - SYS_PTRACE
-    network_mode: host
-    pid: host
-    privileged: true
-    volumes:
-      - "/:/host:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - "./newrelic-infra.yml:/etc/newrelic-infra.yml"
-    restart: unless-stopped
-
 networks:
   internal:
 #  poulet_internal:

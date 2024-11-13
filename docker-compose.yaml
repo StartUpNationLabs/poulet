@@ -47,6 +47,7 @@ services:
       - GF_SECURITY_ALLOW_EMBEDDING=true #Allow IFRAME Calls
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
       - GF_SERVE_FROM_SUB_PATH=true
+      - GF_INSTALL_PLUGINS=yesoreyeram-infinity-datasource
     #env_file:
     #  - ./cloud/config/grafana/.env
     volumes:
