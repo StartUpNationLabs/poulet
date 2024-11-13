@@ -248,75 +248,75 @@ prometheus:
 #                description: "The heart rate is decreasing rapidly (rate of change < -15 bpm per 5 minutes)."
 #                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
 
-        - name: temperature-deriv-alerts
-          rules:
-            - alert: RapidIncreaseTemperature
-              expr: increase(temperature[30s]) > 0.5
-              labels:
-                severity: "MEDIUM"
-                type: "temperature_deriv"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Rapid Increase in Temperature Alert"
-                description: "The temperature is increasing rapidly (rate of change > 0.5°C per 5 minutes)."
-                message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"
-
-            - alert: RapidDecreaseTemperature
-              expr: increase(temperature[30s]) < -0.5
-              labels:
-                severity: "MEDIUM"
-                type: "temperature_deriv"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-
-              annotations:
-                summary: "Rapid Decrease in Temperature Alert"
-                description: "The temperature is decreasing rapidly (rate of change < -0.5°C per 5 minutes)."
-                message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"
-        
-        - name: glucose-avg-alerts
-          rules:
-            - alert: AvgGlucose
-              expr: avg_over_time(glucose[10s]) > 80
-              for: 5s
-              labels:
-                severity: "WARNING"
-                type: "glucose_increase"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value  }}" 
-              annotations:
-                summary: "Rapidly High Glucose Level"
-                description: "Glucose level exceeded 80 mg/dL in the last 5 seconds."
-                message: "Current glucose value: {{ $value }}"
-        - name: heartrate-alerts
-          rules:
-            - alert: AvgIncreaseHeartrate
-              expr: avg_over_time(heartrate[10s]) > 15
-              for: 5s
-              labels:
-                severity: "WARNING"
-                type: "heartrate_avg_increase"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value  }}" 
-              annotations:
-                summary: "Rapid Increase in Heart Rate Alert"
-                description: "The heart rate is decreasing rapidly (rate of change > 15 bpm per 5 minutes)"
-                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
-
-            - alert: AvgDecreaseHeartrate
-              expr: avg_over_time(heartrate[10s]) < -15
-              for: 15s
-              labels:
-                severity: "WARNING"
-                type: "heartrate_avg_decrease"
-                gatewayId: "{{ $labels.gateway_id }}"
-                value: "{{ $value }}"
-              annotations:
-                summary: "Rapid Decrease in Heart Rate Alert"
-                description: "The heart rate is decreasing rapidly (rate of change < -15 bpm per 5 minutes)."
-                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
+#        - name: temperature-deriv-alerts
+#          rules:
+#            - alert: RapidIncreaseTemperature
+#              expr: increase(temperature[30s]) > 0.5
+#              labels:
+#                severity: "MEDIUM"
+#                type: "temperature_deriv"
+#                gatewayId: "{{ $labels.gateway_id }}"
+#                value: "{{ $value }}"
+#
+#              annotations:
+#                summary: "Rapid Increase in Temperature Alert"
+#                description: "The temperature is increasing rapidly (rate of change > 0.5°C per 5 minutes)."
+#                message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"
+#
+#            - alert: RapidDecreaseTemperature
+#              expr: increase(temperature[30s]) < -0.5
+#              labels:
+#                severity: "MEDIUM"
+#                type: "temperature_deriv"
+#                gatewayId: "{{ $labels.gateway_id }}"
+#                value: "{{ $value }}"
+#
+#              annotations:
+#                summary: "Rapid Decrease in Temperature Alert"
+#                description: "The temperature is decreasing rapidly (rate of change < -0.5°C per 5 minutes)."
+#                message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"
+#
+#        - name: glucose-avg-alerts
+#          rules:
+#            - alert: AvgGlucose
+#              expr: avg_over_time(glucose[10s]) > 80
+#              for: 5s
+#              labels:
+#                severity: "WARNING"
+#                type: "glucose_increase"
+#                gatewayId: "{{ $labels.gateway_id }}"
+#                value: "{{ $value  }}"
+#              annotations:
+#                summary: "Rapidly High Glucose Level"
+#                description: "Glucose level exceeded 80 mg/dL in the last 5 seconds."
+#                message: "Current glucose value: {{ $value }}"
+#        - name: temperature-alerts
+#          rules:
+#            - alert: AvgIncreaseTemperature
+#              expr: avg_over_time(temperature[10s]) > 38
+#              for: 5s
+#              labels:
+#                severity: "WARNING"
+#                type: "temperature_avg_increase"
+#                gatewayId: "{{ $labels.gateway_id }}"
+#                value: "{{ $value  }}"
+#              annotations:
+#                summary: "Rapid Increase in Heart Rate Alert"
+#                description: "The heart rate is decreasing rapidly (rate of change > 15 bpm per 5 minutes)"
+#                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
+#
+#            - alert: AvgDecreaseTemperature
+#              expr: avg_over_time(temperature[10s]) < 30
+#              for: 15s
+#              labels:
+#                severity: "WARNING"
+#                type: "temperature_avg_decrease"
+#                gatewayId: "{{ $labels.gateway_id }}"
+#                value: "{{ $value }}"
+#              annotations:
+#                summary: "Rapid Decrease in Heart Rate Alert"
+#                description: "The heart rate is decreasing rapidly (rate of change < -15 bpm per 5 minutes)."
+#                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
 #        - name: data-absence-alerts
 #          rules:
 #          - alert: NoGlucoseData
