@@ -23,7 +23,7 @@ Grafana est un excellent choix pour visualiser les données de santé collectée
 interactifs et personnalisés à partir des métriques de séries temporelles stockées dans des bases de données comme 
 Prometheus. Grafana permet d'afficher des données en temps réel de manière claire et visuellement engageante, ce qui 
 aide les utilisateurs à analyser facilement les données. De plus, il peut être intégré directement dans une application 
-front-end pour faciliter l'accès aux données.
+front-end pour faciliter l'accès aux données.  Il est également Opensource.
 
 ## 4. **Go**
 Pour la gateway on a utilisé le langage Go pour implémenter la pipeline contenant la détection des alertes critiques, le downsampling et l'envoie des donnée à prometheus.
