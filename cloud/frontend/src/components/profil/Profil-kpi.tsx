@@ -29,6 +29,7 @@ export default function ProfilKpi(props: ProfilKpiProps) {
         },
         enabled: props.gatewayId !== undefined && props.gatewayId !== "",
         refetchOnWindowFocus: 'always',
+        refetchInterval: 1000,
         retry: 0
     });
 

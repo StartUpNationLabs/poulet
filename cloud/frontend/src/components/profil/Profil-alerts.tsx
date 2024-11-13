@@ -20,6 +20,7 @@ export default function ProfilAlerts(props: ProfilAlertsProps) {
         },
         enabled: props.gatewayId !== undefined && props.gatewayId !== "",
         refetchOnWindowFocus: 'always',
+        refetchInterval: 1000,
         retry: 0
     });
 

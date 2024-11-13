@@ -44,6 +44,7 @@ export default function Profil() {
         },
         enabled: patientId !== undefined && patientId !== "",
         refetchOnWindowFocus: 'always',
+        refetchInterval: 1000,
         retry: 0
     });
 
