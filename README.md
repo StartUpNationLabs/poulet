@@ -16,6 +16,5 @@ Les sections du rapport sont les suivantes :
 - [Les choix technologiques](Documentation/sous-section/techno.md)
 - [Architecture pour les Microservices](Documentation/sous-section/architectureMS.md)
 - [Modèle de Données](Documentation/sous-section/dataModel.md)
-- [Sécurité des données](Documentation/sous-section/securite.md)
 - [Matrice de risque](Documentation/sous-section/matriceRisque.md)
 - [Structure de code](Documentation/sous-section/structureCode.md)

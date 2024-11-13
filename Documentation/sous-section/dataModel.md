@@ -1,10 +1,11 @@
 # Modèles des Données
 
-Dans notre système, la structure des données repose sur deux bases de données principales, chacune jouant un rôle 
+Dans notre système, la structure des données repose sur deux bases de données principales, chacune jouant un rôle
 essentiel dans la gestion des informations critiques : l'une dédiée aux alertes et l'autre aux données des patients.
 
 ## Base de données des alertes
-Cette base est destinée à stocker des informations détaillées pour chaque alerte émise par le système. 
+
+Cette base est destinée à stocker des informations détaillées pour chaque alerte émise par le système.
 Chaque enregistrement d'alerte contient les champs suivants :
 
 - **id** : Un identifiant unique, généré automatiquement pour chaque alerte.
@@ -18,9 +19,11 @@ Chaque enregistrement d'alerte contient les champs suivants :
 - **Severity** : Définit la gravité de l'alerte.
 
 ## Base de données des patients
+
 Cette base contient plusieurs collections, chacune dédiée à un aspect des informations du patient.
 
 ### Dossiers patients
+
 Chaque dossier regroupe les informations personnelles de chaque patient :
 
 - **id** : Un identifiant unique, généré automatiquement pour chaque patient.
@@ -31,22 +34,24 @@ Chaque dossier regroupe les informations personnelles de chaque patient :
 - **gatewayId** : Identifiant qui lie les informations du patient aux alertes qui le concernent.
 
 ### Consultations des patients
+
 Cette collection enregistre les informations relatives aux consultations médicales de chaque patient :
 
 - **id** : Un identifiant unique, généré automatiquement pour chaque consultation.
 - **Date** : La date de la consultation.
-- **Entries** : Liste d'entrées, où chaque entrée contient un nom, une valeur, et une remarque pour 
-documenter les observations faites lors de la consultation.
+- **Entries** : Liste d'entrées, où chaque entrée contient un nom, une valeur, et une remarque pour
+  documenter les observations faites lors de la consultation.
 - **doctorId** : Identifiant du médecin ayant effectué la consultation.
 - **patientId** : Identifiant du patient concerné par la consultation.
 
+### Annotations sur le dossier des patients
 
-### Ressentis des patients
 Cette collection enregistre les ressentis des patients, ajoutés manuellement via l'interface frontend :
 
 - **id** : Un identifiant unique, généré automatiquement pour chaque ressenti.
 - **Date** : La date à laquelle le ressenti a été enregistré.
-- **Ressentis** : Description des symptômes ou sensations ressentis par le patient.
+- **Contenu** : Description des symptômes ou sensations ressentis par le patient.
 - **patientId** : Identifiant du patient ayant enregistré le ressenti.
+- **Role** : Le rôle de la personne qui fait l'annotation (patient, famille, infirmière, médecin).
 
-<img src="../diagrams/Archi_model_de_donnees.jpg">
+<img src="../diagrams/DataModel.png">

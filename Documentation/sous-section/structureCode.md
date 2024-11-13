@@ -24,5 +24,5 @@ Ce repository est structuré en plusieurs dossiers et services :
     - **Service d'analyse haut niveau (analyse-haut-niveau-management)**
     - **Service de gestion des dossiers de patient (patient-management)**
 
-- **Configuration**
+- **Configuration** : Il contient les configurations de grafana, prometheus (read), keycloak et alertmanager.
 
