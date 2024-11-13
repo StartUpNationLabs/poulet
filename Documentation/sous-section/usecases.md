@@ -44,3 +44,5 @@ mon vécu quotidien et mes symptômes avec les professionnels de santé pour un 
 aux informations sensibles.
 - **En tant que développeur**, je veux configurer et mettre à jour le système, afin de garantir la bonne intégration 
 des nouveaux capteurs et la sécurité des données.
+
+<img src="../diagrams/UseCase.jpg">
