@@ -1,7 +1,7 @@
-- name: glucose-alerts
+- name: glucose-avg-alerts
   rules:
   - alert: AvgGlucose
-    expr: avg_over_time(glucose[10s]) > 100
+    expr: avg_over_time(glucose[10s]) > 80
     for: 5s
     labels:
       severity: "WARNING"
@@ -10,5 +10,5 @@
       value: "{{ $value  }}" 
     annotations:
       summary: "Rapidly High Glucose Level"
-      description: "Glucose level exceeded 100 mg/dL in the last 5 seconds."
+      description: "Glucose level exceeded 80 mg/dL in the last 5 seconds."
       message: "Current glucose value: {{ $value }}"
