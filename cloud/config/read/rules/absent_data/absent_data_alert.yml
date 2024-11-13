@@ -1,0 +1,57 @@
+- name: data-absence-alerts
+  rules:
+  - alert: NoGlucoseData
+    expr: absent(glucose{gateway_id!="",gateway_id=~".+"})
+    for: 5s
+    labels:
+      severity: "CRITICAL"
+      type: "data_absent"
+      metric: "glucose"
+      gatewayId: "{{ $labels.gateway_id }}"
+      value: "0" 
+    annotations:
+      summary: "No Glucose Data"
+      description: "No glucose data has been received for the last 10 seconds."
+      message: "Prometheus has not received glucose data for more than 10 seconds."
+
+  - alert: NoAccelerationData
+    expr: absent(acceleration{gateway_id!="",gateway_id=~".+"})
+    for: 5s
+    labels:
+      severity: "CRITICAL"
+      type: "data_absent"
+      metric: "acceleration"
+      gatewayId: "{{ $labels.gateway_id }}"
+      value: "0" 
+    annotations:
+      summary: "No Acceleration Data"
+      description: "No acceleration data has been received for the last 10 seconds."
+      message: "Prometheus has not received acceleration data for more than 10 seconds."
+
+  - alert: NoTemperatureData
+    expr: absent(temperature{gateway_id!="",gateway_id=~".+"})
+    for: 5s
+    labels:
+      severity: "CRITICAL"
+      type: "data_absent"
+      metric: "temperature"
+      gatewayId: "{{ $labels.gateway_id }}"
+      value: "0" 
+    annotations:
+      summary: "No Temperature Data"
+      description: "No temperature data has been received for the last 10 seconds."
+      message: "Prometheus has not received temperature data for more than 10 seconds."
+
+  - alert: NoHeartRateData
+    expr: absent(heartrate{gateway_id!="",gateway_id=~".+"})
+    for: 5s
+    labels:
+      severity: "CRITICAL"
+      type: "data_absent"
+      metric: "heartrate"
+      gatewayId: "{{ $labels.gateway_id }}"
+      value: "0" 
+    annotations:
+      summary: "No Heart Rate Data"
+      description: "No heart rate data has been received for the last 10 seconds."
+      message: "Prometheus has not received heart rate data for more than 10 seconds."
