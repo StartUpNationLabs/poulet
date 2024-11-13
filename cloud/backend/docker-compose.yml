@@ -1,5 +1,6 @@
 services:
   alert-management:
+    image: ghcr.io/startupnationlabs/poulet/alert-management:df8b4cbe2a85c816a588acfbe8dc3d908c3b624e
     build:
       context: ./
       dockerfile: ./alert-management/src/main/docker/Dockerfile.multistage
@@ -13,6 +14,7 @@ services:
       - internal
 
   analyse-haut-niveau-management:
+    image: ghcr.io/startupnationlabs/poulet/analyse-haut-niveau-management:2d5bc3a78d77d74b3db138f2c5ce1ac8258680e5
     build:
       context: ./
       dockerfile: ./analyse-haut-niveau-management/src/main/docker/Dockerfile.multistage
@@ -27,6 +29,7 @@ services:
 
 
   patient-management:
+    image: ghcr.io/startupnationlabs/poulet/patient-management:90a349d0655d259b9ea2e40f55dea53f9694aba9
     build:
       context: ./
       dockerfile: ./patient-management/src/main/docker/Dockerfile.multistage
