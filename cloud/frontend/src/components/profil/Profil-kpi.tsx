@@ -53,7 +53,7 @@ export default function ProfilKpi(props: ProfilKpiProps) {
                                             <GaugeComponent 
                                                 type="semicircle"
                                                 value={(kpi.data[key as keyof typeof kpi.data] as KPIData).average}
-                                                maxValue={(kpi.data[key as keyof typeof kpi.data] as KPIData).max+0.22 || 1}
+                                                maxValue={(kpi.data[key as keyof typeof kpi.data] as KPIData).max+1 || 1}
                                                 minValue={(kpi.data[key as keyof typeof kpi.data] as KPIData).min || 0}
                                                  arc={{
                                                      gradient: true,
@@ -69,8 +69,8 @@ export default function ProfilKpi(props: ProfilKpiProps) {
                                                              ]
                                                              : [
                                                                  { limit: (kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 4 },
-                                                                 { limit: ((kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 2)+0.1 },
-                                                                 { limit: ((kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 1.2)+0.2  }
+                                                                 { limit: ((kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 2)+0.5 },
+                                                                 { limit: ((kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 1.2)+0.9  }
                                                              ].sort((a, b) => a.limit - b.limit)
                                                  }}
                                                  pointer={{type: "arrow", elastic: true}}
