@@ -26,7 +26,7 @@ type Alerter struct {
 	clientInfoEndpoint   string
 	gatewayID 		     string
 	phoneNumber			 string
-	lastAlert			 Time
+	lastAlert			 time.Time
 }
 
 func (alerter *Alerter) init(downSampler *DownSampler) {
@@ -93,7 +93,7 @@ func (alerter *Alerter) CheckHealthParameter(param string, sample Sample) bool {
 
 		currentTime := time.Now()
 		alertsSpan := currentTime.Sub(alerter.lastAlert).Seconds()
-		if alertsSpan < 8 {
+		if alertsSpan > 8 {
 			SendSMS(alerter.phoneNumber, message)
 			alert := Alert{
 				Parameter: param,
