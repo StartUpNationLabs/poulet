@@ -31,7 +31,7 @@ import java.util.Set;
                 @Tag(name = "patient", description = "Operations related to patients")
         }
 )
-@Path("/patient")
+@Path("/api/patient")
 public class PatientResource {
     private static final String patientIdErrorMessage = "Missing or invalid patient ID format. ID must be a 24-character hexadecimal string.";
     private static final String gatewayIdErrorMessage = "Missing or invalid gateway ID format. ID must be a 24-character hexadecimal string.";

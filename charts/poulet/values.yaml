@@ -34,6 +34,32 @@ grafana:
             cacheLevel: 'High'
             disableRecordingRules: false
             incrementalQueryOverlapWindow: 10m
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+  dashboards:
+    default:
+      doctor-dashboard:
+        url: https://raw.githubusercontent.com/StartUpNationLabs/poulet/refs/heads/main/cloud/config/grafana/dashboards_data/doctor.json
+        token: ''
+  downloadDashboards:
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "400Mi"
+        cpu: "400m"
   sidecar:
     resources:
       limits:
@@ -73,11 +99,7 @@ prometheus:
   enabled: true
   global:
     scrape_interval: 5s
-    evaluation_interval: 5s 
-  alertmanagers:
-    - static_configs:
-        - targets:
-           - poulet-alertmanager:9093
+    evaluation_interval: 5s
   ingress:
     enabled: false
     className: ""
@@ -91,6 +113,16 @@ prometheus:
             pathType: ImplementationSpecific
     tls: [ ]
   alertmanager:
+    enabled: true
+
+    config:
+      route:
+        receiver: 'webhook_receiver'
+      receivers:
+        - name: 'webhook_receiver'
+          webhook_configs:
+            - url: 'http://poulet-alert-management:8080/alert/receiveAlert'
+
     resources:
       requests:
         memory: "100Mi"
@@ -137,7 +169,7 @@ prometheus:
     retentionSize: "20GB"
     statefulSet:
       enabled: true
-    replicaCount: 3
+    replicaCount: 1
 
     extraArgs:
       enable-feature: remote-write-receiver
@@ -159,32 +191,90 @@ prometheus:
 
   serverFiles:
     alerting_rules.yml:
-      rules:
-        - alert: HighAcceleration
-          expr: acceleration > 1
-          #for: 10s
-          labels:
-            severity: "WARNING"
-            type: "acceleration"
-            gatewayId: "67325277b01fb040f8e73672"
-            value: '{{ $value }}'
-          annotations:
-            summary: "High Acceleration Alert"
-            description: "Acceleration exceeds 80 units."
-            message: 'Current acceleration value: {{ $value }}'
+      groups:
+        - name: glucose-deriv-alerts
+          rules:
+            - alert: RapidIncreaseGlucose
+              expr: increase(glucose[30s]) > 10
+              labels:
+                severity: "MEDIUM"
+                type: "glucose_deriv"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
 
-alertmanager:
-  command:
-    - "--config.file=/etc/alertmanager/alertmanager.yml"
-  config:
-    route:
-      receiver: "webhook_receiver"
-    receivers:
-      - name: 'webhook_receiver'
-        webhook_configs:
-          - url: 'http://poulet-alert-management:8080/alert/receiveAlert'
+              annotations:
+                summary: "Rapid Increase in Glucose Alert"
+                description: "The glucose level is increasing rapidly (rate of change > 10 mg/dL per 5 minutes)."
+                message: "Current rate of glucose change: {{ $value }} mg/dL per 5 minutes"
 
+            - alert: RapidDecreaseGlucose
+              expr: increase(glucose[30s]) < -10
+              labels:
+                severity: "MEDIUM"
+                type: "glucose_deriv"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
 
+              annotations:
+                summary: "Rapid Decrease in Glucose Alert"
+                description: "The glucose level is decreasing rapidly (rate of change < -10 mg/dL per 5 minutes)."
+                message: "Current rate of glucose change: {{ $value }} mg/dL per 5 minutes"
+
+        - name: heartrate-deriv-alerts
+          rules:
+            - alert: RapidIncreaseHeartRate
+              expr: increase(heartrate[30s]) > 15
+              labels:
+                severity: "MEDIUM"
+                type: "heartrate_deriv"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
+
+              annotations:
+                summary: "Rapid Increase in Heart Rate Alert"
+                description: "The heart rate is increasing rapidly (rate of change > 15 bpm per 5 minutes)."
+                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
+
+            - alert: RapidDecreaseHeartRate
+              expr: increase(heartrate[30s]) < -15
+              labels:
+                severity: "HIGH"
+                type: "heartrate_deriv"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
+
+              annotations:
+                summary: "Rapid Decrease in Heart Rate Alert"
+                description: "The heart rate is decreasing rapidly (rate of change < -15 bpm per 5 minutes)."
+                message: "Current rate of heart rate change: {{ $value }} bpm per 5 minutes"
+
+        - name: temperature-deriv-alerts
+          rules:
+            - alert: RapidIncreaseTemperature
+              expr: increase(temperature[30s]) > 0.5
+              labels:
+                severity: "MEDIUM"
+                type: "temperature_deriv"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
+
+              annotations:
+                summary: "Rapid Increase in Temperature Alert"
+                description: "The temperature is increasing rapidly (rate of change > 0.5°C per 5 minutes)."
+                message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"
+
+            - alert: RapidDecreaseTemperature
+              expr: increase(temperature[30s]) < -0.5
+              labels:
+                severity: "MEDIUM"
+                type: "temperature_deriv"
+                gatewayId: "{{ $labels.gateway_id }}"
+                value: "{{ $value }}"
+
+              annotations:
+                summary: "Rapid Decrease in Temperature Alert"
+                description: "The temperature is decreasing rapidly (rate of change < -0.5°C per 5 minutes)."
+                message: "Current rate of temperature change: {{ $value }}°C per 5 minutes"
 
 keycloak:
   enabled: true
@@ -205,6 +295,7 @@ mongodb:
   auth:
     enabled: true
     rootPassword: root
+
 alert-management:
   enabled: true
   mongodb:
@@ -227,6 +318,8 @@ alert-management:
 
 patient-management:
   enabled: true
+  image:
+    tag: 90a349d0655d259b9ea2e40f55dea53f9694aba9
   mongodb:
     dbName: patient
   keycloak:
@@ -252,11 +345,12 @@ analyse-haut-niveau-management:
 frontend:
   enabled: true
   image:
-    tag: 35cb10013e38d0dd822e0a0ad122ba41def5dc00
+    tag: 705c8bb25d5fbc1855587d5e54474fb496386229
   environment:
     ALERT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
     PATIENT_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
     ANALYSE_HAUT_NIVEAU_MANAGEMENT_BASE_URL: "http://doctor.al.apoorva64.com"
+    DASHBOARD_BASE_URL: "https://grafana.al.apoorva64.com/d/ee114zd3cfeo0c/doctor"
   ingress:
     enabled: true
     className: ""
@@ -266,7 +360,7 @@ frontend:
     hosts:
       - host: doctor.al.apoorva64.com
         paths:
-          - path: /patient
+          - path: /api/patient
             pathType: Prefix
             backend:
               service:
@@ -320,7 +414,7 @@ rabbitmq:
 adapter:
   nabled: true
   image:
-    tag: 6ceac3399f0da47234cc3e909abfa0880d8c871c
+    tag: 2d5bc3a78d77d74b3db138f2c5ce1ac8258680e5
   resources:
     limits:
       cpu: 100m
@@ -346,7 +440,7 @@ adapter:
 data-manager:
   enabled: true
   image:
-    tag: 6ceac3399f0da47234cc3e909abfa0880d8c871c
+    tag: 8ed56141b3346e97532a83e4d323ba9f9cbc51e5
   resources:
     limits:
       cpu: 100m

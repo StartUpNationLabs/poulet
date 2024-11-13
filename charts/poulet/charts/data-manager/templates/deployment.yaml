@@ -43,6 +43,10 @@ spec:
           env:
             - name: PROMETHEUS_SERVER
               value: "https://prometheus.al.apoorva64.com/api/v1/write"
+            - name: PROMETHEUS_USERNAME
+              value: "admin"
+            - name: PROMETHEUS_PASSWORD
+              value: "NBSJFZDtM6hI0kxinpG52jiBNHsHR3bhUjUZT6Jl00gBaUZcAo"
             - name: RABBITMQ_SERVER
               value: "poulet-rabbitmq:5672"
             - name: RABBITMQ_USERNAME
@@ -54,7 +58,7 @@ spec:
             - name: CLIENT_INFO_SERVER
               value: "http://doctor.al.apoorva64.com"
             - name: GATEWAY_ID
-              value: "671954d2490bd363cd077544"            
+              value: "671ec1f0c368aa3dd8f66649"            
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:

@@ -29,6 +29,7 @@ export default function ProfilKpi(props: ProfilKpiProps) {
         },
         enabled: props.gatewayId !== undefined && props.gatewayId !== "",
         refetchOnWindowFocus: 'always',
+        refetchInterval: 1000,
         retry: 0
     });
 
@@ -48,33 +49,33 @@ export default function ProfilKpi(props: ProfilKpiProps) {
                                <Box display="flex" justifyContent="space-around" alignItems="center" mt={2}>
                                    {Object.keys(kpi.data).map((key) => (
                                        <Paper key={key} style={{ padding: '20px', borderRadius: '10px', textAlign: 'center' }}>
-                                           <Typography variant="h6">{key}</Typography>
-                                           <GaugeComponent 
-                                               type="semicircle"
-                                               value={(kpi.data[key as keyof typeof kpi.data] as KPIData).average}
-                                               maxValue={(kpi.data[key as keyof typeof kpi.data] as KPIData).max || 1}
-                                               minValue={(kpi.data[key as keyof typeof kpi.data] as KPIData).min || 0}
-                                                arc={{
-                                                    gradient: true,
-                                                    colorArray: ['#00FF15', '#FF2121'],
-                                                    width: 0.15,
-                                                    padding: 0,
-                                                    subArcs:
-                                                        (kpi.data[key as keyof typeof kpi.data] as KPIData).max === 0 && (kpi.data[key as keyof typeof kpi.data] as KPIData).min === 0
-                                                            ? [
-                                                                { limit: 0.1 },
-                                                                { limit: 0.5 },
-                                                                { limit: 0.9 }
-                                                            ]
-                                                            : [
-                                                                { limit: (kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 4 },
-                                                                { limit: (kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 2 },
-                                                                { limit: (kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 1.2 }
-                                                            ].sort((a, b) => a.limit - b.limit)
-                                                }}
-                                                pointer={{type: "arrow", elastic: true}}
-                                           />
-                                       </Paper>
+                                            <Typography variant="h6">{key}</Typography>
+                                            <GaugeComponent 
+                                                type="semicircle"
+                                                value={(kpi.data[key as keyof typeof kpi.data] as KPIData).average}
+                                                maxValue={(kpi.data[key as keyof typeof kpi.data] as KPIData).max+0.22 || 1}
+                                                minValue={(kpi.data[key as keyof typeof kpi.data] as KPIData).min || 0}
+                                                 arc={{
+                                                     gradient: true,
+                                                     colorArray: ['#00FF15', '#FF2121'],
+                                                     width: 0.15,
+                                                     padding: 0,
+                                                     subArcs:
+                                                         (kpi.data[key as keyof typeof kpi.data] as KPIData).max === 0 && (kpi.data[key as keyof typeof kpi.data] as KPIData).min === 0
+                                                             ? [
+                                                                 { limit: 0.1 },
+                                                                 { limit: 0.5 },
+                                                                 { limit: 0.9 }
+                                                             ]
+                                                             : [
+                                                                 { limit: (kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 4 },
+                                                                 { limit: ((kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 2)+0.1 },
+                                                                 { limit: ((kpi.data[key as keyof typeof kpi.data] as KPIData).min + ((kpi.data[key as keyof typeof kpi.data] as KPIData).max - (kpi.data[key as keyof typeof kpi.data] as KPIData).min) / 1.2)+0.2  }
+                                                             ].sort((a, b) => a.limit - b.limit)
+                                                 }}
+                                                 pointer={{type: "arrow", elastic: true}}
+                                            />
+                                    </Paper>
                                    ))}
                                </Box>
                            ) : (
