@@ -27,27 +27,18 @@ Ces caractéristiques sont essentielles pour des appareils souvent limités en r
 simple, facilitant la maintenance du code, et sa gestion automatique de la mémoire assure des performances optimales 
 tout en réduisant la complexité du développement.
 
-## 5. **MongoDB**
+## 5. **MongoDB** 
 MongoDB est choisi pour sa capacité à garantir une scalabilité efficace grâce à son modèle de données orienté document. 
 Cela permet une gestion indépendante des données par chaque service sans nécessiter des insertions dans d'autres tables, 
 ce qui le rend idéal pour des transactions indépendantes. De plus, MongoDB favorise l'eventual consistency plutôt 
 qu'une cohérence immédiate, offrant ainsi une meilleure disponibilité des services, particulièrement dans 
-un environnement de microservices distribués.
+notre environnement de microservices distribués.
 
 ## 6. **RabbitMQ**
-RabbitMQ est sélectionné pour sa gestion asynchrone des files de messages, garantissant une transmission fiable 
-des données même en cas de pics de trafic. Il est particulièrement adapté aux systèmes nécessitant une livraison 
-garantie de messages et un traitement rapide. De plus, RabbitMQ est optimisé pour des environnements à ressources 
-limitées, offrant un excellent compromis entre performance et consommation des ressources.
+RabbitMQ est sélectionné pour délivrer les messages directement aux services concernés. En implémentant une politique de multi-ack, il nous permet de recevoir un ensemble de messages et de valider leur réception en lot, en attendant leur envoi vers le serveur cloud. RabbitMQ est open-source et permet aussi de conserver les messages sur disque en cas de surcharge. Cela libère alors la mémoire RAM et permet de stocker un grand nombre de messages en cas de panne.
 
 ## 7. **Traefik**
-Traefik sert de reverse proxy pour diriger le trafic vers le frontend et permettre un accès fluide à certaines 
-fonctionnalités. Il simplifie la gestion des points d’entrée pour différents types d’utilisateurs grâce à un routage 
-dynamique et la gestion des certificats SSL pour sécuriser les connexions. Traefik est compatible avec des environnements 
-comme Docker et Kubernetes, facilitant ainsi le déploiement et la gestion du système dans le cloud, ce qui rend l’architecture évolutive.
+Traefik sert d'API Gateway pour diriger le trafic vers les services. Notre usage permet d'utiliser la version open-source. Traefik est compatible avec des environnements comme Docker ou Kubernetes. Traefik est très populaire et répandu sur le marché.
 
 ## 8. **Keycloak**
-Keycloak est utilisé pour la gestion de l'authentification et de l’autorisation basée sur les rôles des utilisateurs 
-(proches, médecins, infirmiers). En centralisant la gestion des identités, Keycloak offre une solution complète, sécurisée
-et modulable pour contrôler les accès aux différentes parties du système. Il garantit que seuls les utilisateurs autorisés
-peuvent accéder aux informations sensibles, ce qui est crucial pour assurer la confidentialité des données de santé.
+Keycloak est utilisé pour la gestion de l'authentification et de l’autorisation basée sur les rôles des utilisateurs (proches, médecins, infirmiers). En centralisant la gestion des identités, Keycloak offre une solution complète, sécurisée et modulable pour contrôler les accès aux différentes parties du système. Il a été choisi pour son caractère open-source et populaire. De plus, c'est une technologie maîtrisée par les membres de l'équipe, ce qui facilite sa mise en place.
